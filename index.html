@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CallTools Pro - Installation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            overflow: hidden;
+        }
+        .header {
+            background: #007aff;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .header .version {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        .content {
+            padding: 30px;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .feature {
+            background: #f5f5f7;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        .feature i {
+            color: #007aff;
+            margin-right: 8px;
+        }
+        .install-btn {
+            display: block;
+            background: #007aff;
+            color: white;
+            text-align: center;
+            padding: 18px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 25px 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .install-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 122, 255, 0.3);
+        }
+        .instructions {
+            background: #f8f9fa;
+            border-left: 4px solid #007aff;
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+        }
+        .instructions ol {
+            margin-left: 20px;
+        }
+        .instructions li {
+            margin: 8px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 14px;
+        }
+        @media (max-width: 600px) {
+            .features { grid-template-columns: 1fr; }
+            .content { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>CallTools Pro</h1>
+            <div class="version">v4.4.0</div>
+        </div>
+        
+        <div class="content">
+            <p style="font-size: 18px; line-height: 1.6; color: #333;">
+                Professional enhancement suite for CallTools with compliance alerts, 
+                timezone detection, and productivity tools.
+            </p>
+            
+            <div class="features">
+                <div class="feature">✅ Smart Compliance</div>
+                <div class="feature">✅ Timezone Clock</div>
+                <div class="feature">✅ Apple UI Design</div>
+                <div class="feature">✅ Auto Updates</div>
+                <div class="feature">✅ Search Helper</div>
+                <div class="feature">✅ No Analytics</div>
+            </div>
+            
+            <a href="calltools-pro.user.js" class="install-btn">
+                🔧 Install CallTools Pro
+            </a>
+            
+            <div class="instructions">
+                <h3 style="margin-bottom: 10px;">Installation Steps:</h3>
+                <ol>
+                    <li><strong>Prerequisite:</strong> Install Tampermonkey extension</li>
+                    <li>Click the "Install" button above</li>
+                    <li>Tampermonkey will open - click "Install"</li>
+                    <li>Go to CallTools and the script will activate</li>
+                    <li><em>Updates will install automatically</em></li>
+                </ol>
+            </div>
+            
+            <div class="footer">
+                <p>⭐ Script updates automatically when new versions are released</p>
+                <p style="margin-top: 10px; font-size: 12px; color: #999;">
+                    Requires Tampermonkey (Chrome) or Greasemonkey (Firefox)
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

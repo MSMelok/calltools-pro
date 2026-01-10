@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CallTools Pro
 // @namespace    https://west-2.calltools.io/agent
-// @version      4.4.0
+// @version      4.5.0
 // @description  Apple UI, Smart Clock, Strict Compliance, Header Settings
 // @author       MuhammadMeluk
 // @match        https://*.calltools.io/*

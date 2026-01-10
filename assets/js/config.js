@@ -4,7 +4,7 @@
 
 const APP_CONFIG = {
     // Version Management (Update this only)
-    version: "4.4.0",
+    version: "4.5.0",
     
     // Release Information
     releaseDate: "January 2024",
@@ -27,12 +27,21 @@ const APP_CONFIG = {
         enabled: true,
         checkInterval: 24, // hours
         changelog: [
-            "Removed all analytics tracking for complete privacy",
-            "Added automatic update system for seamless upgrades",
-            "Improved compliance detection accuracy",
-            "Enhanced UI with cleaner, more minimal design",
-            "Fixed timezone detection edge cases"
-        ]
+    "v4.5.0 - Major Stability Update",
+    " COMPLETELY REMOVED all analytics tracking for 100% privacy",
+    "FIXED critical 'Cannot read properties of undefined' crash bug",
+    "ADDED invalid state detection (shows error for MQ, FI, etc.)",
+    "IMPROVED time badge visibility (hides when no address loaded)",
+    "ADDED seconds display to time badge for precise timing",
+    "FIXED settings cog visibility and functionality issues",
+    "IMPROVED address parsing with better error handling",
+    "UPDATED compliance engine to handle edge cases",
+    "ENHANCED toast notifications with better styling",
+    "FIXED localStorage settings saving/loading",
+    "IMPROVED UI with cleaner badge display logic",
+    "ADDED better fallback for settings button placement",
+    "FIXED domain matching with proper wildcards (*.calltools.io)"
+]
     },
     
     // Contact Information

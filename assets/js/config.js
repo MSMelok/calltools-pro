@@ -27,20 +27,15 @@ const APP_CONFIG = {
         enabled: true,
         checkInterval: 24, // hours
         changelog: [
-    "v4.5.0 - Major Stability Update",
-    " COMPLETELY REMOVED all analytics tracking for 100% privacy",
-    "FIXED critical 'Cannot read properties of undefined' crash bug",
-    "ADDED invalid state detection (shows error for MQ, FI, etc.)",
-    "IMPROVED time badge visibility (hides when no address loaded)",
-    "ADDED seconds display to time badge for precise timing",
-    "FIXED settings cog visibility and functionality issues",
-    "IMPROVED address parsing with better error handling",
-    "UPDATED compliance engine to handle edge cases",
-    "ENHANCED toast notifications with better styling",
-    "FIXED localStorage settings saving/loading",
-    "IMPROVED UI with cleaner badge display logic",
-    "ADDED better fallback for settings button placement",
-    "FIXED domain matching with proper wildcards (*.calltools.io)"
+    "v4.5.0 - Stability & Privacy Release",
+    "• Privacy: Removed ALL analytics tracking",
+    "• Bug Fix: Fixed critical crash on invalid addresses",
+    "• Feature: Invalid state detection with clear error messages",
+    "• UI: Time badge now hides when no address is loaded",
+    "• Feature: Time badge shows seconds for precision",
+    "• Bug Fix: Settings cog now works reliably",
+    "• Improvement: Better address parsing and validation",
+    "• Bug Fix: Settings are now properly saved to localStorage"
 ]
     },
     

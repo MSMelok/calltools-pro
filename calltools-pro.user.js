@@ -1,13 +1,14 @@
 // ==UserScript==
 // @name         CallTools Pro
 // @namespace    https://west-2.calltools.io/agent
-// @version      4.4.0  // Increased for fresh start
+// @version      4.4.0
 // @description  Apple UI, Smart Clock, Strict Compliance, Header Settings
-// @author       Muhammad Meluk
+// @author       MuhammadMeluk
 // @match        https://*.calltools.io/*
 // @match        https://*.calltools.com/*
 // @grant        GM_setClipboard
 // @grant        GM_addStyle
+// @grant        GM_xmlhttpRequest
 // @require      https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js
 // @updateURL    https://msmelok.github.io/calltools-pro/calltools-pro.meta.js
 // @downloadURL  https://msmelok.github.io/calltools-pro/calltools-pro.user.js
@@ -47,7 +48,7 @@
         "IN|GARY": "America/Chicago", "KY|BOWLING GREEN": "America/Chicago"
     };
 
-        const RULES = {
+    const RULES = {
         // --- BLOCKED STATES (Auto Reject) ---
         "AL": { type: "BLOCK", msg: "AUTO REJECT: Alabama" },
         "IA": { type: "BLOCK", msg: "AUTO REJECT: Iowa" },
@@ -311,20 +312,28 @@
         if (activeRule) {
             updateTopBar(activeRule.type, activeRule.msg, timeString);
             const btn = document.querySelector(".call-button, button.dial-btn, .start-call, .fa-phone")?.closest('button');
-            if (btn && activeRule.type === "BLOCK") { btn.style.opacity="0.3"; btn.style.pointerEvents="none"; }
+            if (btn && activeRule.type === "BLOCK") { 
+                btn.style.opacity = "0.3"; 
+                btn.style.pointerEvents = "none"; 
+            }
 
         } else {
             if (detectedState || inputAddr) {
+                // Default Safe Message if State detected but no Rule
                 updateTopBar('SAFE', 'No Restrictions', timeString);
             } else {
                 updateTopBar('NEUTRAL', 'Waiting for Address...', timeString);
             }
             const btn = document.querySelector(".call-button, button.dial-btn, .start-call, .fa-phone")?.closest('button');
-            if (btn) { btn.style.opacity="1"; btn.style.pointerEvents="auto"; }
+            if (btn) { 
+                btn.style.opacity = "1"; 
+                btn.style.pointerEvents = "auto"; 
+            }
             lastLoggedRule = "";
         }
     }
 
+    // --- NEW: Header Integration for Cog ---
     function injectHeaderControls() {
         if (document.getElementById('ct-header-settings-btn')) return;
         const userBtn = document.querySelector('.user-icon');
@@ -398,6 +407,7 @@
             }
 
             const text = namePart ? `${namePart} - ${addr}` : addr;
+            
             if(text) {
                 try {
                     if (typeof GM_setClipboard === 'function') {

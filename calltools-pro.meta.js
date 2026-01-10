@@ -3,7 +3,7 @@
 // @namespace    https://west-2.calltools.io/agent
 // @version      4.4.0
 // @description  Apple UI, Smart Clock, Strict Compliance, Header Settings
-// @author       Muhammad Meluk
+// @author       MuhammadMeluk
 // @match        https://*.calltools.io/*
 // @match        https://*.calltools.com/*
 // @grant        GM_setClipboard

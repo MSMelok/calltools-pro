@@ -1,149 +1,436 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CallTools Pro - Installation</title>
+    <title>CT Pro · Professional Enhancement Suite</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: {
+                            DEFAULT: '#0a0a0f',
+                            light: '#13131f',
+                            lighter: '#1a1a2e',
+                            card: '#1e1e30',
+                        },
+                        primary: {
+                            DEFAULT: '#6366f1',
+                            light: '#818cf8',
+                            dark: '#4f46e5',
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        },
+                        surface: {
+                            50: '#fafafa',
+                            100: '#f5f5f5',
+                            200: '#e5e5e5',
+                            300: '#d4d4d4',
+                            400: '#a3a3a3',
+                            500: '#737373',
+                            600: '#525252',
+                            700: '#404040',
+                            800: '#262626',
+                            900: '#171717',
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.8s ease-out',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'shimmer': 'shimmer 2s linear infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(30px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 20px rgba(99, 102, 241, 0.1)' },
+                            '100%': { boxShadow: '0 0 40px rgba(99, 102, 241, 0.3)' },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200px 0' },
+                            '100%': { backgroundPosition: 'calc(200px + 100%) 0' },
+                        },
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'gradient-shimmer': 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700;800;900&family=JetBrains+Mono:wght=300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles for Dark Theme -->
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+        /* Force dark theme */
+        :root {
+            color-scheme: dark;
         }
-        .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 600px;
-            width: 100%;
-            overflow: hidden;
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
         }
-        .header {
-            background: #007aff;
-            color: white;
-            padding: 30px;
-            text-align: center;
+        
+        ::-webkit-scrollbar-track {
+            background: #1a1a2e;
         }
-        .header h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
+        
+        ::-webkit-scrollbar-thumb {
+            background: #6366f1;
+            border-radius: 5px;
         }
-        .header .version {
-            opacity: 0.9;
-            font-size: 16px;
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #818cf8;
         }
-        .content {
-            padding: 30px;
+        
+        /* Glass effect */
+        .glass {
+            background: rgba(30, 30, 48, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .features {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin: 25px 0;
+        
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        .feature {
-            background: #f5f5f7;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 14px;
+        
+        /* Gradient border */
+        .gradient-border {
+            position: relative;
+            background: linear-gradient(135deg, #1e1e30, #1e1e30) padding-box,
+                        linear-gradient(135deg, #6366f1, #8b5cf6) border-box;
+            border: 1px solid transparent;
         }
-        .feature i {
-            color: #007aff;
-            margin-right: 8px;
+        
+        /* Noise texture */
+        .noise-bg {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
         }
-        .install-btn {
-            display: block;
-            background: #007aff;
-            color: white;
-            text-align: center;
-            padding: 18px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: 600;
-            margin: 25px 0;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .install-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 122, 255, 0.3);
-        }
-        .instructions {
-            background: #f8f9fa;
-            border-left: 4px solid #007aff;
-            padding: 15px;
-            border-radius: 0 8px 8px 0;
-            margin: 20px 0;
-        }
-        .instructions ol {
-            margin-left: 20px;
-        }
-        .instructions li {
-            margin: 8px 0;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            color: #666;
-            font-size: 14px;
-        }
-        @media (max-width: 600px) {
-            .features { grid-template-columns: 1fr; }
-            .content { padding: 20px; }
+        
+        /* Safari fix for min-height */
+        @supports (-webkit-touch-callout: none) {
+            .min-h-screen {
+                min-height: -webkit-fill-available;
+            }
         }
     </style>
+    
+    <!-- Configuration -->
+    <script src="assets/js/config.js"></script>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>CallTools Pro</h1>
-            <div class="version">v4.4.0</div>
-        </div>
-        
-        <div class="content">
-            <p style="font-size: 18px; line-height: 1.6; color: #333;">
-                Professional enhancement suite for CallTools with compliance alerts, 
-                timezone detection, and productivity tools.
-            </p>
-            
-            <div class="features">
-                <div class="feature">✅ Smart Compliance</div>
-                <div class="feature">✅ Timezone Clock</div>
-                <div class="feature">✅ Apple UI Design</div>
-                <div class="feature">✅ Auto Updates</div>
-                <div class="feature">✅ Search Helper</div>
-                <div class="feature">✅ No Analytics</div>
-            </div>
-            
-            <a href="calltools-pro.user.js" class="install-btn">
-                🔧 Install CallTools Pro
-            </a>
-            
-            <div class="instructions">
-                <h3 style="margin-bottom: 10px;">Installation Steps:</h3>
-                <ol>
-                    <li><strong>Prerequisite:</strong> Install Tampermonkey extension</li>
-                    <li>Click the "Install" button above</li>
-                    <li>Tampermonkey will open - click "Install"</li>
-                    <li>Go to CallTools and the script will activate</li>
-                    <li><em>Updates will install automatically</em></li>
-                </ol>
-            </div>
-            
-            <div class="footer">
-                <p>⭐ Script updates automatically when new versions are released</p>
-                <p style="margin-top: 10px; font-size: 12px; color: #999;">
-                    Requires Tampermonkey (Chrome) or Greasemonkey (Firefox)
-                </p>
-            </div>
-        </div>
+<body class="dark:bg-background dark:text-white font-sans antialiased min-h-screen flex flex-col">
+    <!-- Background Elements -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute inset-0 noise-bg opacity-50"></div>
+        <div class="absolute top-20 left-10 w-72 h-72 bg-gradient-radial from-primary/20 to-transparent rounded-full blur-3xl animate-float"></div>
+        <div class="absolute bottom-20 right-10 w-72 h-72 bg-gradient-radial from-purple-500/20 to-transparent rounded-full blur-3xl animate-float" style="animation-delay: 2s"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-radial from-blue-500/10 to-transparent rounded-full blur-3xl animate-float" style="animation-delay: 4s"></div>
     </div>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 glass border-b border-white/5">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between py-4">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center shadow-lg">
+                        <i data-feather="phone-call" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-white">CT Pro</h1>
+                        <p class="text-xs text-gray-400 font-mono">v<span id="version-display">4.4.0</span></p>
+                    </div>
+                </div>
+                
+                <!-- Install Button -->
+                <a href="#install" class="hidden lg:inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary to-primary-dark text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5">
+                    <i data-feather="download" class="w-4 h-4 mr-2"></i>
+                    Install Now
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow relative z-10">
+        <!-- Hero Section -->
+        <section class="py-20 lg:py-28">
+            <div class="container mx-auto px-4">
+                <div class="max-w-6xl mx-auto text-center">
+                    <!-- Badge -->
+                    <div class="inline-flex items-center px-4 py-2 glass rounded-full text-sm font-medium mb-8 animate-fade-in">
+                        <div class="w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse"></div>
+                        <span class="text-emerald-400 font-semibold">Latest Update</span>
+                    </div>
+                    
+                    <!-- Main Heading -->
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-6 leading-tight">
+                        <span class="block text-gray-300">Professional Tools for</span>
+                        <span class="gradient-text">CallTools Excellence</span>
+                    </h1>
+                    
+                    <!-- Subtitle -->
+                    <p class="text-lg md:text-xl text-gray-400 mb-10 max-w-3xl mx-auto leading-relaxed animate-fade-in">
+                        Transform your CallTools experience with a set of premium features designed for compliance and 
+                        Productivity. Built for someone who demands excellence.
+                    </p>
+                    
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16 animate-fade-in">
+                        <a href="calltools-pro.user.js" id="install-button" class="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary to-primary-dark text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-primary/40 transition-all duration-300 hover:-translate-y-1 group">
+                            <i data-feather="download" class="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform duration-300"></i>
+                            Install CT Pro
+                            <i data-feather="chevron-right" class="w-5 h-5 ml-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"></i>
+                        </a>
+                        <a href="#features" class="inline-flex items-center justify-center px-8 py-4 glass text-gray-300 font-semibold rounded-xl border border-white/10 hover:border-primary/30 hover:text-white transition-all duration-300 hover:-translate-y-1">
+                            <i data-feather="grid" class="w-5 h-5 mr-3"></i>
+                            Explore Features
+                        </a>
+                    </div>
+                    
+                    <!-- Stats -->
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                        <div class="glass p-6 rounded-2xl text-center hover:-translate-y-2 transition-transform duration-300">
+                            <div class="text-3xl font-bold text-white mb-2">100%</div>
+                            <div class="text-sm text-gray-400 font-medium">Focused</div>
+                        </div>
+                        <div class="glass p-6 rounded-2xl text-center hover:-translate-y-2 transition-transform duration-300">
+                            <div class="text-3xl font-bold text-white mb-2">Auto</div>
+                            <div class="text-sm text-gray-400 font-medium">Silent Updates</div>
+                        </div>
+                        <div class="glass p-6 rounded-2xl text-center hover:-translate-y-2 transition-transform duration-300">
+                            <div class="text-3xl font-bold text-white mb-2">50+</div>
+                            <div class="text-sm text-gray-400 font-medium">Compliance Rules</div>
+                        </div>
+                        <div class="glass p-6 rounded-2xl text-center hover:-translate-y-2 transition-transform duration-300">
+                            <div class="text-3xl font-bold text-white mb-2">0</div>
+                            <div class="text-sm text-gray-400 font-medium">Data Tracking</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-20 lg:py-28">
+            <div class="container mx-auto px-4">
+                <!-- Section Header -->
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <div class="inline-flex items-center px-4 py-2 glass rounded-full text-sm font-medium mb-6">
+                        <i data-feather="zap" class="w-4 h-4 mr-2 text-cyan-400"></i>
+                        <span class="text-cyan-400 font-semibold">POWERFUL FEATURES</span>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+                        Built for <span class="gradient-text">Modern Professionals</span>
+                    </h2>
+                    <p class="text-lg text-gray-400">
+                        Every feature is engineered to enhance your workflow while maintaining the highest standards of design and performance.
+                    </p>
+                </div>
+                
+                <!-- Features Grid -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="features-grid">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Installation -->
+        <section class="py-20 lg:py-28">
+            <div class="container mx-auto px-4">
+                <!-- Section Header -->
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <div class="inline-flex items-center px-4 py-2 glass rounded-full text-sm font-medium mb-6">
+                        <i data-feather="play" class="w-4 h-4 mr-2 text-emerald-400"></i>
+                        <span class="text-emerald-400 font-semibold">QUICK SETUP</span>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+                        Get Started in <span class="gradient-text">Minutes</span>
+                    </h2>
+                    <p class="text-lg text-gray-400">
+                        Simple, straightforward installation that gets you up and running immediately.
+                    </p>
+                </div>
+                
+                <!-- Steps -->
+                <div class="max-w-5xl mx-auto" id="installation-steps">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Update Section -->
+        <section class="py-20 lg:py-28">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto">
+                    <div class="gradient-border p-8 lg:p-12 rounded-3xl hover:-translate-y-2 transition-transform duration-300">
+                        <div class="flex items-center mb-8">
+                            <div class="w-14 h-14 bg-gradient-to-br from-primary to-purple-600 rounded-2xl flex items-center justify-center mr-6 shadow-xl">
+                                <i data-feather="star" class="w-7 h-7 text-white"></i>
+                            </div>
+                            <div>
+                                <div class="inline-flex items-center px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium mb-2">
+                                    LATEST UPDATE
+                                </div>
+                                <h3 class="text-2xl lg:text-3xl font-bold text-white">
+                                    Version <span id="current-version">4.4.0</span>
+                                </h3>
+                            </div>
+                        </div>
+                        
+                        <p class="text-lg text-gray-300 mb-10">
+                            A major privacy-focused update with enhanced performance, improved UI, and new features designed for professional workflows.
+                        </p>
+                        
+                        <div class="space-y-4 mb-10" id="changelog-list">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                        
+                        <div class="flex items-center text-gray-400 text-sm">
+                            <i data-feather="refresh-cw" class="w-4 h-4 mr-2 text-primary"></i>
+                            <span>Updates install automatically in the background—focus on your work, not on updates</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA -->
+        <section id="install" class="py-20 lg:py-28">
+            <div class="container mx-auto px-4">
+                <div class="max-w-5xl mx-auto text-center">
+                    <div class="glass p-12 lg:p-16 rounded-3xl border border-white/5 hover:-translate-y-2 transition-transform duration-300">
+                        <div class="inline-flex items-center px-4 py-2 glass rounded-full text-sm font-medium mb-8">
+                            <i data-feather="check-circle" class="w-4 h-4 mr-2 text-emerald-400"></i>
+                            <span class="text-emerald-400 font-semibold">READY TO INSTALL</span>
+                        </div>
+                        
+                        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+                            Transform Your <span class="gradient-text">Workflow Today</span>
+                        </h2>
+                        
+                        <p class="text-lg text-gray-400 mb-12 max-w-3xl mx-auto">
+                            Join the users who trust CT Pro to streamline their compliance, 
+                            boost productivity, and enhance their CallTools experience.
+                        </p>
+                        
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                            <a href="calltools-pro.user.js" id="main-install-button" class="inline-flex items-center justify-center px-10 py-5 bg-gradient-to-r from-primary to-primary-dark text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-primary/40 transition-all duration-300 hover:-translate-y-1 group text-lg">
+                                <i data-feather="download" class="w-6 h-6 mr-3 group-hover:scale-110 transition-transform duration-300"></i>
+                                Install CT Pro
+                            </a>
+                            <a href="#features" class="inline-flex items-center justify-center px-10 py-5 glass text-gray-300 font-semibold rounded-xl border border-white/10 hover:border-primary/30 hover:text-white transition-all duration-300 hover:-translate-y-1 text-lg">
+                                <i data-feather="arrow-up" class="w-6 h-6 mr-3"></i>
+                                See All Features
+                            </a>
+                        </div>
+                        
+                        <p class="text-sm text-gray-500 mt-10">
+                            <i data-feather="shield" class="w-4 h-4 inline mr-2"></i>
+                            Requires Tampermonkey or Greasemonkey browser extension
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/5 bg-background-light">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col lg:flex-row justify-between items-center mb-12">
+                <!-- Brand -->
+                <div class="mb-8 lg:mb-0">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center mr-4">
+                            <i data-feather="phone-call" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <div>
+                            <div class="text-xl font-bold text-white">CT Pro</div>
+                            <div class="text-xs text-gray-500 font-mono">Professional Enhancement Suite</div>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 max-w-md">
+                        An independent enhancement tool for CallTools.io. Not affiliated with CallTools.io or its parent company.
+                    </p>
+                </div>
+                
+                <!-- Links -->
+                <div class="flex flex-wrap gap-8" id="footer-links">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Bottom Bar -->
+            <div class="pt-8 border-t border-white/5">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-sm text-gray-500 mb-4 md:mb-0">
+                        © 2024 CT Pro. All rights reserved. 
+                        <span class="text-gray-400 font-mono ml-2">v<span id="footer-version">4.4.0</span></span>
+                    </p>
+                    <div class="flex gap-6">
+                        <a href="#" class="text-gray-500 hover:text-white transition-colors text-sm" data-modal="privacy">
+                            Privacy Policy
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-white transition-colors text-sm" data-modal="terms">
+                            Terms of Service
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="modal-container"></div>
+
+    <!-- JavaScript -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/modal.js"></script>
+    <script src="assets/js/animations.js"></script>
 </body>
 </html>

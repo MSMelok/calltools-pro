@@ -1,7 +1,3 @@
-// ============================================
-// MODAL MANAGER
-// ============================================
-
 class ModalManager {
     constructor() {
         this.isOpen = false;
@@ -41,19 +37,19 @@ class ModalManager {
     
     wrapModalContent(title, content) {
         return `
-            <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm transition-opacity duration-300" id="modal-overlay">
-                <div class="relative w-full max-w-4xl max-h-[90vh] bg-gray-900 rounded-2xl shadow-2xl overflow-hidden transform transition-all duration-300" id="modal-content">
-                    <div class="flex items-center justify-between p-6 border-b border-gray-800">
-                        <h2 class="text-2xl font-bold text-white">${title}</h2>
-                        <button class="p-2 hover:bg-gray-800 rounded-lg transition-colors" id="modal-close">
-                            <i data-feather="x" class="w-6 h-6 text-gray-400"></i>
+            <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm transition-opacity duration-300" id="modal-overlay">
+                <div class="relative w-full max-w-4xl max-h-[90vh] bg-black border border-divider rounded-lg overflow-hidden transform transition-all duration-300" id="modal-content">
+                    <div class="flex items-center justify-between p-6 border-b border-divider">
+                        <h2 class="text-xl font-semibold text-white">${title}</h2>
+                        <button class="p-2 hover:bg-[#0a0a0a] rounded transition-colors" id="modal-close">
+                            <i data-feather="x" class="w-5 h-5 text-secondary"></i>
                         </button>
                     </div>
-                    <div class="p-6 overflow-y-auto max-h-[calc(90vh-80px)]">
+                    <div class="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
                         ${content}
                     </div>
-                    <div class="p-6 border-t border-gray-800">
-                        <button class="w-full py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark transition-colors" id="modal-close-btn">
+                    <div class="p-6 border-t border-divider">
+                        <button class="w-full py-3 bg-white text-black text-sm font-medium rounded-lg hover:bg-gray-200 transition-colors" id="modal-close-btn">
                             Close
                         </button>
                     </div>
@@ -66,14 +62,13 @@ class ModalManager {
         const title = type === 'privacy' ? 'Privacy Policy' : 'Terms of Service';
         return `
             <div class="p-6">
-                <h3 class="text-xl font-bold text-white mb-4">${title}</h3>
-                <p class="text-gray-300">Content could not be loaded. Please try again later.</p>
+                <h3 class="text-lg font-semibold text-white mb-3">${title}</h3>
+                <p class="text-sm text-secondary">Content could not be loaded. Please try again later.</p>
             </div>
         `;
     }
     
     setupEventListeners() {
-        // Delegate modal opening to document
         document.addEventListener('click', (e) => {
             const modalTrigger = e.target.closest('[data-modal]');
             if (modalTrigger) {
@@ -81,46 +76,42 @@ class ModalManager {
                 const modalType = modalTrigger.getAttribute('data-modal');
                 this.openModal(modalType);
             }
-            
-            // Close modal
-            if (e.target.id === 'modal-overlay' || 
+
+            if (e.target.id === 'modal-overlay' ||
                 e.target.id === 'modal-close-btn' ||
                 e.target.closest('#modal-close')) {
                 this.closeModal();
             }
         });
-        
-        // Close modal with Escape key
+
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && this.isOpen) {
                 this.closeModal();
             }
         });
     }
-    
+
     openModal(modalType) {
         if (this.isOpen) return;
-        
+
         const modalHTML = this.modals[modalType];
         if (!modalHTML) {
             console.error(`Modal type "${modalType}" not found`);
             return;
         }
-        
+
         const modalContainer = document.getElementById('modal-container');
         modalContainer.innerHTML = modalHTML;
-        
-        // Show modal
+
         const overlay = document.getElementById('modal-overlay');
         if (overlay) {
             overlay.style.opacity = '1';
             this.isOpen = true;
             document.body.style.overflow = 'hidden';
-            
-            // Re-initialize Feather Icons
+
             feather.replace();
         }
-        
+
         console.log(`Opened ${modalType} modal`);
     }
     
@@ -138,7 +129,6 @@ class ModalManager {
     }
 }
 
-// Initialize Modal Manager
 document.addEventListener('DOMContentLoaded', () => {
     window.modalManager = new ModalManager();
 });

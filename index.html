@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CT Pro · Professional Enhancement Suite</title>
-    
+
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
-    <meta name="theme-color" content="#6366f1">
-    
-    <!-- Description -->
+    <meta name="theme-color" content="#000000">
+
     <meta name="description" content="Premium enhancement suite for CallTools with dark theme, compliance alerts, and productivity tools">
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -21,242 +20,146 @@
             theme: {
                 extend: {
                     colors: {
-                        background: {
-                            DEFAULT: '#0a0a0f',
-                            light: '#13131f',
-                            lighter: '#1a1a2e',
-                            card: '#1e1e30',
-                        },
-                        primary: {
-                            DEFAULT: '#6366f1',
-                            light: '#818cf8',
-                            dark: '#4f46e5',
-                            50: '#f5f3ff',
-                            100: '#ede9fe',
-                            200: '#ddd6fe',
-                            300: '#c4b5fd',
-                            400: '#a78bfa',
-                            500: '#8b5cf6',
-                            600: '#7c3aed',
-                            700: '#6d28d9',
-                            800: '#5b21b6',
-                            900: '#4c1d95',
-                        },
-                        surface: {
-                            50: '#fafafa',
-                            100: '#f5f5f5',
-                            200: '#e5e5e5',
-                            300: '#d4d4d4',
-                            400: '#a3a3a3',
-                            500: '#737373',
-                            600: '#525252',
-                            700: '#404040',
-                            800: '#262626',
-                            900: '#171717',
-                        }
+                        accent: '#3b82f6',
                     },
                     fontFamily: {
                         'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
                         'mono': ['JetBrains Mono', 'monospace'],
                     },
                     animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                        'fade-in': 'fadeIn 0.8s ease-out',
-                        'slide-up': 'slideUp 0.8s ease-out',
-                        'glow': 'glow 2s ease-in-out infinite alternate',
-                        'shimmer': 'shimmer 2s linear infinite',
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'fade-in': 'fadeIn 0.6s ease-out',
                     },
                     keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        },
                         fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
                         },
-                        slideUp: {
-                            '0%': { transform: 'translateY(30px)', opacity: '0' },
-                            '100%': { transform: 'translateY(0)', opacity: '1' },
-                        },
-                        glow: {
-                            '0%': { boxShadow: '0 0 20px rgba(99, 102, 241, 0.1)' },
-                            '100%': { boxShadow: '0 0 40px rgba(99, 102, 241, 0.3)' },
-                        },
-                        shimmer: {
-                            '0%': { backgroundPosition: '-200px 0' },
-                            '100%': { backgroundPosition: 'calc(200px + 100%) 0' },
-                        },
-                    },
-                    backgroundImage: {
-                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-                        'gradient-shimmer': 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)',
                     }
                 }
             }
         }
     </script>
-    
+
     <!-- Feather Icons -->
     <script src="https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js"></script>
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700;800;900&family=JetBrains+Mono:wght=300;400;500&display=swap" rel="stylesheet">
-    
-    <!-- Custom Styles for Dark Theme -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
     <style>
-        /* Force dark theme */
         :root {
             color-scheme: dark;
         }
-        
-        /* Custom scrollbar */
+
+        body {
+            background: #000000;
+            color: #ffffff;
+        }
+
         ::-webkit-scrollbar {
-            width: 10px;
+            width: 8px;
         }
-        
+
         ::-webkit-scrollbar-track {
-            background: #1a1a2e;
+            background: #000000;
         }
-        
+
         ::-webkit-scrollbar-thumb {
-            background: #6366f1;
-            border-radius: 5px;
+            background: #1f1f1f;
+            border-radius: 4px;
         }
-        
+
         ::-webkit-scrollbar-thumb:hover {
-            background: #818cf8;
+            background: #2a2a2a;
         }
-        
-        /* Glass effect */
-        .glass {
-            background: rgba(30, 30, 48, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+
+        .border-divider {
+            border-color: #1f1f1f;
         }
-        
-        /* Gradient text */
-        .gradient-text {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+
+        .text-secondary {
+            color: #737373;
         }
-        
-        /* Gradient border */
-        .gradient-border {
-            position: relative;
-            background: linear-gradient(135deg, #1e1e30, #1e1e30) padding-box,
-                        linear-gradient(135deg, #6366f1, #8b5cf6) border-box;
-            border: 1px solid transparent;
-        }
-        
-        /* Noise texture */
-        .noise-bg {
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-        }
-        
-        /* Safari fix for min-height */
+
         @supports (-webkit-touch-callout: none) {
             .min-h-screen {
                 min-height: -webkit-fill-available;
             }
         }
     </style>
-    
-    <!-- Configuration -->
+
     <script src="assets/js/config.js"></script>
 </head>
-<body class="dark:bg-background dark:text-white font-sans antialiased min-h-screen flex flex-col">
-    <!-- Background Elements -->
-    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div class="absolute inset-0 noise-bg opacity-50"></div>
-        <div class="absolute top-20 left-10 w-72 h-72 bg-gradient-radial from-primary/20 to-transparent rounded-full blur-3xl animate-float"></div>
-        <div class="absolute bottom-20 right-10 w-72 h-72 bg-gradient-radial from-purple-500/20 to-transparent rounded-full blur-3xl animate-float" style="animation-delay: 2s"></div>
-        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-radial from-blue-500/10 to-transparent rounded-full blur-3xl animate-float" style="animation-delay: 4s"></div>
-    </div>
-
+<body class="font-sans antialiased min-h-screen flex flex-col">
     <!-- Header -->
-    <header class="sticky top-0 z-50 glass border-b border-white/5">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center justify-between py-4">
-                <!-- Logo -->
+    <header class="sticky top-0 z-50 bg-black/80 backdrop-blur-xl border-b border-divider">
+        <div class="container mx-auto px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center shadow-lg">
-                        <i data-feather="phone-call" class="w-5 h-5 text-white"></i>
+                    <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
+                        <i data-feather="phone-call" class="w-4 h-4 text-black"></i>
                     </div>
                     <div>
-                        <h1 class="text-xl font-bold text-white">CT Pro</h1>
-                        <p class="text-xs text-gray-400 font-mono">v<span id="version-display">4.4.0</span></p>
+                        <h1 class="text-sm font-semibold text-white">CT Pro</h1>
                     </div>
                 </div>
-                
-                <!-- Install Button -->
-                <a href="#install" class="hidden lg:inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary to-primary-dark text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5">
-                    <i data-feather="download" class="w-4 h-4 mr-2"></i>
-                    Install Now
+
+                <a href="#install" class="hidden lg:inline-flex items-center px-5 py-2 bg-white text-black text-sm font-medium rounded-lg hover:bg-gray-200 transition-colors">
+                    Install
                 </a>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="flex-grow relative z-10">
+    <main class="flex-grow">
         <!-- Hero Section -->
-        <section class="py-20 lg:py-28">
-            <div class="container mx-auto px-4">
-                <div class="max-w-6xl mx-auto text-center">
-                    <!-- Badge -->
-                    <div class="inline-flex items-center px-4 py-2 glass rounded-full text-sm font-medium mb-8 animate-fade-in">
-                        <div class="w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse"></div>
-                        <span class="text-emerald-400 font-semibold">Latest Update</span>
+        <section class="py-24 lg:py-32">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="max-w-4xl mx-auto text-center">
+                    <div class="inline-flex items-center px-3 py-1 border border-divider rounded-full text-xs font-medium mb-8 text-secondary">
+                        <div class="w-1.5 h-1.5 bg-accent rounded-full mr-2"></div>
+                        Latest v<span id="version-display">4.4.0</span>
                     </div>
-                    
-                    <!-- Main Heading -->
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-6 leading-tight">
-                        <span class="block text-gray-300">Professional Tools for</span>
-                        <span class="gradient-text">CallTools Excellence</span>
+
+                    <h1 class="text-4xl lg:text-6xl font-bold mb-6 leading-tight tracking-tight">
+                        Professional Tools for<br/>CallTools Excellence
                     </h1>
-                    
-                    <!-- Subtitle -->
-                    <p class="text-lg md:text-xl text-gray-400 mb-10 max-w-3xl mx-auto leading-relaxed animate-fade-in">
-                        Transform your CallTools experience with a set of premium features designed for compliance and 
-                        Productivity. Built for someone who demands excellence.
+
+                    <p class="text-lg lg:text-xl text-secondary mb-12 max-w-2xl mx-auto">
+                        Premium features designed for compliance and productivity.
+                        Built for professionals who demand excellence.
                     </p>
-                    
-                    <!-- CTA Buttons -->
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16 animate-fade-in">
-                        <a href="calltools-pro.user.js" id="install-button" class="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary to-primary-dark text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-primary/40 transition-all duration-300 hover:-translate-y-1 group">
-                            <i data-feather="download" class="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform duration-300"></i>
+
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center mb-20">
+                        <a href="calltools-pro.user.js" id="install-button" class="inline-flex items-center justify-center px-6 py-3 bg-white text-black text-sm font-medium rounded-lg hover:bg-gray-200 transition-colors">
                             Install CT Pro
-                            <i data-feather="chevron-right" class="w-5 h-5 ml-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"></i>
                         </a>
-                        <a href="#features" class="inline-flex items-center justify-center px-8 py-4 glass text-gray-300 font-semibold rounded-xl border border-white/10 hover:border-primary/30 hover:text-white transition-all duration-300 hover:-translate-y-1">
-                            <i data-feather="grid" class="w-5 h-5 mr-3"></i>
+                        <a href="#features" class="inline-flex items-center justify-center px-6 py-3 border border-divider text-white text-sm font-medium rounded-lg hover:border-gray-700 transition-colors">
                             Explore Features
                         </a>
                     </div>
-                    
+
                     <!-- Stats -->
-                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
-                        <div class="glass p-6 rounded-2xl text-center hover:-translate-y-2 transition-transform duration-300">
-                            <div class="text-3xl font-bold text-white mb-2">100%</div>
-                            <div class="text-sm text-gray-400 font-medium">Focused</div>
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-divider max-w-3xl mx-auto border border-divider rounded-lg overflow-hidden">
+                        <div class="bg-black p-6 text-center">
+                            <div class="text-2xl font-semibold text-white mb-1">100%</div>
+                            <div class="text-xs text-secondary">Privacy Focused</div>
                         </div>
-                        <div class="glass p-6 rounded-2xl text-center hover:-translate-y-2 transition-transform duration-300">
-                            <div class="text-3xl font-bold text-white mb-2">Auto</div>
-                            <div class="text-sm text-gray-400 font-medium">Silent Updates</div>
+                        <div class="bg-black p-6 text-center">
+                            <div class="text-2xl font-semibold text-white mb-1">Auto</div>
+                            <div class="text-xs text-secondary">Updates</div>
                         </div>
-                        <div class="glass p-6 rounded-2xl text-center hover:-translate-y-2 transition-transform duration-300">
-                            <div class="text-3xl font-bold text-white mb-2">50+</div>
-                            <div class="text-sm text-gray-400 font-medium">Compliance Rules</div>
+                        <div class="bg-black p-6 text-center">
+                            <div class="text-2xl font-semibold text-white mb-1">50+</div>
+                            <div class="text-xs text-secondary">Compliance Rules</div>
                         </div>
-                        <div class="glass p-6 rounded-2xl text-center hover:-translate-y-2 transition-transform duration-300">
-                            <div class="text-3xl font-bold text-white mb-2">0</div>
-                            <div class="text-sm text-gray-400 font-medium">Data Tracking</div>
+                        <div class="bg-black p-6 text-center">
+                            <div class="text-2xl font-semibold text-white mb-1">0</div>
+                            <div class="text-xs text-secondary">Tracking</div>
                         </div>
                     </div>
                 </div>
@@ -264,259 +167,139 @@
         </section>
 
         <!-- Features Section -->
-        <section id="features" class="py-20 lg:py-28">
-            <div class="container mx-auto px-4">
-                <!-- Section Header -->
+        <section id="features" class="py-24 lg:py-32 border-t border-divider">
+            <div class="container mx-auto px-6 lg:px-8">
                 <div class="text-center max-w-3xl mx-auto mb-16">
-                    <div class="inline-flex items-center px-4 py-2 glass rounded-full text-sm font-medium mb-6">
-                        <i data-feather="zap" class="w-4 h-4 mr-2 text-cyan-400"></i>
-                        <span class="text-cyan-400 font-semibold">POWERFUL FEATURES</span>
-                    </div>
-                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
-                        Built for <span class="gradient-text">Modern Professionals</span>
+                    <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4">
+                        Built for Professionals
                     </h2>
-                    <p class="text-lg text-gray-400">
-                        Every feature is engineered to enhance your workflow while maintaining the highest standards of design and performance.
+                    <p class="text-lg text-secondary">
+                        Essential features that enhance your workflow
                     </p>
                 </div>
-                
+
                 <!-- Features Grid -->
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="features-grid">
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-divider max-w-6xl mx-auto border border-divider rounded-lg overflow-hidden" id="features-grid">
                     <!-- Will be populated by JavaScript -->
                 </div>
             </div>
         </section>
 
         <!-- Installation -->
-        <section class="py-20 lg:py-28">
-            <div class="container mx-auto px-4">
-                <!-- Section Header -->
+        <section class="py-24 lg:py-32 border-t border-divider">
+            <div class="container mx-auto px-6 lg:px-8">
                 <div class="text-center max-w-3xl mx-auto mb-16">
-                    <div class="inline-flex items-center px-4 py-2 glass rounded-full text-sm font-medium mb-6">
-                        <i data-feather="play" class="w-4 h-4 mr-2 text-emerald-400"></i>
-                        <span class="text-emerald-400 font-semibold">QUICK SETUP</span>
-                    </div>
-                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
-                        Get Started in <span class="gradient-text">Minutes</span>
+                    <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4">
+                        Get Started in Minutes
                     </h2>
-                    <p class="text-lg text-gray-400">
-                        Simple, straightforward installation that gets you up and running immediately.
+                    <p class="text-lg text-secondary">
+                        Simple installation process
                     </p>
                 </div>
-                
-                <!-- Steps -->
-                <div class="max-w-5xl mx-auto" id="installation-steps">
+
+                <div class="max-w-4xl mx-auto space-y-px bg-divider border border-divider rounded-lg overflow-hidden" id="installation-steps">
                     <!-- Will be populated by JavaScript -->
                 </div>
             </div>
         </section>
 
-        <!-- Simple Browser Setup -->
-<section class="py-20 lg:py-28 bg-gradient-to-br from-background to-background-light">
-    <div class="container mx-auto px-4 max-w-6xl">
-        <!-- Section Header -->
-        <div class="text-center max-w-3xl mx-auto mb-12">
-            <div class="inline-flex items-center px-4 py-2 glass rounded-full text-sm font-medium mb-6">
-                <i data-feather="alert-triangle" class="w-4 h-4 mr-2 text-amber-400"></i>
-                <span class="text-amber-400 font-semibold">Browser Setup - MUST HAVE</span>
-            </div>
-            <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
-                <span class="gradient-text">One Extra Step</span> to Make it Work
-            </h2>
-            <p class="text-lg text-gray-400">
-                There's one simple setting you need to turn on.
-                Don't worry - it takes 30 seconds!
-            </p>
-        </div>
-
-        <!-- Warning Box -->
-        <div class="glass border-2 border-amber-500/30 rounded-2xl p-6 mb-10 animate-pulse-slow">
-            <div class="flex items-start">
-                <div class="flex-shrink-0 mt-1">
-                    <i data-feather="alert-circle" class="w-6 h-6 text-amber-400"></i>
-                </div>
-                <div class="ml-4">
-                    <h3 class="text-xl font-bold text-white mb-2">⚠️ Important for All Users</h3>
-                    <p class="text-gray-300">
-                        <strong>Web Browsers block userscripts by default</strong> for security. 
-                        This is good, but it means you need to say "Yes, allow this" one time.
+        <!-- Browser Setup -->
+        <section class="py-24 lg:py-32 border-t border-divider bg-[#0a0a0a]">
+            <div class="container mx-auto px-6 lg:px-8 max-w-5xl">
+                <div class="text-center mb-12">
+                    <div class="inline-flex items-center px-3 py-1 border border-amber-500/20 rounded-full text-xs font-medium mb-6 text-amber-500">
+                        Important Setup Step
+                    </div>
+                    <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4">
+                        Enable User Scripts
+                    </h2>
+                    <p class="text-lg text-secondary">
+                        One-time browser configuration required
                     </p>
                 </div>
-            </div>
-        </div>
 
-        <!-- Simple Steps -->
-        <div class="grid md:grid-cols-3 gap-6 mb-12">
-            <!-- Step 1 -->
-            <div class="glass p-6 rounded-2xl hover:-translate-y-1 transition-all duration-300">
-                <div class="text-3xl font-bold text-primary mb-4 opacity-80">1</div>
-                <h3 class="text-xl font-bold text-white mb-3">Copy This Text (works for Brave,Chrome and Edge)</h3>
-                <div class="bg-background-lighter p-4 rounded-lg font-mono text-sm mb-4 border border-gray-700">
-                    <span class="text-emerald-400 select-all">chrome://extensions/</span>
-                </div>
-                <p class="text-gray-400 text-sm">
-                    Click the box above to select, then copy it (Ctrl+C or right-click → Copy)
-                </p>
-            </div>
-
-            <!-- Step 2 -->
-            <div class="glass p-6 rounded-2xl hover:-translate-y-1 transition-all duration-300">
-                <div class="text-3xl font-bold text-primary mb-4 opacity-80">2</div>
-                <h3 class="text-xl font-bold text-white mb-3">Paste in Browser</h3>
-                <p class="text-gray-400 mb-4">
-                    Go to your browser and paste the text into the address bar (URL) at the top.
-                </p>
-                <div class="flex justify-center">
-                    <i data-feather="arrow-down" class="w-8 h-8 text-primary"></i>
-                </div>
-            </div>
-
-            <!-- Step 3 -->
-            <div class="glass p-6 rounded-2xl hover:-translate-y-1 transition-all duration-300">
-                <div class="text-3xl font-bold text-primary mb-4 opacity-80">3</div>
-                <h3 class="text-xl font-bold text-white mb-3">Turn On This Switch</h3>
-                <div class="flex items-center justify-center p-4 bg-background-lighter rounded-lg mb-4">
-                    <div class="relative inline-flex items-center">
-                        <div class="w-16 h-8 bg-red-500 rounded-full"></div>
-                        <div class="absolute left-1 w-6 h-6 bg-white rounded-full transition-transform duration-300 transform translate-x-8"></div>
-                    </div>
-                    <span class="ml-4 font-bold text-white">"Allow User Scripts"</span>
-                </div>
-                <p class="text-gray-400 text-sm">
-                    Find this switch and make sure it's ON (blue/green, not gray).
-                </p>
-            </div>
-        </div>
-
-        <!-- Visual Guide -->
-        <div class="glass rounded-2xl p-6 mb-10">
-            <h3 class="text-xl font-bold text-white mb-6 text-center">📍 What to Look For</h3>
-            <div class="bg-background-lighter p-6 rounded-lg border border-gray-700">
-                <div class="grid md:grid-cols-2 gap-6">
-                    <!-- Wrong -->
-                    <div class="text-center">
-                        <div class="inline-flex items-center px-4 py-2 bg-red-500/20 text-red-400 rounded-full text-sm font-medium mb-4">
-                            <i data-feather="x" class="w-4 h-4 mr-2"></i>
-                            WON'T WORK
+                <div class="grid md:grid-cols-3 gap-px bg-divider border border-divider rounded-lg overflow-hidden mb-12">
+                    <div class="bg-black p-8">
+                        <div class="text-sm font-medium text-secondary mb-4">Step 1</div>
+                        <h3 class="text-lg font-semibold text-white mb-3">Copy URL</h3>
+                        <div class="bg-[#0a0a0a] p-3 rounded border border-divider font-mono text-sm mb-3">
+                            <span class="text-accent select-all">chrome://extensions/</span>
                         </div>
-                        <div class="flex items-center justify-center p-4 bg-gray-800 rounded-lg">
-                            <div class="relative inline-flex items-center">
-                                <div class="w-16 h-8 bg-gray-600 rounded-full"></div>
-                                <div class="absolute left-1 w-6 h-6 bg-gray-400 rounded-full"></div>
+                        <p class="text-sm text-secondary">
+                            For Chrome, Edge, or Brave browsers
+                        </p>
+                    </div>
+
+                    <div class="bg-black p-8">
+                        <div class="text-sm font-medium text-secondary mb-4">Step 2</div>
+                        <h3 class="text-lg font-semibold text-white mb-3">Open Extensions</h3>
+                        <p class="text-sm text-secondary mb-6">
+                            Paste the URL in your browser's address bar
+                        </p>
+                        <div class="flex justify-center">
+                            <i data-feather="arrow-down" class="w-6 h-6 text-secondary"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-black p-8">
+                        <div class="text-sm font-medium text-secondary mb-4">Step 3</div>
+                        <h3 class="text-lg font-semibold text-white mb-3">Enable Setting</h3>
+                        <p class="text-sm text-secondary mb-3">
+                            Find Tampermonkey and enable "Allow access to file URLs"
+                        </p>
+                    </div>
+                </div>
+
+                <div class="border border-divider rounded-lg p-6 bg-black">
+                    <h3 class="text-lg font-semibold text-white mb-4">Common Issues</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="w-1 h-1 bg-secondary rounded-full mt-2 mr-3"></div>
+                            <div>
+                                <p class="text-sm font-medium text-white mb-1">Script not working?</p>
+                                <p class="text-sm text-secondary">Ensure "Allow User Scripts" is enabled in Tampermonkey settings</p>
                             </div>
-                            <span class="ml-4 text-gray-400">Switch is OFF (gray)</span>
                         </div>
-                    </div>
-                    
-                    <!-- Right -->
-                    <div class="text-center">
-                        <div class="inline-flex items-center px-4 py-2 bg-emerald-500/20 text-emerald-400 rounded-full text-sm font-medium mb-4">
-                            <i data-feather="check" class="w-4 h-4 mr-2"></i>
-                            WILL WORK
-                        </div>
-                        <div class="flex items-center justify-center p-4 bg-gray-800 rounded-lg">
-                            <div class="relative inline-flex items-center">
-                                <div class="w-16 h-8 bg-emerald-500 rounded-full"></div>
-                                <div class="absolute left-1 w-6 h-6 bg-white rounded-full transform translate-x-8"></div>
+                        <div class="flex items-start">
+                            <div class="w-1 h-1 bg-secondary rounded-full mt-2 mr-3"></div>
+                            <div>
+                                <p class="text-sm font-medium text-white mb-1">Using Firefox?</p>
+                                <p class="text-sm text-secondary">Use Violentmonkey instead of Tampermonkey</p>
                             </div>
-                            <span class="ml-4 text-emerald-400">Switch is ON (green)</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Troubleshooting for Non-Tech Users -->
-        <div class="glass rounded-2xl p-8">
-            <h3 class="text-2xl font-bold text-white mb-6 text-center">🤔 Having Trouble?</h3>
-            
-            <div class="space-y-4">
-                <!-- Q1 -->
-                <div class="bg-background-lighter p-5 rounded-xl">
-                    <div class="flex items-center mb-3">
-                        <i data-feather="help-circle" class="w-5 h-5 text-primary mr-3"></i>
-                        <h4 class="text-lg font-semibold text-white">"I don't see 'Allow User Scripts'"</h4>
-                    </div>
-                    <p class="text-gray-400 pl-8">
-                        Make sure you're looking at <strong>Tampermonkey or Violentmonkey</strong> in the extensions list, 
-                        not at other extensions.
-                    </p>
-                </div>
-
-                <!-- Q2 -->
-                <div class="bg-background-lighter p-5 rounded-xl">
-                    <div class="flex items-center mb-3">
-                        <i data-feather="help-circle" class="w-5 h-5 text-primary mr-3"></i>
-                        <h4 class="text-lg font-semibold text-white">"Script installed but nothing happens"</h4>
-                    </div>
-                    <p class="text-gray-400 pl-8">
-                        This almost always means "Allow User Scripts" is OFF. Go back and double-check that switch is ON (green/blue).
-                    </p>
-                </div>
-
-                <!-- Q3 -->
-                <div class="bg-background-lighter p-5 rounded-xl">
-                    <div class="flex items-center mb-3">
-                        <i data-feather="help-circle" class="w-5 h-5 text-primary mr-3"></i>
-                        <h4 class="text-lg font-semibold text-white">"Do I need to restart my browser?"</h4>
-                    </div>
-                    <p class="text-gray-400 pl-8">
-                        Yes, sometimes. After changing the setting, close Brave completely and open it again. 
-                        Then reload CallTools.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Note for other browsers -->
-            <div class="mt-8 pt-8 border-t border-gray-700 text-center">
-                <p class="text-gray-500">
-                    <i data-feather="info" class="w-4 h-4 inline mr-2"></i>
-                    <strong>Firefox users:</strong> Tampermonkey is not available for Firefox but there's an alternative (Violentmonkey).
-                </p>
-            </div>
-        </div>
-
-        <!-- Final CTA for Brave -->
-        <div class="text-center mt-12">
-            <a href="#install" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-amber-500/30 transition-all duration-300 hover:-translate-y-1">
-                <i data-feather="shield" class="w-5 h-5 mr-3"></i>
-                Got it! Take me back to install
-                <i data-feather="arrow-right" class="w-5 h-5 ml-3"></i>
-            </a>
-        </div>
-    </div>
-</section>
-
-        <!-- Update Section -->
-        <section class="py-20 lg:py-28">
-            <div class="container mx-auto px-4">
-                <div class="max-w-4xl mx-auto">
-                    <div class="gradient-border p-8 lg:p-12 rounded-3xl hover:-translate-y-2 transition-transform duration-300">
+        <!-- Updates -->
+        <section class="py-24 lg:py-32 border-t border-divider">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto">
+                    <div class="border border-divider rounded-lg p-8 lg:p-12 bg-black">
                         <div class="flex items-center mb-8">
-                            <div class="w-14 h-14 bg-gradient-to-br from-primary to-purple-600 rounded-2xl flex items-center justify-center mr-6 shadow-xl">
-                                <i data-feather="star" class="w-7 h-7 text-white"></i>
+                            <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center mr-4">
+                                <i data-feather="star" class="w-6 h-6 text-black"></i>
                             </div>
                             <div>
-                                <div class="inline-flex items-center px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium mb-2">
-                                    LATEST UPDATE
-                                </div>
-                                <h3 class="text-2xl lg:text-3xl font-bold text-white">
+                                <div class="text-sm text-secondary mb-1">Latest Update</div>
+                                <h3 class="text-xl font-semibold text-white">
                                     Version <span id="current-version">4.4.0</span>
                                 </h3>
                             </div>
                         </div>
-                        
-                        <p class="text-lg text-gray-300 mb-10">
-                            A major privacy-focused update with enhanced performance, improved UI, and new features designed for professional workflows.
+
+                        <p class="text-secondary mb-8">
+                            Privacy-focused update with enhanced performance and new features
                         </p>
-                        
-                        <div class="space-y-4 mb-10" id="changelog-list">
+
+                        <div class="space-y-3 mb-8" id="changelog-list">
                             <!-- Will be populated by JavaScript -->
                         </div>
-                        
-                        <div class="flex items-center text-gray-400 text-sm">
-                            <i data-feather="refresh-cw" class="w-4 h-4 mr-2 text-primary"></i>
-                            <span>Updates install automatically in the background—focus on your work, not on updates</span>
+
+                        <div class="flex items-center text-sm text-secondary">
+                            <i data-feather="check" class="w-4 h-4 mr-2"></i>
+                            <span>Automatic updates enabled</span>
                         </div>
                     </div>
                 </div>
@@ -524,84 +307,66 @@
         </section>
 
         <!-- Final CTA -->
-        <section id="install" class="py-20 lg:py-28">
-            <div class="container mx-auto px-4">
-                <div class="max-w-5xl mx-auto text-center">
-                    <div class="glass p-12 lg:p-16 rounded-3xl border border-white/5 hover:-translate-y-2 transition-transform duration-300">
-                        <div class="inline-flex items-center px-4 py-2 glass rounded-full text-sm font-medium mb-8">
-                            <i data-feather="check-circle" class="w-4 h-4 mr-2 text-emerald-400"></i>
-                            <span class="text-emerald-400 font-semibold">READY TO INSTALL</span>
-                        </div>
-                        
-                        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
-                            Transform Your <span class="gradient-text">Workflow Today</span>
-                        </h2>
-                        
-                        <p class="text-lg text-gray-400 mb-12 max-w-3xl mx-auto">
-                            Join the users who trust CT Pro to streamline their compliance, 
-                            boost productivity, and enhance their CallTools experience.
-                        </p>
-                        
-                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                            <a href="calltools-pro.user.js" id="main-install-button" class="inline-flex items-center justify-center px-10 py-5 bg-gradient-to-r from-primary to-primary-dark text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-primary/40 transition-all duration-300 hover:-translate-y-1 group text-lg">
-                                <i data-feather="download" class="w-6 h-6 mr-3 group-hover:scale-110 transition-transform duration-300"></i>
-                                Install CT Pro
-                            </a>
-                            <a href="#features" class="inline-flex items-center justify-center px-10 py-5 glass text-gray-300 font-semibold rounded-xl border border-white/10 hover:border-primary/30 hover:text-white transition-all duration-300 hover:-translate-y-1 text-lg">
-                                <i data-feather="arrow-up" class="w-6 h-6 mr-3"></i>
-                                See All Features
-                            </a>
-                        </div>
-                        
-                        <p class="text-sm text-gray-500 mt-10">
-                            <i data-feather="shield" class="w-4 h-4 inline mr-2"></i>
-                            Requires Tampermonkey or Greasemonkey browser extension
-                        </p>
+        <section id="install" class="py-24 lg:py-32 border-t border-divider">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center">
+                    <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4">
+                        Ready to Get Started?
+                    </h2>
+
+                    <p class="text-lg text-secondary mb-12">
+                        Install CT Pro and transform your CallTools experience
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center mb-8">
+                        <a href="calltools-pro.user.js" id="main-install-button" class="inline-flex items-center justify-center px-8 py-4 bg-white text-black font-medium rounded-lg hover:bg-gray-200 transition-colors">
+                            Install CT Pro
+                        </a>
+                        <a href="#features" class="inline-flex items-center justify-center px-8 py-4 border border-divider text-white font-medium rounded-lg hover:border-gray-700 transition-colors">
+                            View Features
+                        </a>
                     </div>
+
+                    <p class="text-xs text-secondary">
+                        Requires Tampermonkey or Greasemonkey browser extension
+                    </p>
                 </div>
             </div>
         </section>
     </main>
 
     <!-- Footer -->
-    <footer class="py-12 border-t border-white/5 bg-background-light">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col lg:flex-row justify-between items-center mb-12">
-                <!-- Brand -->
-                <div class="mb-8 lg:mb-0">
-                    <div class="flex items-center mb-4">
-                        <div class="w-10 h-10 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center mr-4">
-                            <i data-feather="phone-call" class="w-5 h-5 text-white"></i>
+    <footer class="py-12 border-t border-divider">
+        <div class="container mx-auto px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row justify-between items-center mb-8">
+                <div class="mb-6 lg:mb-0">
+                    <div class="flex items-center mb-2">
+                        <div class="w-6 h-6 bg-white rounded flex items-center justify-center mr-2">
+                            <i data-feather="phone-call" class="w-3 h-3 text-black"></i>
                         </div>
-                        <div>
-                            <div class="text-xl font-bold text-white">CT Pro</div>
-                            <div class="text-xs text-gray-500 font-mono">Professional Enhancement Suite</div>
-                        </div>
+                        <div class="text-sm font-semibold text-white">CT Pro</div>
                     </div>
-                    <p class="text-sm text-gray-500 max-w-md">
-                        An independent enhancement tool for CallTools.io. Not affiliated with CallTools.io or its parent company.
+                    <p class="text-xs text-secondary max-w-md">
+                        Independent enhancement tool. Not affiliated with CallTools.io
                     </p>
                 </div>
-                
-                <!-- Links -->
-                <div class="flex flex-wrap gap-8" id="footer-links">
+
+                <div class="flex gap-6" id="footer-links">
                     <!-- Will be populated by JavaScript -->
                 </div>
             </div>
-            
-            <!-- Bottom Bar -->
-            <div class="pt-8 border-t border-white/5">
+
+            <div class="pt-8 border-t border-divider">
                 <div class="flex flex-col md:flex-row justify-between items-center">
-                    <p class="text-sm text-gray-500 mb-4 md:mb-0">
-                        © 2024 CT Pro. All rights reserved. 
-                        <span class="text-gray-400 font-mono ml-2">v<span id="footer-version">4.4.0</span></span>
+                    <p class="text-xs text-secondary mb-4 md:mb-0">
+                        2024 CT Pro. v<span id="footer-version">4.4.0</span>
                     </p>
                     <div class="flex gap-6">
-                        <a href="#" class="text-gray-500 hover:text-white transition-colors text-sm" data-modal="privacy">
-                            Privacy Policy
+                        <a href="#" class="text-xs text-secondary hover:text-white transition-colors" data-modal="privacy">
+                            Privacy
                         </a>
-                        <a href="#" class="text-gray-500 hover:text-white transition-colors text-sm" data-modal="terms">
-                            Terms of Service
+                        <a href="#" class="text-xs text-secondary hover:text-white transition-colors" data-modal="terms">
+                            Terms
                         </a>
                     </div>
                 </div>
@@ -609,10 +374,8 @@
         </div>
     </footer>
 
-    <!-- Modals -->
     <div id="modal-container"></div>
 
-    <!-- JavaScript -->
     <script src="assets/js/main.js"></script>
     <script src="assets/js/modal.js"></script>
     <script src="assets/js/animations.js"></script>

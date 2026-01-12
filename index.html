@@ -311,6 +311,182 @@
             </div>
         </section>
 
+        <!-- Simple Brave Browser Setup -->
+<section class="py-20 lg:py-28 bg-gradient-to-br from-background to-background-light">
+    <div class="container mx-auto px-4 max-w-6xl">
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <div class="inline-flex items-center px-4 py-2 glass rounded-full text-sm font-medium mb-6">
+                <i data-feather="alert-triangle" class="w-4 h-4 mr-2 text-amber-400"></i>
+                <span class="text-amber-400 font-semibold">BRAVE BROWSER USERS</span>
+            </div>
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+                <span class="gradient-text">One Extra Step</span> for Brave
+            </h2>
+            <p class="text-lg text-gray-400">
+                If you use Brave Browser, there's one simple setting you need to turn on.
+                Don't worry - it takes 30 seconds!
+            </p>
+        </div>
+
+        <!-- Warning Box -->
+        <div class="glass border-2 border-amber-500/30 rounded-2xl p-6 mb-10 animate-pulse-slow">
+            <div class="flex items-start">
+                <div class="flex-shrink-0 mt-1">
+                    <i data-feather="alert-circle" class="w-6 h-6 text-amber-400"></i>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-xl font-bold text-white mb-2">⚠️ Important for Brave Users</h3>
+                    <p class="text-gray-300">
+                        <strong>Brave blocks userscripts by default</strong> for security. 
+                        This is good, but it means you need to say "Yes, allow this" one time.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Simple Steps -->
+        <div class="grid md:grid-cols-3 gap-6 mb-12">
+            <!-- Step 1 -->
+            <div class="glass p-6 rounded-2xl hover:-translate-y-1 transition-all duration-300">
+                <div class="text-3xl font-bold text-primary mb-4 opacity-80">1</div>
+                <h3 class="text-xl font-bold text-white mb-3">Copy This Text</h3>
+                <div class="bg-background-lighter p-4 rounded-lg font-mono text-sm mb-4 border border-gray-700">
+                    <span class="text-emerald-400 select-all">brave://extensions/</span>
+                </div>
+                <p class="text-gray-400 text-sm">
+                    Click the box above to select, then copy it (Ctrl+C or right-click → Copy)
+                </p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="glass p-6 rounded-2xl hover:-translate-y-1 transition-all duration-300">
+                <div class="text-3xl font-bold text-primary mb-4 opacity-80">2</div>
+                <h3 class="text-xl font-bold text-white mb-3">Paste in Brave</h3>
+                <p class="text-gray-400 mb-4">
+                    Go to your Brave browser and paste the text into the address bar at the top.
+                </p>
+                <div class="flex justify-center">
+                    <i data-feather="arrow-down" class="w-8 h-8 text-primary"></i>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="glass p-6 rounded-2xl hover:-translate-y-1 transition-all duration-300">
+                <div class="text-3xl font-bold text-primary mb-4 opacity-80">3</div>
+                <h3 class="text-xl font-bold text-white mb-3">Turn On This Switch</h3>
+                <div class="flex items-center justify-center p-4 bg-background-lighter rounded-lg mb-4">
+                    <div class="relative inline-flex items-center">
+                        <div class="w-16 h-8 bg-red-500 rounded-full"></div>
+                        <div class="absolute left-1 w-6 h-6 bg-white rounded-full transition-transform duration-300 transform translate-x-8"></div>
+                    </div>
+                    <span class="ml-4 font-bold text-white">"Allow User Scripts"</span>
+                </div>
+                <p class="text-gray-400 text-sm">
+                    Find this switch and make sure it's ON (blue/green, not gray).
+                </p>
+            </div>
+        </div>
+
+        <!-- Visual Guide -->
+        <div class="glass rounded-2xl p-6 mb-10">
+            <h3 class="text-xl font-bold text-white mb-6 text-center">📍 What to Look For</h3>
+            <div class="bg-background-lighter p-6 rounded-lg border border-gray-700">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Wrong -->
+                    <div class="text-center">
+                        <div class="inline-flex items-center px-4 py-2 bg-red-500/20 text-red-400 rounded-full text-sm font-medium mb-4">
+                            <i data-feather="x" class="w-4 h-4 mr-2"></i>
+                            WON'T WORK
+                        </div>
+                        <div class="flex items-center justify-center p-4 bg-gray-800 rounded-lg">
+                            <div class="relative inline-flex items-center">
+                                <div class="w-16 h-8 bg-gray-600 rounded-full"></div>
+                                <div class="absolute left-1 w-6 h-6 bg-gray-400 rounded-full"></div>
+                            </div>
+                            <span class="ml-4 text-gray-400">Switch is OFF (gray)</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Right -->
+                    <div class="text-center">
+                        <div class="inline-flex items-center px-4 py-2 bg-emerald-500/20 text-emerald-400 rounded-full text-sm font-medium mb-4">
+                            <i data-feather="check" class="w-4 h-4 mr-2"></i>
+                            WILL WORK
+                        </div>
+                        <div class="flex items-center justify-center p-4 bg-gray-800 rounded-lg">
+                            <div class="relative inline-flex items-center">
+                                <div class="w-16 h-8 bg-emerald-500 rounded-full"></div>
+                                <div class="absolute left-1 w-6 h-6 bg-white rounded-full transform translate-x-8"></div>
+                            </div>
+                            <span class="ml-4 text-emerald-400">Switch is ON (green)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Troubleshooting for Non-Tech Users -->
+        <div class="glass rounded-2xl p-8">
+            <h3 class="text-2xl font-bold text-white mb-6 text-center">🤔 Having Trouble?</h3>
+            
+            <div class="space-y-4">
+                <!-- Q1 -->
+                <div class="bg-background-lighter p-5 rounded-xl">
+                    <div class="flex items-center mb-3">
+                        <i data-feather="help-circle" class="w-5 h-5 text-primary mr-3"></i>
+                        <h4 class="text-lg font-semibold text-white">"I don't see 'Allow User Scripts'"</h4>
+                    </div>
+                    <p class="text-gray-400 pl-8">
+                        Make sure you're looking at <strong>Tampermonkey or Violentmonkey</strong> in the extensions list, 
+                        not at other extensions. It's only on those two.
+                    </p>
+                </div>
+
+                <!-- Q2 -->
+                <div class="bg-background-lighter p-5 rounded-xl">
+                    <div class="flex items-center mb-3">
+                        <i data-feather="help-circle" class="w-5 h-5 text-primary mr-3"></i>
+                        <h4 class="text-lg font-semibold text-white">"Script installed but nothing happens"</h4>
+                    </div>
+                    <p class="text-gray-400 pl-8">
+                        This almost always means "Allow User Scripts" is OFF. Go back and double-check that switch is ON (green/blue).
+                    </p>
+                </div>
+
+                <!-- Q3 -->
+                <div class="bg-background-lighter p-5 rounded-xl">
+                    <div class="flex items-center mb-3">
+                        <i data-feather="help-circle" class="w-5 h-5 text-primary mr-3"></i>
+                        <h4 class="text-lg font-semibold text-white">"Do I need to restart my browser?"</h4>
+                    </div>
+                    <p class="text-gray-400 pl-8">
+                        Yes, sometimes. After changing the setting, close Brave completely and open it again. 
+                        Then reload CallTools.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Note for other browsers -->
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center">
+                <p class="text-gray-500">
+                    <i data-feather="info" class="w-4 h-4 inline mr-2"></i>
+                    <strong>Chrome, Firefox, and Edge users:</strong> You don't need to do this! This is only for Brave Browser.
+                </p>
+            </div>
+        </div>
+
+        <!-- Final CTA for Brave -->
+        <div class="text-center mt-12">
+            <a href="#install" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-amber-500/30 transition-all duration-300 hover:-translate-y-1">
+                <i data-feather="shield" class="w-5 h-5 mr-3"></i>
+                Got it! Take me back to install
+                <i data-feather="arrow-right" class="w-5 h-5 ml-3"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
         <!-- Update Section -->
         <section class="py-20 lg:py-28">
             <div class="container mx-auto px-4">

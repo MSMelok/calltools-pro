@@ -4,10 +4,10 @@
 
 const APP_CONFIG = {
     // Version Management (Update this only)
-    version: "4.5.0",
+    version: "4.6.0",
     
     // Release Information
-    releaseDate: "January 2024",
+    releaseDate: "January 2026",
     releaseType: "major", // major | minor | patch
     
     // URLs (Update these for your GitHub)
@@ -27,8 +27,7 @@ const APP_CONFIG = {
         enabled: true,
         checkInterval: 24, // hours
         changelog: [
-    "v4.5.0 - Stability & Privacy Release",
-    "• Privacy: Removed ALL analytics tracking",
+    "v4.6.0 - UI improvement Release",
     "• Bug Fix: Fixed critical crash on invalid addresses",
     "• Feature: Invalid state detection with clear error messages",
     "• UI: Time badge now hides when no address is loaded",
@@ -48,7 +47,7 @@ const APP_CONFIG = {
     
     // Legal
     legal: {
-        lastUpdated: "December 2025",
+        lastUpdated: "January 2026",
         termsFile: "assets/legal/terms.html",
         privacyFile: "assets/legal/privacy.html"
     }

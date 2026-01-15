@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CallTools Pro
 // @namespace    https://west-2.calltools.io/agent
-// @version      4.5.0
+// @version      4.6.0
 // @description  Premium enhancement suite for CallTools with dark theme, compliance alerts, and productivity tools
 // @author       MuhammadMelk
 // @match        https://*.calltools.io/*

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CallTools Pro
 // @namespace    https://west-2.calltools.io/agent
-// @version      4.6.0
+// @version      4.6.1
 // @description  Premium enhancement suite for CallTools with dark theme, compliance alerts, and productivity tools
 // @author       MuhammadMelk
 // @match        https://*.calltools.io/*
@@ -495,24 +495,6 @@
             box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2) !important;
             outline: none !important;
             transform: translateY(-1px) !important;
-        }
-
-        /* Version Badge */
-        .ct-version-badge {
-            position: fixed !important;
-            bottom: 20px !important;
-            right: 20px !important;
-            background: rgb(19 19 31 / 7%) !important;
-            color: ${COLORS.text.secondary} !important;
-            padding: 8px 16px !important;
-            border-radius: 20px !important;
-            font-size: 11px !important;
-            font-family: 'JetBrains Mono', monospace !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            z-index: 99998 !important;
-            backdrop-filter: blur(10px) saturate(180%) !important;
-            -webkit-backdrop-filter: blur(10px) saturate(180%) !important;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
         }
 
         /* Pulse Animation */
@@ -1118,9 +1100,6 @@ function showPremiumToast(message, type = 'info', duration = 900) {
                         <span style="font-size:12px; color:${COLORS.text.muted};">About</span>
                         <span style="font-size:12px; color:${COLORS.primary.light};">v${CONFIG.VERSION}</span>
                     </div>
-                    <div style="font-size:11px; color:${COLORS.text.muted}; text-align:center;">
-                        Premium enhancement suite for CallTools
-                    </div>
                 </div>
             `;
 
@@ -1286,14 +1265,6 @@ function showPremiumToast(message, type = 'info', duration = 900) {
             }
         }
 
-        addVersionBadge() {
-            if (document.querySelector('.ct-version-badge')) return;
-
-            const badge = document.createElement('div');
-            badge.className = 'ct-version-badge';
-            badge.textContent = `CT Pro v${CONFIG.VERSION}`;
-            document.body.appendChild(badge);
-        }
 
         startComplianceCheck() {
             // Initial check
@@ -1367,8 +1338,6 @@ function showPremiumToast(message, type = 'info', duration = 900) {
             document.getElementById('ct-header-settings-btn')?.remove();
             document.getElementById('ct-settings-modal')?.remove();
             document.getElementById('ct-top-controls')?.remove();
-            document.querySelector('.ct-version-badge')?.remove();
-
             this.isInitialized = false;
         }
     }

@@ -4,7 +4,7 @@
 
 const APP_CONFIG = {
     // Version Management (Update this only)
-    version: "4.6.0",
+    version: "4.6.1",
     
     // Release Information
     releaseDate: "January 2026",

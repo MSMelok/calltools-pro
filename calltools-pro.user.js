@@ -1252,12 +1252,6 @@ function showPremiumToast(message, type = 'info', duration = 900) {
                 // Start compliance checking
                 this.startComplianceCheck();
 
-                // Add version badge
-                this.addVersionBadge();
-
-                this.isInitialized = true;
-                console.log('CallTools Pro v4.6.0 initialized successfully');
-                showPremiumToast('CallTools Pro v4.6.0 loaded', 'info', 2000);
 
             } catch (error) {
                 console.error('Failed to initialize CallTools Pro:', error);

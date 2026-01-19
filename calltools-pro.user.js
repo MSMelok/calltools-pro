@@ -32,9 +32,14 @@
     // Premium color palette (matching website)
     const COLORS = {
         primary: {
-            DEFAULT: '#6366f1',
-            light: '#818cf8',
-            dark: '#4f46e5'
+            DEFAULT: '#3b82f6', // Blue
+            light: '#60a5fa',
+            dark: '#2563eb'
+        },
+        secondary: {
+            DEFAULT: '#8b5cf6', // Violet
+            light: '#a78bfa',
+            dark: '#7c3aed'
         },
         accent: {
             blue: '#3b82f6',
@@ -45,16 +50,16 @@
             rose: '#f43f5e'
         },
         background: {
-            DEFAULT: '#0a0a0f',
-            light: '#13131f',
-            card: '#1e1e30',
-            hover: '#2a2a40',
-            modal: 'rgba(19, 19, 31, 0.98)'
+            DEFAULT: '#02040a', // Deep Rich Black
+            light: '#0f172a',
+            card: 'rgba(255, 255, 255, 0.03)',
+            hover: 'rgba(255, 255, 255, 0.08)',
+            modal: 'rgba(2, 4, 10, 0.85)'
         },
         text: {
             primary: '#ffffff',
-            secondary: '#a0a0b0',
-            muted: '#707080'
+            secondary: '#94a3b8',
+            muted: '#64748b'
         }
     };
 
@@ -162,11 +167,11 @@
         /* Reset & Base */
         .ct-hidden { display: none !important; }
         .ct-glass {
-            background: rgba(30, 30, 48, 0.7) !important;
-            backdrop-filter: blur(10px) saturate(180%) !important;
-            -webkit-backdrop-filter: blur(10px) saturate(180%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+            background: rgba(2, 4, 10, 0.5) !important;
+            backdrop-filter: blur(12px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
         }
 
         /* Top Controls Bar - Premium Design */
@@ -182,16 +187,16 @@
         .ct-badge {
             display: inline-flex !important;
             align-items: center !important;
-            height: 36px !important;
-            padding: 0 16px !important;
-            border-radius: 8px !important;
+            height: 32px !important;
+            padding: 0 14px !important;
+            border-radius: 6px !important;
             font-size: 13px !important;
-            font-weight: 600 !important;
+            font-weight: 500 !important;
             color: white !important;
             backdrop-filter: blur(12px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
             cursor: default !important;
             white-space: nowrap !important;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
@@ -216,35 +221,39 @@
         }
 
         .ct-badge:hover {
-            transform: translateY(-2px) !important;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
         }
 
         /* Badge Colors */
         .ct-safe {
-            background: linear-gradient(135deg, ${COLORS.accent.emerald}, #059669) !important;
-            border-color: rgba(16, 185, 129, 0.3) !important;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.2)) !important;
+            border-color: rgba(16, 185, 129, 0.4) !important;
+            color: #34d399 !important;
         }
 
         .ct-warn {
-            background: linear-gradient(135deg, ${COLORS.accent.amber}, #d97706) !important;
-            border-color: rgba(245, 158, 11, 0.3) !important;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.2)) !important;
+            border-color: rgba(245, 158, 11, 0.4) !important;
+            color: #fbbf24 !important;
         }
 
         .ct-block {
-            background: linear-gradient(135deg, ${COLORS.accent.rose}, #dc2626) !important;
-            border-color: rgba(244, 63, 94, 0.3) !important;
+            background: linear-gradient(135deg, rgba(244, 63, 94, 0.2), rgba(220, 38, 38, 0.2)) !important;
+            border-color: rgba(244, 63, 94, 0.4) !important;
+            color: #f87171 !important;
         }
 
         .ct-time {
-            background: linear-gradient(135deg, ${COLORS.primary.DEFAULT}, ${COLORS.primary.dark}) !important;
-            border-color: rgba(99, 102, 241, 0.3) !important;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.2)) !important;
+            border-color: rgba(59, 130, 246, 0.4) !important;
+            color: #60a5fa !important;
         }
 
         .ct-neutral {
-            background: linear-gradient(135deg, ${COLORS.text.muted}, #52525b) !important;
-            border-color: rgba(112, 112, 128, 0.3) !important;
-            opacity: 0.9 !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+            color: #94a3b8 !important;
         }
 
         /* Premium Search Button */
@@ -253,21 +262,26 @@
             bottom: 30px !important;
             left: 30px !important;
             z-index: 99999 !important;
-            padding: 15px 17px !important;
-            background: linear-gradient(135deg, ${COLORS.primary.DEFAULT}, ${COLORS.primary.dark}) !important;
+            padding: 14px 20px !important;
+            background: linear-gradient(135deg, ${COLORS.primary.DEFAULT}, ${COLORS.secondary.DEFAULT}) !important;
             color: white !important;
-            border: none !important;
-            border-radius: 16px !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 999px !important;
             font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif !important;
             font-size: 14px !important;
-            font-weight: 600 !important;
+            font-weight: 500 !important;
             display: flex !important;
             align-items: center !important;
             gap: 10px !important;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
             cursor: pointer !important;
-            letter-spacing: -0.01em !important;
-            overflow: hidden !important;
+            letter-spacing: 0.01em !important;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3) !important;
+        }
+
+        #ct-search-helper-btn:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4) !important;
         }
 
 
@@ -277,19 +291,25 @@
             top: 62px !important;
             right: 13px !important;
             z-index: 100001 !important;
-            background: rgba(19, 19, 31, 0.8) !important;
+            background: rgba(2, 4, 10, 0.6) !important;
             backdrop-filter: blur(10px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(10px) saturate(180%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
-            border-radius: 12px !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 10px !important;
             padding: 10px !important;
             cursor: pointer !important;
             display: inline-flex !important;
             align-items: center !important;
             justify-content: center !important;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            color: rgba(255, 255, 255, 0.9) !important;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+            color: rgba(255, 255, 255, 0.7) !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+        }
+
+        #ct-header-settings-btn:hover {
+            background: rgba(255, 255, 255, 0.05) !important;
+            color: white !important;
+            border-color: rgba(255, 255, 255, 0.2) !important;
         }
 
 
@@ -298,22 +318,22 @@
             position: fixed !important;
             top: 65px !important;
             right: 20px !important;
-            width: 340px !important;
+            width: 320px !important;
             z-index: 100002 !important;
             background: ${COLORS.background.modal} !important;
-            backdrop-filter: blur(30px) saturate(200%) !important;
-            -webkit-backdrop-filter: blur(30px) saturate(200%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
-            border-radius: 20px !important;
+            backdrop-filter: blur(20px) saturate(200%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(200%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 16px !important;
             padding: 24px !important;
             display: none;
             flex-direction: column !important;
-            gap: 18px !important;
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6) !important;
+            gap: 16px !important;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5) !important;
             color: ${COLORS.text.primary} !important;
             font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif !important;
             font-size: 14px !important;
-            animation: ct-modal-appear 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+            animation: ct-modal-appear 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }
 
         #ct-settings-modal.show {
@@ -323,7 +343,7 @@
         @keyframes ct-modal-appear {
             from {
                 opacity: 0;
-                transform: translateY(-15px) scale(0.95);
+                transform: translateY(-10px) scale(0.98);
             }
             to {
                 opacity: 1;
@@ -332,10 +352,10 @@
         }
 
         .ct-modal-header {
-            font-weight: 700 !important;
-            font-size: 18px !important;
-            margin-bottom: 8px !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+            font-weight: 600 !important;
+            font-size: 16px !important;
+            margin-bottom: 4px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
             padding-bottom: 16px !important;
             color: ${COLORS.text.primary} !important;
             display: flex !important;
@@ -348,7 +368,7 @@
             align-items: center !important;
             justify-content: space-between !important;
             padding: 12px 0 !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
         }
 
         .ct-setting-row:last-child {
@@ -359,8 +379,8 @@
         .ct-switch {
             position: relative !important;
             display: inline-block !important;
-            width: 50px !important;
-            height: 28px !important;
+            width: 44px !important;
+            height: 24px !important;
         }
 
         .ct-switch input {
@@ -376,38 +396,38 @@
             left: 0 !important;
             right: 0 !important;
             bottom: 0 !important;
-            background-color: ${COLORS.background.hover} !important;
-            transition: .4s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            transition: .3s cubic-bezier(0.4, 0, 0.2, 1) !important;
             border-radius: 34px !important;
-            border: 2px solid rgba(255, 255, 255, 0.1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
         }
 
         .ct-slider:before {
             position: absolute !important;
             content: "" !important;
-            height: 22px !important;
-            width: 22px !important;
+            height: 18px !important;
+            width: 18px !important;
             left: 2px !important;
-            bottom: 1px !important;
+            bottom: 2px !important;
             background: white !important;
-            transition: .4s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+            transition: .3s cubic-bezier(0.4, 0, 0.2, 1) !important;
             border-radius: 50% !important;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3) !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
         }
 
         input:checked + .ct-slider {
-            background: linear-gradient(135deg, ${COLORS.accent.emerald}, #059669) !important;
-            border-color: rgba(16, 185, 129, 0.4) !important;
+            background: ${COLORS.primary.DEFAULT} !important;
+            border-color: ${COLORS.primary.DEFAULT} !important;
         }
 
         input:checked + .ct-slider:before {
-            transform: translateX(22px) !important;
+            transform: translateX(20px) !important;
         }
 
        /* MINIMAL TOAST SYSTEM */
 .ct-toast-container {
     position: fixed !important;
-    top: 100px !important;
+    top: 90px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     z-index: 100003 !important;
@@ -418,58 +438,46 @@
     display: flex !important;
     align-items: center !important;
     gap: 12px !important;
-    background: ${COLORS.background.card} !important;
-    color: ${COLORS.text.primary} !important;
-    padding: 14px 20px !important;
-    border-radius: 12px !important;
+    background: rgba(2, 4, 10, 0.9) !important;
+    backdrop-filter: blur(8px) !important;
+    color: white !important;
+    padding: 12px 16px !important;
+    border-radius: 99px !important;
     font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif !important;
     font-size: 14px !important;
     font-weight: 500 !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     opacity: 0 !important;
-    transform: translateY(-20px) !important;
-    transition: all 0.3s ease !important;
-    min-width: 250px !important;
+    transform: translateY(-10px) scale(0.95) !important;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    min-width: auto !important;
     max-width: 400px !important;
-    overflow: hidden !important;
 }
 
 .ct-toast.show {
     opacity: 1 !important;
-    transform: translateY(0) !important;
+    transform: translateY(0) scale(1) !important;
     pointer-events: auto !important;
 }
 
-.ct-toast.success {
-    background: ${COLORS.background.card} !important;
-    border: 4px solid ${COLORS.accent.emerald} !important;
-}
-
-.ct-toast.error {
-    background: ${COLORS.background.card} !important;
-    border: 4px solid ${COLORS.accent.rose} !important;
-}
-
-.ct-toast.info {
-    background: ${COLORS.background.card} !important;
-    border: 4px solid ${COLORS.primary.DEFAULT} !important;
-}
-
-.ct-toast.warning {
-    background: ${COLORS.background.card} !important;
-    border: 4px solid ${COLORS.accent.amber} !important;
-}
+.ct-toast.success { border-color: ${COLORS.accent.emerald} !important; }
+.ct-toast.error { border-color: ${COLORS.accent.rose} !important; }
+.ct-toast.info { border-color: ${COLORS.primary.DEFAULT} !important; }
+.ct-toast.warning { border-color: ${COLORS.accent.amber} !important; }
 
 .ct-toast-icon {
     flex-shrink: 0 !important;
-    width: 20px !important;
-    height: 20px !important;
+    width: 18px !important;
+    height: 18px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
 .ct-toast-content {
     flex: 1 !important;
-    text-align: center !important;
+    white-space: nowrap !important;
 }
 
 
@@ -480,30 +488,30 @@
 
         /* Premium Input Enhancement */
         .ct-enhanced-input {
-            border: 2px solid rgba(99, 102, 241, 0.3) !important;
-            border-radius: 12px !important;
-            background: ${COLORS.background.light} !important;
-            color: ${COLORS.text.primary} !important;
-            padding: 12px 16px !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 8px !important;
+            background: rgba(255, 255, 255, 0.03) !important;
+            color: white !important;
+            padding: 10px 14px !important;
             font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif !important;
             font-size: 14px !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            transition: all 0.2s ease !important;
         }
 
         .ct-enhanced-input:focus {
             border-color: ${COLORS.primary.DEFAULT} !important;
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2) !important;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
             outline: none !important;
-            transform: translateY(-1px) !important;
+            background: rgba(255, 255, 255, 0.05) !important;
         }
 
         /* Pulse Animation */
         @keyframes ct-pulse-glow {
             0%, 100% {
-                box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+                box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
             }
             50% {
-                box-shadow: 0 0 40px rgba(99, 102, 241, 0.6);
+                box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
             }
         }
 
@@ -513,7 +521,7 @@
 
         /* Gradient Text */
         .ct-gradient-text {
-            background: linear-gradient(135deg, ${COLORS.primary.DEFAULT}, ${COLORS.accent.purple}) !important;
+            background: linear-gradient(135deg, ${COLORS.primary.DEFAULT}, ${COLORS.secondary.DEFAULT}) !important;
             -webkit-background-clip: text !important;
             -webkit-text-fill-color: transparent !important;
             background-clip: text !important;
@@ -522,22 +530,20 @@
 
         /* Premium Scrollbar */
         ::-webkit-scrollbar {
-            width: 10px !important;
+            width: 8px !important;
         }
 
         ::-webkit-scrollbar-track {
-            background: rgba(30, 30, 48, 0.5) !important;
-            border-radius: 10px !important;
+            background: transparent !important;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, ${COLORS.primary.DEFAULT}, ${COLORS.primary.dark}) !important;
-            border-radius: 10px !important;
-            border: 2px solid rgba(19, 19, 31, 0.5) !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-radius: 4px !important;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, ${COLORS.primary.light}, ${COLORS.primary.DEFAULT}) !important;
+            background: rgba(255, 255, 255, 0.2) !important;
         }
 
         /* Loading Animation */
@@ -548,12 +554,12 @@
 
         .ct-spinner {
             display: inline-block !important;
-            width: 20px !important;
-            height: 20px !important;
-            border: 3px solid rgba(255, 255, 255, 0.1) !important;
-            border-top: 3px solid ${COLORS.primary.DEFAULT} !important;
+            width: 18px !important;
+            height: 18px !important;
+            border: 2px solid rgba(255, 255, 255, 0.1) !important;
+            border-top: 2px solid ${COLORS.primary.DEFAULT} !important;
             border-radius: 50% !important;
-            animation: ct-spin 1s linear infinite !important;
+            animation: ct-spin 0.8s linear infinite !important;
         }
     `;
 
@@ -946,7 +952,7 @@ function showPremiumToast(message, type = 'info', duration = 900) {
                 left: 24px;
                 z-index: 99999;
                 padding: 12px 20px;
-                background: linear-gradient(135deg, #6366f1, #4f46e5);
+                background: linear-gradient(135deg, ${COLORS.primary.DEFAULT}, ${COLORS.secondary.DEFAULT});
                 color: white;
                 border: none;
                 border-radius: 30px;

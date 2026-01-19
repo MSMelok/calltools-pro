@@ -57,12 +57,12 @@ function renderFeatures() {
     ];
 
     featuresGrid.innerHTML = features.map(feature => `
-        <div class="bg-black p-8">
-            <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center mb-4">
-                <i data-feather="${feature.icon}" class="w-5 h-5 text-black"></i>
+        <div class="glass-panel p-8 rounded-xl hover:bg-white/5 transition-colors group">
+            <div class="w-12 h-12 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <i data-feather="${feature.icon}" class="w-6 h-6 text-accent group-hover:text-white transition-colors"></i>
             </div>
-            <h3 class="text-lg font-semibold text-white mb-2">${feature.title}</h3>
-            <p class="text-sm text-secondary">${feature.description}</p>
+            <h3 class="text-lg font-semibold text-white mb-3 group-hover:text-accent transition-colors">${feature.title}</h3>
+            <p class="text-sm text-secondary leading-relaxed">${feature.description}</p>
         </div>
     `).join('');
 
@@ -97,8 +97,8 @@ function renderInstallationSteps() {
     ];
 
     installationSteps.innerHTML = steps.map(step => `
-        <div class="bg-black p-6 flex items-start">
-            <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center text-black text-sm font-semibold mr-4 flex-shrink-0">
+        <div class="glass-panel p-6 flex items-start hover:bg-white/5 transition-colors border-b border-white/5 last:border-0">
+            <div class="w-8 h-8 bg-accent/10 border border-accent/20 rounded-lg flex items-center justify-center text-accent text-sm font-bold mr-5 flex-shrink-0 shadow-[0_0_10px_rgba(59,130,246,0.1)]">
                 ${step.number}
             </div>
             <div class="flex-1">
@@ -116,9 +116,9 @@ function renderChangelog() {
     if (!changelogList) return;
 
     changelogList.innerHTML = APP_CONFIG.update.changelog.map(item => `
-        <div class="flex items-start text-sm">
-            <div class="w-1 h-1 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></div>
-            <p class="text-secondary">${item}</p>
+        <div class="flex items-start text-sm group">
+            <div class="w-1.5 h-1.5 bg-accent/50 group-hover:bg-accent rounded-full mt-2 mr-3 flex-shrink-0 transition-colors"></div>
+            <p class="text-secondary group-hover:text-gray-300 transition-colors">${item}</p>
         </div>
     `).join('');
 

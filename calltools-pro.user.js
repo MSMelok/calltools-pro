@@ -176,24 +176,28 @@
             --ct-text-muted: #64748b;
             --ct-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 
-            /* Badge Text Colors (Light Mode - High Contrast) */
-            --ct-text-safe: #047857; /* Emerald 700 */
-            --ct-text-warn: #b45309; /* Amber 700 */
-            --ct-text-block: #b91c1c; /* Red 700 */
-            --ct-text-time: #1d4ed8; /* Blue 700 */
+            /* Badge Text Colors (Light Mode - MAX CONTRAST) */
+            --ct-text-safe: #064e3b; /* Emerald 900 (Very Dark Green) */
+            --ct-text-warn: #78350f; /* Amber 900 (Very Dark Orange) */
+            --ct-text-block: #7f1d1d; /* Red 900 (Very Dark Red) */
+            --ct-text-time: #1e3a8a; /* Blue 900 (Very Dark Blue) */
 
-            /* Badge Backgrounds (Light Mode - More Opaque/Vibrant) */
-            /* Using solid-ish colors for better readability against white */
-            --ct-bg-safe: rgba(52, 211, 153, 0.35);
-            --ct-bg-warn: rgba(251, 191, 36, 0.35);
-            --ct-bg-block: rgba(248, 113, 113, 0.35);
-            --ct-bg-time: rgba(96, 165, 250, 0.35);
+            /* Badge Backgrounds (Light Mode - SOLID PASTEL - NO TRANSPARENCY) */
+            --ct-bg-safe: #d1fae5; /* Emerald 100 */
+            --ct-bg-warn: #fef3c7; /* Amber 100 */
+            --ct-bg-block: #fee2e2; /* Red 100 */
+            --ct-bg-time: #dbeafe; /* Blue 100 */
 
-            /* Badge Borders (Light Mode - Stronger) */
-            --ct-border-safe: rgba(5, 150, 105, 0.5);
-            --ct-border-warn: rgba(217, 119, 6, 0.5);
-            --ct-border-block: rgba(220, 38, 38, 0.5);
-            --ct-border-time: rgba(37, 99, 235, 0.5);
+            /* Badge Borders (Light Mode - Solid) */
+            --ct-border-safe: #10b981; /* Emerald 500 */
+            --ct-border-warn: #f59e0b; /* Amber 500 */
+            --ct-border-block: #ef4444; /* Red 500 */
+            --ct-border-time: #3b82f6; /* Blue 500 */
+        }
+
+        /* Force Bolder Text in Light Mode for Badges */
+        html.light-mode .ct-badge, body.light-mode .ct-badge {
+            font-weight: 700 !important;
         }
 
         /* Reset & Base */

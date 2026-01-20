@@ -176,23 +176,23 @@
             --ct-text-muted: #64748b;
             --ct-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 
-            /* Badge Text Colors (Light Mode - MAX CONTRAST) */
-            --ct-text-safe: #064e3b; /* Emerald 900 (Very Dark Green) */
-            --ct-text-warn: #78350f; /* Amber 900 (Very Dark Orange) */
-            --ct-text-block: #7f1d1d; /* Red 900 (Very Dark Red) */
-            --ct-text-time: #1e3a8a; /* Blue 900 (Very Dark Blue) */
+            /* Badge Text Colors (Light Mode - All Black) */
+            --ct-text-safe: #000000;
+            --ct-text-warn: #000000;
+            --ct-text-block: #000000;
+            --ct-text-time: #000000;
 
-            /* Badge Backgrounds (Light Mode - SOLID PASTEL - NO TRANSPARENCY) */
-            --ct-bg-safe: #d1fae5; /* Emerald 100 */
-            --ct-bg-warn: #fef3c7; /* Amber 100 */
-            --ct-bg-block: #fee2e2; /* Red 100 */
-            --ct-bg-time: #dbeafe; /* Blue 100 */
+            /* Badge Backgrounds (Light Mode - Gradient with 50%/60% Opacity) */
+            --ct-bg-safe: linear-gradient(135deg, rgba(16, 185, 129, 0.5), rgba(5, 150, 105, 0.6));
+            --ct-bg-warn: linear-gradient(135deg, rgba(245, 158, 11, 0.5), rgba(217, 119, 6, 0.6));
+            --ct-bg-block: linear-gradient(135deg, rgba(244, 63, 94, 0.5), rgba(220, 38, 38, 0.6));
+            --ct-bg-time: linear-gradient(135deg, rgba(59, 130, 246, 0.5), rgba(37, 99, 235, 0.6));
 
             /* Badge Borders (Light Mode - Solid) */
-            --ct-border-safe: #10b981; /* Emerald 500 */
-            --ct-border-warn: #f59e0b; /* Amber 500 */
-            --ct-border-block: #ef4444; /* Red 500 */
-            --ct-border-time: #3b82f6; /* Blue 500 */
+            --ct-border-safe: rgba(5, 150, 105, 0.5);
+            --ct-border-warn: rgba(217, 119, 6, 0.5);
+            --ct-border-block: rgba(220, 38, 38, 0.5);
+            --ct-border-time: rgba(37, 99, 235, 0.5);
         }
 
         /* Force Bolder Text in Light Mode for Badges */

@@ -27,15 +27,13 @@ const APP_CONFIG = {
         enabled: true,
         checkInterval: 24, // hours
         changelog: [
-    "v4.6.0 - UI improvement Release",
-    "• Bug Fix: Fixed critical crash on invalid addresses",
-    "• Feature: Invalid state detection with clear error messages",
-    "• UI: Time badge now hides when no address is loaded",
-    "• Feature: Time badge shows seconds for precision",
-    "• Bug Fix: Settings cog now works reliably",
-    "• Improvement: Better address parsing and validation",
-    "• Bug Fix: Settings are now properly saved to localStorage"
-]
+            "v4.6.1 - Enterprise Experience",
+            "• New Look: A modern, cleaner design for better focus.",
+            "• Improved Settings: Your preferences now stay saved securely, even if you clear your browser cache.",
+            "• Customization: You can now hide distracting buttons (like SMS or Email) and cards (like Zillow).",
+            "• Better Visibility: Critical badges are now easier to read in Light Mode.",
+            "• Fixes: The settings menu is now easier to access and works reliably."
+        ]
     },
     
     // Contact Information

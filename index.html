@@ -248,89 +248,96 @@
             </div>
         </section>
 
-        <!-- Installation -->
-        <section class="py-24 lg:py-32 border-t border-divider">
-            <div class="container mx-auto px-6 lg:px-8">
-                <div class="text-center max-w-3xl mx-auto mb-16">
-                    <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4">
-                        Get Started in Minutes
+        <!-- Easy Setup Guide -->
+        <section id="setup-guide" class="py-24 lg:py-32 border-t border-divider relative overflow-hidden">
+            <!-- Background Decoration -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="container mx-auto px-6 lg:px-8 relative z-10">
+                <div class="text-center max-w-3xl mx-auto mb-20">
+                    <div class="inline-flex items-center px-3 py-1 border border-white/10 bg-white/5 rounded-full text-xs font-medium mb-6 text-white backdrop-blur-md">
+                        <span class="w-2 h-2 rounded-full bg-accent mr-2"></span>
+                        3-Minute Setup
+                    </div>
+                    <h2 class="text-3xl lg:text-5xl font-bold text-white mb-6">
+                        Install in 3 Easy Steps
                     </h2>
-                    <p class="text-lg text-secondary">
-                        Simple installation process
+                    <p class="text-lg text-secondary max-w-xl mx-auto">
+                        Follow this guide to get up and running instantly. No technical knowledge required.
                     </p>
                 </div>
 
-                <div class="max-w-4xl mx-auto space-y-px bg-gradient-to-b from-white/10 to-transparent border border-white/10 rounded-xl overflow-hidden backdrop-blur-sm" id="installation-steps">
-                    <!-- Will be populated by JavaScript -->
-                </div>
-            </div>
-        </section>
+                <div class="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
 
-        <!-- Browser Setup -->
-        <section class="py-24 lg:py-32 border-t border-divider bg-black/40">
-            <div class="container mx-auto px-6 lg:px-8 max-w-5xl">
-                <div class="text-center mb-12">
-                    <div class="inline-flex items-center px-3 py-1 border border-amber-500/20 bg-amber-500/10 rounded-full text-xs font-medium mb-6 text-amber-500">
-                        Important Setup Step
-                    </div>
-                    <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4">
-                        Enable User Scripts
-                    </h2>
-                    <p class="text-lg text-secondary">
-                        One-time browser configuration required
-                    </p>
-                </div>
-
-                <div class="grid md:grid-cols-3 gap-px bg-white/10 border border-white/10 rounded-xl overflow-hidden mb-12 shadow-2xl">
-                    <div class="glass-panel p-8 hover:bg-white/5 transition-colors">
-                        <div class="text-sm font-medium text-accent mb-4">Step 1</div>
-                        <h3 class="text-lg font-semibold text-white mb-3">Copy URL</h3>
-                        <div class="bg-black/50 p-3 rounded border border-white/10 font-mono text-sm mb-3">
-                            <span class="text-accent select-all">chrome://extensions/</span>
+                    <!-- Step 1: Install Manager -->
+                    <div class="glass-panel rounded-2xl p-8 border border-white/10 hover:border-accent/30 transition-all duration-300 group">
+                        <div class="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-white/5">
+                            <span class="text-xl font-bold text-accent">1</span>
                         </div>
-                        <p class="text-sm text-secondary">
-                            For Chrome, Edge, or Brave browsers
+                        <h3 class="text-xl font-bold text-white mb-3">Get the Manager</h3>
+                        <p class="text-secondary text-sm mb-6 leading-relaxed">
+                            Install <strong>Tampermonkey</strong>. This is the "engine" that runs the CallTools Pro script.
                         </p>
-                    </div>
-
-                    <div class="glass-panel p-8 hover:bg-white/5 transition-colors">
-                        <div class="text-sm font-medium text-accent mb-4">Step 2</div>
-                        <h3 class="text-lg font-semibold text-white mb-3">Open Extensions</h3>
-                        <p class="text-sm text-secondary mb-6">
-                            Paste the URL in your browser's address bar
-                        </p>
-                        <div class="flex justify-center">
-                            <i data-feather="arrow-down" class="w-6 h-6 text-secondary animate-bounce"></i>
+                        <div class="space-y-3">
+                            <a href="https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo" target="_blank" class="flex items-center justify-center w-full px-4 py-3 bg-white/5 hover:bg-accent hover:text-white border border-white/10 rounded-lg text-sm text-white transition-all">
+                                <i data-feather="chrome" class="w-4 h-4 mr-2"></i> Chrome / Brave
+                            </a>
+                            <a href="https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd" target="_blank" class="flex items-center justify-center w-full px-4 py-3 bg-white/5 hover:bg-accent hover:text-white border border-white/10 rounded-lg text-sm text-white transition-all">
+                                <i data-feather="monitor" class="w-4 h-4 mr-2"></i> Edge
+                            </a>
                         </div>
                     </div>
 
-                    <div class="glass-panel p-8 hover:bg-white/5 transition-colors">
-                        <div class="text-sm font-medium text-accent mb-4">Step 3</div>
-                        <h3 class="text-lg font-semibold text-white mb-3">Enable Setting</h3>
-                        <p class="text-sm text-secondary mb-3">
-                            Find Tampermonkey and enable "Allow access to file URLs"
-                        </p>
-                    </div>
-                </div>
+                    <!-- Step 2: Enable Permissions -->
+                    <div class="glass-panel rounded-2xl p-8 border border-amber-500/20 bg-amber-500/5 relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 p-4 opacity-10">
+                            <i data-feather="alert-triangle" class="w-24 h-24 text-amber-500"></i>
+                        </div>
 
-                <div class="border border-white/10 rounded-xl p-6 glass-panel">
-                    <h3 class="text-lg font-semibold text-white mb-4">Common Issues</h3>
-                    <div class="space-y-4">
-                        <div class="flex items-start">
-                            <div class="w-1.5 h-1.5 bg-accent rounded-full mt-2 mr-3"></div>
-                            <div>
-                                <p class="text-sm font-medium text-white mb-1">Script not working?</p>
-                                <p class="text-sm text-secondary">Ensure "Allow User Scripts" is enabled in Tampermonkey settings</p>
+                        <div class="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-amber-500/20">
+                            <span class="text-xl font-bold text-amber-500">2</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Unlock Permissions</h3>
+                        <p class="text-secondary text-sm mb-6 leading-relaxed">
+                            <strong>Critical Step:</strong> You must allow Tampermonkey to run correctly.
+                        </p>
+
+                        <div class="bg-black/40 rounded-lg p-4 text-xs font-mono text-gray-300 space-y-2 border border-white/5">
+                            <div class="flex items-start">
+                                <span class="text-amber-500 mr-2">1.</span>
+                                <span>Go to <strong>Extensions</strong> (Puzzle Icon) > <strong>Manage Extensions</strong></span>
                             </div>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="w-1.5 h-1.5 bg-accent rounded-full mt-2 mr-3"></div>
-                            <div>
-                                <p class="text-sm font-medium text-white mb-1">Using Firefox?</p>
-                                <p class="text-sm text-secondary">Use Violentmonkey instead of Tampermonkey</p>
+                            <div class="flex items-start">
+                                <span class="text-amber-500 mr-2">2.</span>
+                                <span>Find <strong>Tampermonkey</strong> & click <strong>Details</strong></span>
+                            </div>
+                            <div class="flex items-start">
+                                <span class="text-amber-500 mr-2">3.</span>
+                                <span>Toggle ON: <span class="text-white font-bold">"Allow access to file URLs"</span></span>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Step 3: Install Script -->
+                    <div class="glass-panel rounded-2xl p-8 border border-white/10 hover:border-green-500/30 transition-all duration-300 group">
+                        <div class="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-white/5">
+                            <span class="text-xl font-bold text-green-400">3</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Install CT Pro</h3>
+                        <p class="text-secondary text-sm mb-6 leading-relaxed">
+                            Click the button below. Tampermonkey will open—just click <strong>Install</strong>.
+                        </p>
+
+                        <a href="calltools-pro.user.js" class="flex items-center justify-center w-full px-6 py-4 bg-white text-black font-bold rounded-lg hover:bg-gray-100 hover:scale-[1.02] transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                            <i data-feather="download" class="w-4 h-4 mr-2"></i>
+                            Install Script
+                        </a>
+
+                        <p class="mt-4 text-xs text-center text-secondary">
+                            Navigate to CallTools.io to see it in action!
+                        </p>
+                    </div>
+
                 </div>
             </div>
         </section>

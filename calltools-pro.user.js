@@ -28,7 +28,7 @@
 
         // Update tracking
         VERSION: "4.6.1",
-        GITHUB_URL: "https://YOUR_USERNAME.github.io/calltools-pro/"
+        GITHUB_URL: "https://msmelok.github.io/calltools-pro/"
     };
 
     // State timezones mapping (unchanged)
@@ -147,16 +147,16 @@
             --ct-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 
             /* Badge Text Colors (Dark Mode) */
-            --ct-text-safe: #34d399;
-            --ct-text-warn: #fbbf24;
-            --ct-text-block: #f87171;
-            --ct-text-time: #60a5fa;
+            --ct-text-safe: #000000;
+            --ct-text-warn: #000000;
+            --ct-text-block: #000000;
+            --ct-text-time: #000000;
 
             /* Badge Backgrounds (Dark Mode - Subtle) */
-            --ct-bg-safe: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.2));
-            --ct-bg-warn: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.2));
-            --ct-bg-block: linear-gradient(135deg, rgba(244, 63, 94, 0.2), rgba(220, 38, 38, 0.2));
-            --ct-bg-time: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.2));
+            --ct-bg-safe: linear-gradient(135deg, rgba(16, 185, 129, 50%), rgba(5, 150, 105, 60%));
+            --ct-bg-warn: linear-gradient(135deg, rgba(245, 158, 11, 50%), rgba(217, 119, 6, 60%));
+            --ct-bg-block: linear-gradient(135deg, rgba(244, 63, 94, 50%), rgba(220, 38, 38, 60%));
+            --ct-bg-time: linear-gradient(135deg, rgba(59, 130, 246, 50%), rgba(37, 99, 235, 60%));
 
             /* Badge Borders (Dark Mode) */
             --ct-border-safe: rgba(16, 185, 129, 0.4);
@@ -176,23 +176,23 @@
             --ct-text-muted: #64748b;
             --ct-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 
-            /* Badge Text Colors (Light Mode - All Black) */
-            --ct-text-safe: #000000;
-            --ct-text-warn: #000000;
-            --ct-text-block: #000000;
-            --ct-text-time: #000000;
+            /* Badge Text Colors (Light Mode - MAX CONTRAST) */
+            --ct-text-safe: #064e3b; /* Emerald 900 (Very Dark Green) */
+            --ct-text-warn: #78350f; /* Amber 900 (Very Dark Orange) */
+            --ct-text-block: #7f1d1d; /* Red 900 (Very Dark Red) */
+            --ct-text-time: #1e3a8a; /* Blue 900 (Very Dark Blue) */
 
-            /* Badge Backgrounds (Light Mode - Gradient with 50%/60% Opacity) */
-            --ct-bg-safe: linear-gradient(135deg, rgba(16, 185, 129, 0.5), rgba(5, 150, 105, 0.6));
-            --ct-bg-warn: linear-gradient(135deg, rgba(245, 158, 11, 0.5), rgba(217, 119, 6, 0.6));
-            --ct-bg-block: linear-gradient(135deg, rgba(244, 63, 94, 0.5), rgba(220, 38, 38, 0.6));
-            --ct-bg-time: linear-gradient(135deg, rgba(59, 130, 246, 0.5), rgba(37, 99, 235, 0.6));
+            /* Badge Backgrounds (Light Mode - SOLID PASTEL - NO TRANSPARENCY) */
+            --ct-bg-safe: #d1fae5; /* Emerald 100 */
+            --ct-bg-warn: #fef3c7; /* Amber 100 */
+            --ct-bg-block: #fee2e2; /* Red 100 */
+            --ct-bg-time: #dbeafe; /* Blue 100 */
 
             /* Badge Borders (Light Mode - Solid) */
-            --ct-border-safe: rgba(5, 150, 105, 0.5);
-            --ct-border-warn: rgba(217, 119, 6, 0.5);
-            --ct-border-block: rgba(220, 38, 38, 0.5);
-            --ct-border-time: rgba(37, 99, 235, 0.5);
+            --ct-border-safe: #10b981; /* Emerald 500 */
+            --ct-border-warn: #f59e0b; /* Amber 500 */
+            --ct-border-block: #ef4444; /* Red 500 */
+            --ct-border-time: #3b82f6; /* Blue 500 */
         }
 
         /* Force Bolder Text in Light Mode for Badges */
@@ -226,8 +226,8 @@
             height: 32px !important;
             padding: 0 14px !important;
             border-radius: 6px !important;
-            font-size: 13px !important;
-            font-weight: 500 !important;
+            font-size: 14px !important;
+            font-weight: 900 !important;
             color: var(--ct-text) !important;
             backdrop-filter: blur(12px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(12px) saturate(180%) !important;

@@ -143,6 +143,12 @@
             --ct-text: #ffffff;
             --ct-text-muted: #94a3b8;
             --ct-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+            /* Badge Text Colors (Dark Mode) */
+            --ct-text-safe: #34d399;
+            --ct-text-warn: #fbbf24;
+            --ct-text-block: #f87171;
+            --ct-text-time: #60a5fa;
         }
 
         /* Light Mode Detection (Assuming CallTools uses a light class or no class)
@@ -155,6 +161,12 @@
             --ct-text: #1e293b;
             --ct-text-muted: #64748b;
             --ct-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+            /* Badge Text Colors (Light Mode - High Contrast) */
+            --ct-text-safe: #059669; /* Darker Green */
+            --ct-text-warn: #d97706; /* Darker Amber */
+            --ct-text-block: #dc2626; /* Darker Red */
+            --ct-text-time: #2563eb; /* Darker Blue */
         }
 
         /* Reset & Base */
@@ -222,25 +234,25 @@
         .ct-safe {
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.2)) !important;
             border-color: rgba(16, 185, 129, 0.4) !important;
-            color: #34d399 !important;
+            color: var(--ct-text-safe) !important;
         }
 
         .ct-warn {
             background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.2)) !important;
             border-color: rgba(245, 158, 11, 0.4) !important;
-            color: #fbbf24 !important;
+            color: var(--ct-text-warn) !important;
         }
 
         .ct-block {
             background: linear-gradient(135deg, rgba(244, 63, 94, 0.2), rgba(220, 38, 38, 0.2)) !important;
             border-color: rgba(244, 63, 94, 0.4) !important;
-            color: #f87171 !important;
+            color: var(--ct-text-block) !important;
         }
 
         .ct-time {
             background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.2)) !important;
             border-color: rgba(59, 130, 246, 0.4) !important;
-            color: #60a5fa !important;
+            color: var(--ct-text-time) !important;
         }
 
         .ct-neutral {
@@ -255,7 +267,7 @@
             bottom: 30px !important;
             left: 30px !important;
             z-index: 99999 !important;
-            padding: 14px 20px !important;
+            padding: 12px 15px !important;
             background: linear-gradient(135deg, var(--ct-primary), var(--ct-secondary)) !important;
             color: white !important;
             border: 1px solid var(--ct-border) !important;
@@ -988,6 +1000,11 @@ function showPremiumToast(message, type = 'info', duration = 900) {
             // Find parent div to append to
             const parent = userIconElement.parentElement;
             if (!parent) return;
+
+            // Ensure the parent is flex to align items horizontally
+            // This fixes the issue where the cog sits above the user dropdown
+            parent.style.display = 'flex';
+            parent.style.alignItems = 'center';
 
             this.settingsBtn = document.createElement('button');
             this.settingsBtn.id = 'ct-nav-settings-btn';

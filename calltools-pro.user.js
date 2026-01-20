@@ -25,42 +25,8 @@
         BUSINESS_INPUT_INDEX: 5,
 
         // Update tracking
-        VERSION: "4.6.0",
+        VERSION: "4.6.1",
         GITHUB_URL: "https://YOUR_USERNAME.github.io/calltools-pro/"
-    };
-
-    // Premium color palette (matching website)
-    const COLORS = {
-        primary: {
-            DEFAULT: '#3b82f6', // Blue
-            light: '#60a5fa',
-            dark: '#2563eb'
-        },
-        secondary: {
-            DEFAULT: '#8b5cf6', // Violet
-            light: '#a78bfa',
-            dark: '#7c3aed'
-        },
-        accent: {
-            blue: '#3b82f6',
-            purple: '#8b5cf6',
-            cyan: '#06b6d4',
-            emerald: '#10b981',
-            amber: '#f59e0b',
-            rose: '#f43f5e'
-        },
-        background: {
-            DEFAULT: '#02040a', // Deep Rich Black
-            light: '#0f172a',
-            card: 'rgba(255, 255, 255, 0.03)',
-            hover: 'rgba(255, 255, 255, 0.08)',
-            modal: 'rgba(2, 4, 10, 0.85)'
-        },
-        text: {
-            primary: '#ffffff',
-            secondary: '#94a3b8',
-            muted: '#64748b'
-        }
     };
 
     // State timezones mapping (unchanged)
@@ -163,15 +129,42 @@
     // PREMIUM STYLES (Enhanced for Website)
     // ============================================
 
+    // Dynamic Variables based on Theme
     const STYLES = `
+        :root {
+            /* Default Dark Mode (Matches Website) */
+            --ct-primary: #3b82f6;
+            --ct-primary-light: #60a5fa;
+            --ct-secondary: #8b5cf6;
+            --ct-bg: #02040a;
+            --ct-bg-hover: rgba(255, 255, 255, 0.08);
+            --ct-glass: rgba(2, 4, 10, 0.5);
+            --ct-border: rgba(255, 255, 255, 0.08);
+            --ct-text: #ffffff;
+            --ct-text-muted: #94a3b8;
+            --ct-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Light Mode Detection (Assuming CallTools uses a light class or no class)
+           Adjust selector based on actual site inspection. */
+        html.light-mode, body.light-mode {
+            --ct-bg: #ffffff;
+            --ct-bg-hover: rgba(0, 0, 0, 0.05);
+            --ct-glass: rgba(255, 255, 255, 0.7);
+            --ct-border: rgba(0, 0, 0, 0.1);
+            --ct-text: #1e293b;
+            --ct-text-muted: #64748b;
+            --ct-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
         /* Reset & Base */
         .ct-hidden { display: none !important; }
         .ct-glass {
-            background: rgba(2, 4, 10, 0.5) !important;
+            background: var(--ct-glass) !important;
             backdrop-filter: blur(12px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+            border: 1px solid var(--ct-border) !important;
+            box-shadow: var(--ct-shadow) !important;
         }
 
         /* Top Controls Bar - Premium Design */
@@ -192,11 +185,11 @@
             border-radius: 6px !important;
             font-size: 13px !important;
             font-weight: 500 !important;
-            color: white !important;
+            color: var(--ct-text) !important;
             backdrop-filter: blur(12px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border: 1px solid var(--ct-border) !important;
             cursor: default !important;
             white-space: nowrap !important;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
@@ -251,9 +244,9 @@
         }
 
         .ct-neutral {
-            background: rgba(255, 255, 255, 0.05) !important;
-            border-color: rgba(255, 255, 255, 0.1) !important;
-            color: #94a3b8 !important;
+            background: var(--ct-bg-hover) !important;
+            border-color: var(--ct-border) !important;
+            color: var(--ct-text-muted) !important;
         }
 
         /* Premium Search Button */
@@ -263,10 +256,10 @@
             left: 30px !important;
             z-index: 99999 !important;
             padding: 14px 20px !important;
-            background: linear-gradient(135deg, ${COLORS.primary.DEFAULT}, ${COLORS.secondary.DEFAULT}) !important;
+            background: linear-gradient(135deg, var(--ct-primary), var(--ct-secondary)) !important;
             color: white !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 999px !important;
+            border: 1px solid var(--ct-border) !important;
+            border-radius: 6px !important; /* MATCHING BADGES */
             font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif !important;
             font-size: 14px !important;
             font-weight: 500 !important;
@@ -285,31 +278,23 @@
         }
 
 
-        /* FIXED SETTINGS BUTTON - WON'T SCROLL */
-        #ct-header-settings-btn {
-            position: fixed !important;
-            top: 62px !important;
-            right: 13px !important;
-            z-index: 100001 !important;
-            background: rgba(2, 4, 10, 0.6) !important;
-            backdrop-filter: blur(10px) saturate(180%) !important;
-            -webkit-backdrop-filter: blur(10px) saturate(180%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
-            border-radius: 10px !important;
-            padding: 10px !important;
+        /* Dynamic Settings Button (Injected into Nav) */
+        #ct-nav-settings-btn {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 10px !important;
             cursor: pointer !important;
-            display: inline-flex !important;
+            display: flex !important;
             align-items: center !important;
             justify-content: center !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            color: rgba(255, 255, 255, 0.7) !important;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+            transition: all 0.2s ease !important;
+            color: rgba(255,255,255,0.7) !important; /* Nav usually dark */
+            margin-right: 5px !important;
         }
 
-        #ct-header-settings-btn:hover {
-            background: rgba(255, 255, 255, 0.05) !important;
+        #ct-nav-settings-btn:hover {
             color: white !important;
-            border-color: rgba(255, 255, 255, 0.2) !important;
+            transform: rotate(45deg);
         }
 
 
@@ -320,17 +305,17 @@
             right: 20px !important;
             width: 320px !important;
             z-index: 100002 !important;
-            background: ${COLORS.background.modal} !important;
+            background: var(--ct-bg) !important;
             backdrop-filter: blur(20px) saturate(200%) !important;
             -webkit-backdrop-filter: blur(20px) saturate(200%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 16px !important;
+            border: 1px solid var(--ct-border) !important;
+            border-radius: 12px !important;
             padding: 24px !important;
             display: none;
             flex-direction: column !important;
             gap: 16px !important;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5) !important;
-            color: ${COLORS.text.primary} !important;
+            box-shadow: var(--ct-shadow) !important;
+            color: var(--ct-text) !important;
             font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif !important;
             font-size: 14px !important;
             animation: ct-modal-appear 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
@@ -355,9 +340,9 @@
             font-weight: 600 !important;
             font-size: 16px !important;
             margin-bottom: 4px !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-bottom: 1px solid var(--ct-border) !important;
             padding-bottom: 16px !important;
-            color: ${COLORS.text.primary} !important;
+            color: var(--ct-text) !important;
             display: flex !important;
             align-items: center !important;
             gap: 10px !important;
@@ -368,7 +353,7 @@
             align-items: center !important;
             justify-content: space-between !important;
             padding: 12px 0 !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-bottom: 1px solid var(--ct-border) !important;
         }
 
         .ct-setting-row:last-child {
@@ -396,10 +381,10 @@
             left: 0 !important;
             right: 0 !important;
             bottom: 0 !important;
-            background-color: rgba(255, 255, 255, 0.1) !important;
+            background-color: var(--ct-border) !important;
             transition: .3s cubic-bezier(0.4, 0, 0.2, 1) !important;
             border-radius: 34px !important;
-            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid var(--ct-border) !important;
         }
 
         .ct-slider:before {
@@ -416,150 +401,73 @@
         }
 
         input:checked + .ct-slider {
-            background: ${COLORS.primary.DEFAULT} !important;
-            border-color: ${COLORS.primary.DEFAULT} !important;
+            background: var(--ct-primary) !important;
+            border-color: var(--ct-primary) !important;
         }
 
         input:checked + .ct-slider:before {
             transform: translateX(20px) !important;
         }
 
-       /* MINIMAL TOAST SYSTEM */
-.ct-toast-container {
-    position: fixed !important;
-    top: 90px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    z-index: 100003 !important;
-    pointer-events: none !important;
-}
-
-.ct-toast {
-    display: flex !important;
-    align-items: center !important;
-    gap: 12px !important;
-    background: rgba(2, 4, 10, 0.9) !important;
-    backdrop-filter: blur(8px) !important;
-    color: white !important;
-    padding: 12px 16px !important;
-    border-radius: 99px !important;
-    font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif !important;
-    font-size: 14px !important;
-    font-weight: 500 !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    opacity: 0 !important;
-    transform: translateY(-10px) scale(0.95) !important;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    min-width: auto !important;
-    max-width: 400px !important;
-}
-
-.ct-toast.show {
-    opacity: 1 !important;
-    transform: translateY(0) scale(1) !important;
-    pointer-events: auto !important;
-}
-
-.ct-toast.success { border-color: ${COLORS.accent.emerald} !important; }
-.ct-toast.error { border-color: ${COLORS.accent.rose} !important; }
-.ct-toast.info { border-color: ${COLORS.primary.DEFAULT} !important; }
-.ct-toast.warning { border-color: ${COLORS.accent.amber} !important; }
-
-.ct-toast-icon {
-    flex-shrink: 0 !important;
-    width: 18px !important;
-    height: 18px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-
-.ct-toast-content {
-    flex: 1 !important;
-    white-space: nowrap !important;
-}
-
-
-        @keyframes toast-shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+        /* Hiding Logic */
+        .ct-hidden-element {
+            display: none !important;
         }
 
-        /* Premium Input Enhancement */
-        .ct-enhanced-input {
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 8px !important;
-            background: rgba(255, 255, 255, 0.03) !important;
-            color: white !important;
-            padding: 10px 14px !important;
+       /* MINIMAL TOAST SYSTEM */
+        .ct-toast-container {
+            position: fixed !important;
+            top: 90px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            z-index: 100003 !important;
+            pointer-events: none !important;
+        }
+
+        .ct-toast {
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            background: var(--ct-bg) !important;
+            backdrop-filter: blur(8px) !important;
+            color: var(--ct-text) !important;
+            padding: 12px 16px !important;
+            border-radius: 99px !important;
             font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif !important;
             font-size: 14px !important;
-            transition: all 0.2s ease !important;
+            font-weight: 500 !important;
+            box-shadow: var(--ct-shadow) !important;
+            border: 1px solid var(--ct-border) !important;
+            opacity: 0 !important;
+            transform: translateY(-10px) scale(0.95) !important;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            min-width: auto !important;
+            max-width: 400px !important;
         }
 
-        .ct-enhanced-input:focus {
-            border-color: ${COLORS.primary.DEFAULT} !important;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
-            outline: none !important;
-            background: rgba(255, 255, 255, 0.05) !important;
+        .ct-toast.show {
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) !important;
+            pointer-events: auto !important;
         }
 
-        /* Pulse Animation */
-        @keyframes ct-pulse-glow {
-            0%, 100% {
-                box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
-            }
-            50% {
-                box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
-            }
-        }
+        .ct-toast.success { border-color: #10b981 !important; }
+        .ct-toast.error { border-color: #f43f5e !important; }
+        .ct-toast.info { border-color: #3b82f6 !important; }
+        .ct-toast.warning { border-color: #f59e0b !important; }
 
-        .ct-pulse {
-            animation: ct-pulse-glow 2s ease-in-out infinite !important;
-        }
-
-        /* Gradient Text */
-        .ct-gradient-text {
-            background: linear-gradient(135deg, ${COLORS.primary.DEFAULT}, ${COLORS.secondary.DEFAULT}) !important;
-            -webkit-background-clip: text !important;
-            -webkit-text-fill-color: transparent !important;
-            background-clip: text !important;
-            font-weight: 700 !important;
-        }
-
-        /* Premium Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px !important;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent !important;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1) !important;
-            border-radius: 4px !important;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.2) !important;
-        }
-
-        /* Loading Animation */
-        @keyframes ct-spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .ct-spinner {
-            display: inline-block !important;
+        .ct-toast-icon {
+            flex-shrink: 0 !important;
             width: 18px !important;
             height: 18px !important;
-            border: 2px solid rgba(255, 255, 255, 0.1) !important;
-            border-top: 2px solid ${COLORS.primary.DEFAULT} !important;
-            border-radius: 50% !important;
-            animation: ct-spin 0.8s linear infinite !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .ct-toast-content {
+            flex: 1 !important;
+            white-space: nowrap !important;
         }
     `;
 
@@ -600,16 +508,16 @@ function showPremiumToast(message, type = 'info', duration = 900) {
     };
 
     const iconColor = {
-        success: COLORS.accent.emerald,
-        error: COLORS.accent.rose,
-        warning: COLORS.accent.amber,
-        info: COLORS.primary.DEFAULT
+        success: '#10b981',
+        error: '#f43f5e',
+        warning: '#f59e0b',
+        info: '#3b82f6'
     };
 
     // SIMPLIFIED HTML WITHOUT CLOSE BUTTON:
     toast.innerHTML = `
         <div class="ct-toast-icon">
-            <i data-feather="${icons[type] || 'info'}" style="color:${iconColor[type] || COLORS.primary.DEFAULT}"></i>
+            <i data-feather="${icons[type] || 'info'}" style="color:${iconColor[type] || '#3b82f6'}"></i>
         </div>
         <div class="ct-toast-content">${message}</div>
     `;
@@ -951,11 +859,11 @@ function showPremiumToast(message, type = 'info', duration = 900) {
                 bottom: 24px;
                 left: 24px;
                 z-index: 99999;
-                padding: 12px 20px;
-                background: linear-gradient(135deg, ${COLORS.primary.DEFAULT}, ${COLORS.secondary.DEFAULT});
+                padding: 14px 20px;
+                background: linear-gradient(135deg, var(--ct-primary), var(--ct-secondary));
                 color: white;
-                border: none;
-                border-radius: 30px;
+                border: 1px solid var(--ct-border);
+                border-radius: 6px;
                 font-family: -apple-system, sans-serif;
                 font-size: 14px;
                 font-weight: 600;
@@ -1026,59 +934,73 @@ function showPremiumToast(message, type = 'info', duration = 900) {
     }
 
     // ============================================
-    // SETTINGS MANAGER (FIXED POSITION)
+    // SETTINGS MANAGER (IN NAV)
     // ============================================
     class SettingsManager {
         constructor() {
             this.settings = {
-                useSplitName: getLocalStorage('ct_use_split_name', false)
+                useSplitName: getLocalStorage('ct_use_split_name', false),
+                hideActions: getLocalStorage('ct_hide_actions', false),
+                hideConnections: getLocalStorage('ct_hide_connections', false)
             };
             this.modal = null;
             this.settingsBtn = null;
-            this.initAttempts = 0;
+            this.navObserver = null;
+            this.bodyObserver = null;
         }
 
         init() {
             console.log('SettingsManager: Initializing...');
             this.createSettingsModal();
-            this.createFixedSettingsButton();
-            this.setupEventListeners();
+            this.applyVisibilityRules();
 
-            // Debug: Log current settings
-            console.log('Loaded settings:', this.settings);
+            // Watch for nav bar to inject settings button
+            this.observeNavBar();
         }
 
-        createFixedSettingsButton() {
-            if (this.settingsBtn) return;
+        observeNavBar() {
+            const findAndInject = () => {
+                const navBar = document.querySelector('.agent-top-nav, .top-nav');
+                const userIcon = document.querySelector('.user-icon');
+
+                if (navBar && userIcon && !document.getElementById('ct-nav-settings-btn')) {
+                    this.injectSettingsButton(userIcon);
+                }
+            };
+
+            // Try immediately
+            findAndInject();
+
+            // Set up observer for dynamic changes
+            this.navObserver = new MutationObserver((mutations) => {
+                findAndInject();
+            });
+
+            this.navObserver.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        }
+
+        injectSettingsButton(userIconElement) {
+            if (document.getElementById('ct-nav-settings-btn')) return;
+
+            // Find parent div to append to
+            const parent = userIconElement.parentElement;
+            if (!parent) return;
 
             this.settingsBtn = document.createElement('button');
-            this.settingsBtn.id = 'ct-header-settings-btn';
+            this.settingsBtn.id = 'ct-nav-settings-btn';
             this.settingsBtn.title = 'CT Pro Settings';
-            this.settingsBtn.innerHTML = `<i data-feather="settings" style="width:20px;height:20px;"></i>`;
-            this.settingsBtn.style.cssText = `
-                position: fixed !important;
-                top: 62px !important;
-                right: 13px !important;
-                z-index: 100001 !important;
-                background: rgb(19 19 31 / 58%) !important;
-                backdrop-filter: blur(10px) saturate(180%) !important;
-                -webkit-backdrop-filter: blur(10px) saturate(180%) !important;
-                border: 1px solid rgba(255, 255, 255, 0.15) !important;
-                border-radius: 12px !important;
-                padding: 10px !important;
-                cursor: pointer !important;
-                display: inline-flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-                color: rgba(255, 255, 255, 0.9) !important;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
-            `;
+            this.settingsBtn.innerHTML = `<i data-feather="settings" style="width:18px;height:18px;"></i>`;
 
-            document.body.appendChild(this.settingsBtn);
+            // Insert before the user icon dropdown to sit "next to it"
+            parent.insertBefore(this.settingsBtn, userIconElement);
+
             feather.replace();
+            this.setupEventListeners();
 
-            console.log('Fixed settings button created');
+            console.log('Settings button injected into nav');
         }
 
         createSettingsModal() {
@@ -1091,9 +1013,10 @@ function showPremiumToast(message, type = 'info', duration = 900) {
                     <i data-feather="settings" style="width:18px;height:18px;"></i>
                     CallTools Pro Settings
                 </div>
+
                 <div class="ct-setting-row">
                     <span style="display:flex; align-items:center; gap:8px;">
-                        <i data-feather="user" style="width:16px;height:16px;color:${COLORS.text.secondary}"></i>
+                        <i data-feather="user" style="width:16px;height:16px;color:var(--ct-text-muted)"></i>
                         Use First/Last Name
                     </span>
                     <label class="ct-switch">
@@ -1101,22 +1024,96 @@ function showPremiumToast(message, type = 'info', duration = 900) {
                         <span class="ct-slider"></span>
                     </label>
                 </div>
-                <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+
+                <div class="ct-setting-row">
+                    <span style="display:flex; align-items:center; gap:8px;">
+                        <i data-feather="layout" style="width:16px;height:16px;color:var(--ct-text-muted)"></i>
+                        Hide Action Buttons (SMS/Email)
+                    </span>
+                    <label class="ct-switch">
+                        <input type="checkbox" id="ct-opt-hide-actions" ${this.settings.hideActions ? 'checked' : ''}>
+                        <span class="ct-slider"></span>
+                    </label>
+                </div>
+
+                <div class="ct-setting-row">
+                    <span style="display:flex; align-items:center; gap:8px;">
+                        <i data-feather="grid" style="width:16px;height:16px;color:var(--ct-text-muted)"></i>
+                        Hide Connections Card
+                    </span>
+                    <label class="ct-switch">
+                        <input type="checkbox" id="ct-opt-hide-connections" ${this.settings.hideConnections ? 'checked' : ''}>
+                        <span class="ct-slider"></span>
+                    </label>
+                </div>
+
+                <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--ct-border);">
                     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 8px;">
-                        <span style="font-size:12px; color:${COLORS.text.muted};">About</span>
-                        <span style="font-size:12px; color:${COLORS.primary.light};">v${CONFIG.VERSION}</span>
+                        <span style="font-size:12px; color:var(--ct-text-muted);">About</span>
+                        <span style="font-size:12px; color:var(--ct-primary-light);">v${CONFIG.VERSION}</span>
                     </div>
                 </div>
             `;
 
             document.body.appendChild(this.modal);
             feather.replace();
+        }
 
-            console.log('Settings modal created');
+        applyVisibilityRules() {
+            // Apply class to body based on settings
+            if (this.settings.hideActions) {
+                document.body.classList.add('ct-hide-actions');
+            } else {
+                document.body.classList.remove('ct-hide-actions');
+            }
+
+            if (this.settings.hideConnections) {
+                document.body.classList.add('ct-hide-connections');
+            } else {
+                document.body.classList.remove('ct-hide-connections');
+            }
+
+            // Apply manual hiding logic (handles both hiding and showing)
+            this.hideActionButtonsManual();
+            this.hideConnectionsCardManual();
+        }
+
+        // JS Fallback for hiding elements that are hard to target with CSS
+        hideActionButtonsManual() {
+            const buttons = document.querySelectorAll('button.mat-primary');
+            buttons.forEach(btn => {
+                const text = btn.textContent.trim();
+                if (text === 'SMS' || text === 'Email' || text === 'Agent Script') {
+                    if (this.settings.hideActions) {
+                        btn.classList.add('ct-hidden-element');
+                    } else {
+                        btn.classList.remove('ct-hidden-element');
+                    }
+                }
+            });
+        }
+
+        hideConnectionsCardManual() {
+            // Find card containing "Zillow" or "Google Maps"
+            const cards = document.querySelectorAll('.dyn-card');
+            cards.forEach(card => {
+                if (card.textContent.includes('Zillow') || card.textContent.includes('Google Maps')) {
+                    if (this.settings.hideConnections) {
+                        card.classList.add('ct-hidden-element');
+                    } else {
+                        card.classList.remove('ct-hidden-element');
+                    }
+                }
+            });
         }
 
         setupEventListeners() {
             if (!this.settingsBtn || !this.modal) return;
+
+            // Remove old listeners to avoid duplicates if re-injected
+            const newBtn = this.settingsBtn.cloneNode(true);
+            this.settingsBtn.parentNode.replaceChild(newBtn, this.settingsBtn);
+            this.settingsBtn = newBtn;
 
             // Button click to toggle modal
             this.settingsBtn.addEventListener('click', (e) => {
@@ -1144,26 +1141,43 @@ function showPremiumToast(message, type = 'info', duration = 900) {
                 }
             });
 
-            // Close modal on Escape key
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && this.modal.classList.contains('show')) {
-                    this.modal.classList.remove('show');
-                }
+            // Re-apply JS hiding on DOM changes (for dynamic content)
+            if (this.bodyObserver) {
+                this.bodyObserver.disconnect();
+            }
+            this.bodyObserver = new MutationObserver(() => {
+                this.hideActionButtonsManual();
+                this.hideConnectionsCardManual();
             });
+            this.bodyObserver.observe(document.body, { childList: true, subtree: true });
 
-            // Event delegation for checkbox changes
-            document.addEventListener('change', (e) => {
+            // Handle Settings Changes
+            const handleSettingChange = (e) => {
                 if (!this.modal.contains(e.target)) return;
-
                 const target = e.target;
 
                 if (target.id === 'ct-opt-split-name') {
                     this.settings.useSplitName = target.checked;
                     setLocalStorage('ct_use_split_name', target.checked);
                     showPremiumToast(`First/Last Name: ${target.checked ? 'ON' : 'OFF'}`, 'success');
-                    console.log('Split name setting saved:', target.checked);
                 }
-            });
+
+                if (target.id === 'ct-opt-hide-actions') {
+                    this.settings.hideActions = target.checked;
+                    setLocalStorage('ct_hide_actions', target.checked);
+                    this.applyVisibilityRules();
+                    showPremiumToast(`Action Buttons: ${target.checked ? 'HIDDEN' : 'VISIBLE'}`, 'success');
+                }
+
+                if (target.id === 'ct-opt-hide-connections') {
+                    this.settings.hideConnections = target.checked;
+                    setLocalStorage('ct_hide_connections', target.checked);
+                    this.applyVisibilityRules();
+                    showPremiumToast(`Connections Card: ${target.checked ? 'HIDDEN' : 'VISIBLE'}`, 'success');
+                }
+            };
+
+            document.addEventListener('change', handleSettingChange);
         }
     }
 
@@ -1335,7 +1349,7 @@ function showPremiumToast(message, type = 'info', duration = 900) {
 
             // Remove all injected elements
             document.getElementById('ct-search-helper-btn')?.remove();
-            document.getElementById('ct-header-settings-btn')?.remove();
+            document.getElementById('ct-nav-settings-btn')?.remove();
             document.getElementById('ct-settings-modal')?.remove();
             document.getElementById('ct-top-controls')?.remove();
             this.isInitialized = false;

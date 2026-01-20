@@ -1,20 +1,23 @@
-<div class="max-w-4xl mx-auto p-6">
+<div class="max-w-4xl mx-auto p-2">
     <!-- Header -->
-    <div class="mb-8">
-        <div class="inline-flex items-center px-4 py-2 bg-blue-500/10 text-blue-400 rounded-full text-sm font-medium mb-4">
+    <div class="mb-8 relative z-10">
+        <div class="inline-flex items-center px-4 py-2 bg-accent/10 border border-accent/20 text-accent rounded-full text-sm font-medium mb-4 backdrop-blur-sm">
             <i data-feather="file-text" class="w-4 h-4 mr-2"></i>
             Terms of Service
         </div>
-        <p class="text-gray-400"><strong>Last Updated: January 2024</strong></p>
+        <p class="text-secondary"><strong>Last Updated: January 2026</strong></p>
     </div>
 
     <!-- Important Notice -->
-    <div class="bg-amber-500/10 border-l-4 border-amber-500 p-4 mb-8 rounded-r-lg">
-        <div class="flex items-start">
-            <i data-feather="alert-circle" class="w-5 h-5 text-amber-400 mr-3 mt-0.5 flex-shrink-0"></i>
+    <div class="glass-panel p-6 mb-8 rounded-xl border-l-4 border-l-amber-500 relative overflow-hidden group hover:bg-white/5 transition-colors">
+        <div class="absolute inset-0 bg-amber-500/5 group-hover:bg-amber-500/10 transition-colors"></div>
+        <div class="flex items-start relative z-10">
+            <div class="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center mr-4 flex-shrink-0">
+                <i data-feather="alert-circle" class="w-5 h-5 text-amber-500"></i>
+            </div>
             <div>
-                <p class="text-amber-400 font-medium mb-1">Important Notice</p>
-                <p class="text-amber-300 text-sm">
+                <h4 class="text-amber-500 font-semibold mb-1">Important Notice</h4>
+                <p class="text-gray-300 text-sm leading-relaxed">
                     CallTools Pro is a third-party enhancement tool and is not affiliated with CallTools.io or its parent company.
                 </p>
             </div>
@@ -22,92 +25,143 @@
     </div>
 
     <!-- Content -->
-    <div class="space-y-8">
-        <div>
-            <h3 class="text-xl font-bold text-white mb-4">1. Acceptance of Terms</h3>
-            <p class="text-gray-300">
+    <div class="space-y-6">
+        <div class="glass-panel p-8 rounded-xl hover:bg-white/5 transition-colors">
+            <h3 class="text-xl font-bold text-white mb-4 flex items-center">
+                <span class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-sm mr-3">1</span>
+                Acceptance of Terms
+            </h3>
+            <p class="text-secondary leading-relaxed pl-11">
                 By downloading, installing, or using CallTools Pro ("the Software"), you agree to be bound by these Terms of Service. 
                 If you do not agree to all of these terms, do not download, install, or use the Software.
             </p>
         </div>
 
-        <div>
-            <h3 class="text-xl font-bold text-white mb-4">2. Description of Service</h3>
-            <p class="text-gray-300 mb-4">
+        <div class="glass-panel p-8 rounded-xl hover:bg-white/5 transition-colors">
+            <h3 class="text-xl font-bold text-white mb-4 flex items-center">
+                <span class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-sm mr-3">2</span>
+                Description of Service
+            </h3>
+            <p class="text-secondary mb-4 pl-11">
                 CallTools Pro is a browser userscript that provides additional functionality to the CallTools.io platform, including:
             </p>
-            <ul class="list-disc pl-6 space-y-2 text-gray-300">
-                <li>Compliance alerts and state/city regulation notifications</li>
-                <li>Timezone detection and display</li>
-                <li>Productivity enhancement tools</li>
-                <li>User interface improvements</li>
+            <ul class="space-y-3 pl-11">
+                <li class="flex items-center text-secondary">
+                    <div class="w-1.5 h-1.5 rounded-full bg-accent mr-3"></div>
+                    Compliance alerts and state/city regulation notifications
+                </li>
+                <li class="flex items-center text-secondary">
+                    <div class="w-1.5 h-1.5 rounded-full bg-accent mr-3"></div>
+                    Timezone detection and display
+                </li>
+                <li class="flex items-center text-secondary">
+                    <div class="w-1.5 h-1.5 rounded-full bg-accent mr-3"></div>
+                    Productivity enhancement tools
+                </li>
+                <li class="flex items-center text-secondary">
+                    <div class="w-1.5 h-1.5 rounded-full bg-accent mr-3"></div>
+                    User interface improvements
+                </li>
             </ul>
         </div>
 
-        <div>
-            <h3 class="text-xl font-bold text-white mb-4">3. Third-Party Platform</h3>
-            <p class="text-gray-300 mb-4">
+        <div class="glass-panel p-8 rounded-xl hover:bg-white/5 transition-colors">
+            <h3 class="text-xl font-bold text-white mb-4 flex items-center">
+                <span class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-sm mr-3">3</span>
+                Third-Party Platform
+            </h3>
+            <p class="text-secondary mb-4 pl-11">
                 This Software modifies and enhances the CallTools.io platform. Important disclaimers:
             </p>
-            <ul class="list-disc pl-6 space-y-2 text-gray-300">
-                <li>We are not affiliated with, endorsed by, or sponsored by CallTools.io or its parent company</li>
-                <li>CallTools.io is a registered trademark of its respective owners</li>
-                <li>We do not represent or speak for CallTools.io or its parent company</li>
+            <ul class="space-y-3 pl-11">
+                <li class="flex items-center text-secondary">
+                    <div class="w-1.5 h-1.5 rounded-full bg-accent mr-3"></div>
+                    We are not affiliated with, endorsed by, or sponsored by CallTools.io
+                </li>
+                <li class="flex items-center text-secondary">
+                    <div class="w-1.5 h-1.5 rounded-full bg-accent mr-3"></div>
+                    CallTools.io is a registered trademark of its respective owners
+                </li>
+                <li class="flex items-center text-secondary">
+                    <div class="w-1.5 h-1.5 rounded-full bg-accent mr-3"></div>
+                    We do not represent or speak for CallTools.io or its parent company
+                </li>
             </ul>
         </div>
 
-        <div>
-            <h3 class="text-xl font-bold text-white mb-4">4. User Responsibilities</h3>
-            <p class="text-gray-300 mb-4">You agree to:</p>
-            <ul class="list-disc pl-6 space-y-2 text-gray-300">
-                <li>Use the Software in compliance with all applicable laws and regulations</li>
-                <li>Use the Software in compliance with CallTools.io's Terms of Service</li>
-                <li>Use the Software only for lawful purposes</li>
-                <li>Not reverse engineer, decompile, or disassemble the Software</li>
-            </ul>
-        </div>
-
-        <div>
-            <h3 class="text-xl font-bold text-white mb-4">5. Disclaimer of Warranty</h3>
-            <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-4 mb-4">
-                <p class="text-red-400 font-medium">
-                    THE SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, 
-                    EITHER EXPRESS OR IMPLIED.
-                </p>
+        <div class="glass-panel p-8 rounded-xl hover:bg-white/5 transition-colors">
+            <h3 class="text-xl font-bold text-white mb-4 flex items-center">
+                <span class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-sm mr-3">4</span>
+                User Responsibilities
+            </h3>
+            <div class="pl-11 grid gap-3">
+                <div class="flex items-center p-3 rounded-lg bg-white/5 border border-white/5">
+                    <i data-feather="check" class="w-4 h-4 text-green-500 mr-3"></i>
+                    <span class="text-secondary text-sm">Use in compliance with applicable laws</span>
+                </div>
+                <div class="flex items-center p-3 rounded-lg bg-white/5 border border-white/5">
+                    <i data-feather="check" class="w-4 h-4 text-green-500 mr-3"></i>
+                    <span class="text-secondary text-sm">Compliance with CallTools.io Terms</span>
+                </div>
+                <div class="flex items-center p-3 rounded-lg bg-white/5 border border-white/5">
+                    <i data-feather="check" class="w-4 h-4 text-green-500 mr-3"></i>
+                    <span class="text-secondary text-sm">Lawful purposes only</span>
+                </div>
+                <div class="flex items-center p-3 rounded-lg bg-white/5 border border-white/5">
+                    <i data-feather="check" class="w-4 h-4 text-green-500 mr-3"></i>
+                    <span class="text-secondary text-sm">No reverse engineering</span>
+                </div>
             </div>
         </div>
 
-        <div>
-            <h3 class="text-xl font-bold text-white mb-4">6. Contact Information</h3>
-            <div class="bg-gray-800/50 rounded-lg p-6">
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <h4 class="font-semibold text-white mb-2">For Technical Support:</h4>
-                        <a href="https://github.com/YOUR_USERNAME/calltools-pro/issues" class="text-primary hover:text-primary-light inline-flex items-center">
-                            <i data-feather="help-circle" class="w-4 h-4 mr-2"></i>
-                            GitHub Issues
-                        </a>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-white mb-2">For Terms Inquiries:</h4>
-                        <a href="https://github.com/YOUR_USERNAME/calltools-pro" class="text-primary hover:text-primary-light inline-flex items-center">
-                            <i data-feather="github" class="w-4 h-4 mr-2"></i>
-                            GitHub Repository
-                        </a>
-                    </div>
+        <div class="glass-panel p-8 rounded-xl hover:bg-white/5 transition-colors">
+            <h3 class="text-xl font-bold text-white mb-4 flex items-center">
+                <span class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-sm mr-3">5</span>
+                Disclaimer of Warranty
+            </h3>
+            <div class="pl-11">
+                <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
+                    <p class="text-red-400 font-medium text-sm leading-relaxed">
+                        THE SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND,
+                        EITHER EXPRESS OR IMPLIED. USE AT YOUR OWN RISK.
+                    </p>
                 </div>
+            </div>
+        </div>
+
+        <div class="glass-panel p-8 rounded-xl hover:bg-white/5 transition-colors">
+            <h3 class="text-xl font-bold text-white mb-4 flex items-center">
+                <span class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-sm mr-3">6</span>
+                Contact Information
+            </h3>
+            <div class="pl-11 grid md:grid-cols-2 gap-4">
+                <a href="https://github.com/msmelok/calltools-pro/issues" class="block p-4 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 transition-all group">
+                    <div class="flex items-center mb-2">
+                        <i data-feather="help-circle" class="w-5 h-5 text-accent mr-2 group-hover:scale-110 transition-transform"></i>
+                        <span class="font-semibold text-white">Technical Support</span>
+                    </div>
+                    <p class="text-xs text-secondary">Report bugs or request features via GitHub Issues</p>
+                </a>
+
+                <a href="https://github.com/msmelok/calltools-pro" class="block p-4 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 transition-all group">
+                    <div class="flex items-center mb-2">
+                        <i data-feather="github" class="w-5 h-5 text-white mr-2 group-hover:scale-110 transition-transform"></i>
+                        <span class="font-semibold text-white">Repository</span>
+                    </div>
+                    <p class="text-xs text-secondary">View source code and documentation</p>
+                </a>
             </div>
         </div>
 
         <!-- Footer Note -->
-        <div class="pt-8 border-t border-gray-800">
+        <div class="pt-8 border-t border-white/10">
             <div class="flex items-center justify-between">
-                <div class="flex items-center text-gray-500 text-sm">
-                    <i data-feather="clock" class="w-4 h-4 mr-2"></i>
-                    <span>These terms were last updated in January 2024</span>
+                <div class="flex items-center text-secondary text-xs">
+                    <i data-feather="clock" class="w-3 h-3 mr-2"></i>
+                    <span>Updated January 2026</span>
                 </div>
-                <div class="text-xs text-gray-600">
-                    Document Version: 4.4.0
+                <div class="text-xs text-secondary/50 font-mono">
+                    v4.4.0
                 </div>
             </div>
         </div>

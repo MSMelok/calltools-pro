@@ -8,6 +8,8 @@
 // @match        https://*.calltools.com/*
 // @grant        GM_setClipboard
 // @grant        GM_addStyle
+// @grant        GM_setValue
+// @grant        GM_getValue
 // @require      https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js
 // @updateURL    https://msmelok.github.io/calltools-pro/calltools-pro.meta.js
 // @downloadURL  https://msmelok.github.io/calltools-pro/calltools-pro.user.js
@@ -149,6 +151,18 @@
             --ct-text-warn: #fbbf24;
             --ct-text-block: #f87171;
             --ct-text-time: #60a5fa;
+
+            /* Badge Backgrounds (Dark Mode - Subtle) */
+            --ct-bg-safe: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.2));
+            --ct-bg-warn: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.2));
+            --ct-bg-block: linear-gradient(135deg, rgba(244, 63, 94, 0.2), rgba(220, 38, 38, 0.2));
+            --ct-bg-time: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.2));
+
+            /* Badge Borders (Dark Mode) */
+            --ct-border-safe: rgba(16, 185, 129, 0.4);
+            --ct-border-warn: rgba(245, 158, 11, 0.4);
+            --ct-border-block: rgba(244, 63, 94, 0.4);
+            --ct-border-time: rgba(59, 130, 246, 0.4);
         }
 
         /* Light Mode Detection (Assuming CallTools uses a light class or no class)
@@ -163,10 +177,23 @@
             --ct-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 
             /* Badge Text Colors (Light Mode - High Contrast) */
-            --ct-text-safe: #059669; /* Darker Green */
-            --ct-text-warn: #d97706; /* Darker Amber */
-            --ct-text-block: #dc2626; /* Darker Red */
-            --ct-text-time: #2563eb; /* Darker Blue */
+            --ct-text-safe: #047857; /* Emerald 700 */
+            --ct-text-warn: #b45309; /* Amber 700 */
+            --ct-text-block: #b91c1c; /* Red 700 */
+            --ct-text-time: #1d4ed8; /* Blue 700 */
+
+            /* Badge Backgrounds (Light Mode - More Opaque/Vibrant) */
+            /* Using solid-ish colors for better readability against white */
+            --ct-bg-safe: rgba(52, 211, 153, 0.35);
+            --ct-bg-warn: rgba(251, 191, 36, 0.35);
+            --ct-bg-block: rgba(248, 113, 113, 0.35);
+            --ct-bg-time: rgba(96, 165, 250, 0.35);
+
+            /* Badge Borders (Light Mode - Stronger) */
+            --ct-border-safe: rgba(5, 150, 105, 0.5);
+            --ct-border-warn: rgba(217, 119, 6, 0.5);
+            --ct-border-block: rgba(220, 38, 38, 0.5);
+            --ct-border-time: rgba(37, 99, 235, 0.5);
         }
 
         /* Reset & Base */
@@ -232,26 +259,26 @@
 
         /* Badge Colors */
         .ct-safe {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.2)) !important;
-            border-color: rgba(16, 185, 129, 0.4) !important;
+            background: var(--ct-bg-safe) !important;
+            border-color: var(--ct-border-safe) !important;
             color: var(--ct-text-safe) !important;
         }
 
         .ct-warn {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.2)) !important;
-            border-color: rgba(245, 158, 11, 0.4) !important;
+            background: var(--ct-bg-warn) !important;
+            border-color: var(--ct-border-warn) !important;
             color: var(--ct-text-warn) !important;
         }
 
         .ct-block {
-            background: linear-gradient(135deg, rgba(244, 63, 94, 0.2), rgba(220, 38, 38, 0.2)) !important;
-            border-color: rgba(244, 63, 94, 0.4) !important;
+            background: var(--ct-bg-block) !important;
+            border-color: var(--ct-border-block) !important;
             color: var(--ct-text-block) !important;
         }
 
         .ct-time {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.2)) !important;
-            border-color: rgba(59, 130, 246, 0.4) !important;
+            background: var(--ct-bg-time) !important;
+            border-color: var(--ct-border-time) !important;
             color: var(--ct-text-time) !important;
         }
 
@@ -665,20 +692,20 @@ function showPremiumToast(message, type = 'info', duration = 900) {
         return false;
     }
 
-    function getLocalStorage(key, defaultValue = null) {
+    function getStorage(key, defaultValue = null) {
         try {
-            const value = localStorage.getItem(key);
-            return value ? JSON.parse(value) : defaultValue;
+            return GM_getValue(key, defaultValue);
         } catch (e) {
+            console.warn('GM_getValue failed, falling back to defaultValue', e);
             return defaultValue;
         }
     }
 
-    function setLocalStorage(key, value) {
+    function setStorage(key, value) {
         try {
-            localStorage.setItem(key, JSON.stringify(value));
+            GM_setValue(key, value);
         } catch (e) {
-            console.error('Failed to save to localStorage:', e);
+            console.error('Failed to save to GM storage:', e);
         }
     }
 
@@ -910,7 +937,7 @@ function showPremiumToast(message, type = 'info', duration = 900) {
 
         handleSearch() {
             const inputs = document.querySelectorAll('input[type="text"]');
-            const useSplitName = getLocalStorage('ct_use_split_name', false);
+            const useSplitName = getStorage('ct_use_split_name', false);
             const addrInput = inputs[CONFIG.ADDRESS_INPUT_INDEX];
 
             if (!addrInput) {
@@ -951,9 +978,9 @@ function showPremiumToast(message, type = 'info', duration = 900) {
     class SettingsManager {
         constructor() {
             this.settings = {
-                useSplitName: getLocalStorage('ct_use_split_name', false),
-                hideActions: getLocalStorage('ct_hide_actions', false),
-                hideConnections: getLocalStorage('ct_hide_connections', false)
+                useSplitName: getStorage('ct_use_split_name', false),
+                hideActions: getStorage('ct_hide_actions', false),
+                hideConnections: getStorage('ct_hide_connections', false)
             };
             this.modal = null;
             this.settingsBtn = null;
@@ -1175,20 +1202,20 @@ function showPremiumToast(message, type = 'info', duration = 900) {
 
                 if (target.id === 'ct-opt-split-name') {
                     this.settings.useSplitName = target.checked;
-                    setLocalStorage('ct_use_split_name', target.checked);
+                    setStorage('ct_use_split_name', target.checked);
                     showPremiumToast(`First/Last Name: ${target.checked ? 'ON' : 'OFF'}`, 'success');
                 }
 
                 if (target.id === 'ct-opt-hide-actions') {
                     this.settings.hideActions = target.checked;
-                    setLocalStorage('ct_hide_actions', target.checked);
+                    setStorage('ct_hide_actions', target.checked);
                     this.applyVisibilityRules();
                     showPremiumToast(`Action Buttons: ${target.checked ? 'HIDDEN' : 'VISIBLE'}`, 'success');
                 }
 
                 if (target.id === 'ct-opt-hide-connections') {
                     this.settings.hideConnections = target.checked;
-                    setLocalStorage('ct_hide_connections', target.checked);
+                    setStorage('ct_hide_connections', target.checked);
                     this.applyVisibilityRules();
                     showPremiumToast(`Connections Card: ${target.checked ? 'HIDDEN' : 'VISIBLE'}`, 'success');
                 }

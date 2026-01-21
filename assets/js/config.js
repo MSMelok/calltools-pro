@@ -4,7 +4,7 @@
 
 const APP_CONFIG = {
     // Version Management (Update this only)
-    version: "4.6.1",
+    version: "4.6.2",
     
     // Release Information
     releaseDate: "January 2026",
@@ -27,7 +27,7 @@ const APP_CONFIG = {
         enabled: true,
         checkInterval: 24, // hours
         changelog: [
-            "v4.6.1 - Enterprise Experience",
+            "v4.6.2 - Enterprise Experience",
             "• New Look: A modern, cleaner design for better focus.",
             "• Improved Settings: Your preferences now stay saved securely, even if you clear your browser cache.",
             "• Customization: You can now hide distracting buttons (like SMS or Email) and cards (like Zillow).",

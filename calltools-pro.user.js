@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CallTools Pro
 // @namespace    https://west-2.calltools.io/agent
-// @version      4.6.1
+// @version      4.6.2
 // @description  Premium enhancement suite for CallTools with dark theme, compliance alerts, and productivity tools
 // @author       MuhammadMelk
 // @match        https://*.calltools.io/*
@@ -63,22 +63,24 @@
         "IA": { type: "BLOCK", msg: "AUTO REJECT: Iowa" },
         "NY": { type: "BLOCK", msg: "AUTO REJECT: New York" },
         "ME": { type: "BLOCK", msg: "AUTO REJECT: Maine" },
+        "MA": { type: "BLOCK", msg: "AUTO REJECT: Massachusetts" },
         "VT": { type: "BLOCK", msg: "AUTO REJECT: Vermont" },
         "PR": { type: "BLOCK", msg: "AUTO REJECT: Puerto Rico" },
 
         // RESTRICTED STATES
-        "AK": { type: "WARN", msg: "Alaska: Flat and % Deals (Flat Up to $500/mo - Both Tiers)" },
+        "AK": { type: "WARN", msg: "Alaska: 10-15% Deals Only" },
         "AR": { type: "WARN", msg: "Arkansas: 10-15% Deals Only" },
+        "AZ": { type: "WARN", msg: "Arizona: 10-15% Deals Only" },
         "CA": { type: "WARN", msg: "California: 10-15% Deals Only" },
-        "CO": { type: "WARN", msg: "Colorado: Flat and % Deals (Flat Up to $200/mo - Both Tiers)" },
+        "CO": { type: "WARN", msg: "Colorado: 10-15% Deals Only" },
         "CT": { type: "WARN", msg: "Connecticut: 10-15% Deals Only" },
-        "DC": { type: "WARN", msg: "District of Columbia: Flat and % Deals (Flat Up to $200/mo - Both Tiers)" },
+        "DC": { type: "WARN", msg: "Washington D.C.: 10-15% Deals Only" },
         "DE": { type: "WARN", msg: "Delaware: 10-15% Deals Only" },
-        "FL": { type: "WARN", msg: "Florida: Flat and % Deals (Flat Up to $200/mo - Both Tiers)" },
-        "GA": { type: "WARN", msg: "Georgia: Flat and % Deals (Flat Up to $200/mo - Both Tiers)" },
+        "FL": { type: "WARN", msg: "Florida: 10-15% Deals Only" },
+        "GA": { type: "WARN", msg: "Georgia: 10-15% Deals Only" },
         "IL": { type: "WARN", msg: "Illinois: 10-15% Deals Only" },
+        "HI": { type: "WARN", msg: "Hawaii: 10-15% Deals Only" },
         "LA": { type: "WARN", msg: "Louisiana: 10-15% Deals Only" },
-        "MA": { type: "WARN", msg: "Massachusetts: 10-15% Deals Only" },
         "MD": { type: "WARN", msg: "Maryland: 10-15% Deals Only" },
         "NE": { type: "WARN", msg: "Nebraska: 10-15% Deals Only" },
         "NJ": { type: "WARN", msg: "New Jersey: 10-15% Deals Only" },
@@ -90,8 +92,6 @@
         "WI": { type: "WARN", msg: "Wisconsin: 10-15% Deals Only" },
 
         // SAFE STATES
-        "AZ": { type: "SAFE", msg: "Arizona: Normal Rates" },
-        "HI": { type: "SAFE", msg: "Hawaii: Normal Rates" },
         "ID": { type: "SAFE", msg: "Idaho: Normal Rates" },
         "IN": { type: "SAFE", msg: "Indiana: Normal Rates" },
         "KS": { type: "SAFE", msg: "Kansas: Normal Rates" },

@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         CallTools Pro
+// @name         Atmos Agent
 // @namespace    https://west-2.calltools.io/agent
-// @version      4.6.1
-// @description  Premium enhancement suite for CallTools with dark theme, compliance alerts, and productivity tools
-// @author       MuhammadMelk
+// @version      5.0.0
+// @description  The Atmos Suite agent interface. Premium UI, smart compliance, and productivity tools.
+// @author       MuhammadMeluk
 // @match        https://*.calltools.io/*
 // @match        https://*.calltools.com/*
 // @grant        GM_setClipboard
@@ -11,8 +11,8 @@
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @require      https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js
-// @updateURL    https://msmelok.github.io/calltools-pro/calltools-pro.meta.js
-// @downloadURL  https://msmelok.github.io/calltools-pro/calltools-pro.user.js
+// @updateURL    https://msmelok.github.io/calltools-pro/atmos-agent.meta.js
+// @downloadURL  https://msmelok.github.io/calltools-pro/atmos-agent.user.js
 // ==/UserScript==
 
 (function() {
@@ -27,8 +27,8 @@
         BUSINESS_INPUT_INDEX: 5,
 
         // Update tracking
-        VERSION: "4.6.1",
-        GITHUB_URL: "https://YOUR_USERNAME.github.io/calltools-pro/"
+        VERSION: "5.0.0",
+        GITHUB_URL: "https://msmelok.github.io/calltools-pro/"
     };
 
     // State timezones mapping (unchanged)
@@ -1039,7 +1039,7 @@ function showPremiumToast(message, type = 'info', duration = 900) {
 
             this.settingsBtn = document.createElement('button');
             this.settingsBtn.id = 'ct-nav-settings-btn';
-            this.settingsBtn.title = 'CT Pro Settings';
+            this.settingsBtn.title = 'Atmos Settings';
             this.settingsBtn.innerHTML = `<i data-feather="settings" style="width:18px;height:18px;"></i>`;
 
             // Insert before the user icon dropdown to sit "next to it"
@@ -1059,7 +1059,7 @@ function showPremiumToast(message, type = 'info', duration = 900) {
             this.modal.innerHTML = `
                 <div class="ct-modal-header">
                     <i data-feather="settings" style="width:18px;height:18px;"></i>
-                    CallTools Pro Settings
+                    Atmos Agent Settings
                 </div>
 
                 <div class="ct-setting-row">
@@ -1300,7 +1300,7 @@ function showPremiumToast(message, type = 'info', duration = 900) {
     // ============================================
     // MAIN APPLICATION
     // ============================================
-    class CallToolsPro {
+    class AtmosAgent {
         constructor() {
             this.complianceEngine = new ComplianceEngine();
             this.searchHelper = new SearchHelper();
@@ -1322,7 +1322,7 @@ function showPremiumToast(message, type = 'info', duration = 900) {
 
 
             } catch (error) {
-                console.error('Failed to initialize CallTools Pro:', error);
+                console.error('Failed to initialize Atmos Agent:', error);
                 showPremiumToast('Failed to initialize: ' + error.message, 'error');
             }
         }
@@ -1410,7 +1410,7 @@ function showPremiumToast(message, type = 'info', duration = 900) {
     function initialize() {
         // Check if we're on CallTools
         if (!window.location.hostname.includes('calltools')) {
-            console.log('CallTools Pro: Not on CallTools domain, skipping initialization');
+            console.log('Atmos Agent: Not on CallTools domain, skipping initialization');
             return;
         }
 
@@ -1422,7 +1422,7 @@ function showPremiumToast(message, type = 'info', duration = 900) {
             if (app && app.isInitialized) return;
 
             if (!app) {
-                app = new CallToolsPro();
+                app = new AtmosAgent();
             }
 
             app.init();
@@ -1462,7 +1462,7 @@ function showPremiumToast(message, type = 'info', duration = 900) {
             if (hasNavBar && hasUserIcon) {
                 initApp();
             } else {
-                console.log('CallTools Pro: Elements not found after 5 seconds, still observing...');
+                console.log('Atmos Agent: Elements not found after 5 seconds, still observing...');
             }
         }, 5000);
 

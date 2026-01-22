@@ -4,10 +4,10 @@
 
 const APP_CONFIG = {
     // Version Management (Update this only)
-    version: "4.6.1",
+    version: "5.0.0",
     
     // Release Information
-    releaseDate: "January 2026",
+    releaseDate: "February 2026",
     releaseType: "major", // major | minor | patch
     
     // URLs (Update these for your GitHub)
@@ -27,12 +27,12 @@ const APP_CONFIG = {
         enabled: true,
         checkInterval: 24, // hours
         changelog: [
-            "v4.6.1 - Enterprise Experience",
-            "• New Look: A modern, cleaner design for better focus.",
-            "• Improved Settings: Your preferences now stay saved securely, even if you clear your browser cache.",
-            "• Customization: You can now hide distracting buttons (like SMS or Email) and cards (like Zillow).",
-            "• Better Visibility: Critical badges are now easier to read in Light Mode.",
-            "• Fixes: The settings menu is now easier to access and works reliably."
+            "v5.0.0 - Welcome to Atmos",
+            "• Rebranding: CT Pro is now Atmos Agent.",
+            "• New Tool: Introduced Atmos Mail for Gmail integration.",
+            "• Unified Experience: Both tools share the same powerful compliance brain.",
+            "• Design System: A completely new Glassmorphism UI across the entire suite.",
+            "• Performance: Significant speed improvements for loading and rule checking."
         ]
     },
     
@@ -64,8 +64,9 @@ function getGitHubPagesURL() {
 function getScriptURLs() {
     const base = getGitHubPagesURL();
     return {
-        userScript: `${base}calltools-pro.user.js`,
-        metaFile: `${base}calltools-pro.meta.js`,
+        userScript: `${base}atmos-agent.user.js`,
+        metaFile: `${base}atmos-agent.meta.js`,
+        mailScript: `${base}atmos-mail.user.js`,
         installPage: base
     };
 }

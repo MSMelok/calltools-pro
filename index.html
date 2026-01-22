@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atmos · Professional Sales Agent</title>
+    <title>Atmos · Intelligent Sales Suite</title>
 
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
-    <meta name="theme-color" content="#02040a">
+    <meta name="theme-color" content="#0f172a">
 
-    <meta name="description" content="Premium enhancement suite for CallTools and Gmail with dark theme, compliance alerts, and productivity tools">
+    <meta name="description" content="Atmos Agent: The intelligent enhancement suite for CallTools and Gmail. Automate compliance, fill leads, and boost sales productivity.">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -20,24 +20,30 @@
             theme: {
                 extend: {
                     colors: {
-                        'rich-black': '#02040a',
-                        'accent': '#3b82f6',
-                        'accent-secondary': '#8b5cf6',
-                        'glass-border': 'rgba(255, 255, 255, 0.1)',
+                        'bg-main': '#0f172a', /* Slate 900 */
+                        'accent': '#06b6d4', /* Cyan 500 */
+                        'accent-glow': '#22d3ee', /* Cyan 400 */
+                        'glass-border': 'rgba(255, 255, 255, 0.08)',
+                        'glass-surface': 'rgba(255, 255, 255, 0.03)',
                     },
                     fontFamily: {
                         'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                        'display': ['Cal Sans', 'Inter', 'system-ui', 'sans-serif'],
                         'mono': ['JetBrains Mono', 'monospace'],
                     },
                     animation: {
-                        'fade-in': 'fadeIn 0.6s ease-out',
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'fade-in': 'fadeIn 0.8s ease-out forwards',
+                        'float': 'float 8s ease-in-out infinite',
                     },
                     keyframes: {
                         fadeIn: {
-                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
                             '100%': { opacity: '1', transform: 'translateY(0)' },
                         },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
                     }
                 }
             }
@@ -59,395 +65,267 @@
         }
 
         body {
-            background-color: #02040a;
-            color: #ffffff;
+            background-color: #0f172a;
+            color: #f1f5f9;
             overflow-x: hidden;
         }
 
-        /* Ambient Background */
-        .ambient-light {
+        /* Atmos Background */
+        .atmos-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
-            overflow: hidden;
             z-index: -1;
-            pointer-events: none;
+            background:
+                radial-gradient(circle at 15% 50%, rgba(6, 182, 212, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.08), transparent 25%);
         }
 
-        .light-orb {
+        .grid-overlay {
             position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.15;
+            inset: 0;
+            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
         }
 
-        .orb-1 {
-            top: -10%;
-            left: -10%;
-            width: 50vw;
-            height: 50vw;
-            background: #3b82f6;
-            animation: float 10s ease-in-out infinite;
+        /* Glass Cards */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
 
-        .orb-2 {
-            bottom: -10%;
-            right: -10%;
-            width: 60vw;
-            height: 60vw;
-            background: #8b5cf6;
-            animation: float 12s ease-in-out infinite reverse;
+        .glass-card:hover {
+            border-color: rgba(6, 182, 212, 0.3);
+            background: rgba(30, 41, 59, 0.6);
         }
 
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(30px, 30px); }
+        .text-gradient {
+            background: linear-gradient(to right, #22d3ee, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        ::-webkit-scrollbar {
-            width: 8px;
+        .btn-primary {
+            background: linear-gradient(135deg, #06b6d4, #0ea5e9);
+            color: white;
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.25);
+        }
+        .btn-primary:hover {
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.4);
+            transform: translateY(-1px);
         }
 
-        ::-webkit-scrollbar-track {
-            background: #02040a;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #1f1f1f;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #2a2a2a;
-        }
-
-        .border-divider {
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .text-secondary {
-            color: #94a3b8;
-        }
-
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        @supports (-webkit-touch-callout: none) {
-            .min-h-screen {
-                min-height: -webkit-fill-available;
-            }
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
     </style>
 
     <script src="assets/js/config.js"></script>
 </head>
 <body class="font-sans antialiased min-h-screen flex flex-col selection:bg-accent selection:text-white">
 
-    <!-- Background Ambient Light -->
-    <div class="ambient-light">
-        <div class="light-orb orb-1"></div>
-        <div class="light-orb orb-2"></div>
+    <!-- Background -->
+    <div class="atmos-bg">
+        <div class="grid-overlay"></div>
     </div>
 
     <!-- Header -->
-    <header class="sticky top-0 z-50 bg-rich-black/50 backdrop-blur-xl border-b border-divider">
-        <div class="container mx-auto px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center space-x-3">
-                    <div class="w-8 h-8 bg-gradient-to-br from-accent to-accent-secondary rounded-lg flex items-center justify-center shadow-lg shadow-accent/20">
-                        <i data-feather="hexagon" class="w-4 h-4 text-white"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-sm font-semibold text-white tracking-wide">Atmos Agent</h1>
-                    </div>
+    <header class="fixed w-full z-50 transition-all duration-300 bg-bg-main/80 backdrop-blur-md border-b border-glass-border">
+        <div class="container mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+                    <i data-feather="cloud" class="w-4 h-4 text-white"></i>
                 </div>
+                <span class="font-bold text-lg tracking-tight">Atmos<span class="text-slate-400 font-normal">Agent</span></span>
             </div>
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
+                <a href="#features" class="hover:text-white transition-colors">Features</a>
+                <a href="#install" class="hover:text-white transition-colors">Install</a>
+                <a href="https://github.com/msmelok/calltools-pro" target="_blank" class="hover:text-white transition-colors flex items-center gap-2">
+                    <i data-feather="github" class="w-4 h-4"></i> GitHub
+                </a>
+            </nav>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="flex-grow relative">
-        <!-- Hero Section -->
-        <section class="py-24 lg:py-32 relative">
-            <div class="container mx-auto px-6 lg:px-8">
-                <div class="max-w-4xl mx-auto text-center">
-                    <div class="inline-flex items-center px-3 py-1 border border-accent/30 bg-accent/10 rounded-full text-xs font-medium mb-8 text-blue-300 backdrop-blur-md">
-                        <div class="w-1.5 h-1.5 bg-accent rounded-full mr-2 animate-pulse"></div>
-                        Latest v<span id="version-display">5.0.0</span>
-                    </div>
+    <!-- Main -->
+    <main class="flex-grow pt-32 pb-20">
 
-                    <h1 class="text-4xl lg:text-7xl font-bold mb-8 leading-tight tracking-tight">
-                        Professional Tools for<br/>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent via-blue-400 to-accent-secondary">Sales Excellence</span>
-                    </h1>
+        <!-- Hero -->
+        <section class="container mx-auto px-6 text-center lg:py-20 relative">
+            <div class="inline-flex items-center px-3 py-1 rounded-full border border-cyan-500/20 bg-cyan-500/10 text-cyan-400 text-xs font-medium mb-8 animate-fade-in" style="animation-delay: 0.1s">
+                <span class="w-2 h-2 rounded-full bg-cyan-400 mr-2 animate-pulse"></span>
+                v<span id="version-display">5.0.0</span> Released
+            </div>
 
-                    <p class="text-lg lg:text-xl text-secondary mb-12 max-w-2xl mx-auto leading-relaxed">
-                        Premium enhancement suite for CallTools and Gmail.
-                        Built for professionals who demand excellence.
-                    </p>
+            <h1 class="text-5xl lg:text-7xl font-bold mb-6 tracking-tight animate-fade-in leading-tight" style="animation-delay: 0.2s">
+                The Intelligent Layer for<br/>
+                <span class="text-gradient">Sales Excellence</span>
+            </h1>
 
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-20">
-                        <a href="#features" class="inline-flex items-center justify-center px-8 py-4 border border-white/10 bg-white/5 text-white text-sm font-medium rounded-lg hover:bg-white/10 hover:border-white/20 transition-all backdrop-blur-sm">
-                            Explore Features
-                        </a>
-                    </div>
+            <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed animate-fade-in" style="animation-delay: 0.3s">
+                Atmos brings compliance data, lead intelligence, and workflow automation directly into your browser.
+                Seamlessly integrated with CallTools and Gmail.
+            </p>
 
-                    <!-- Stats -->
-                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 max-w-3xl mx-auto border border-white/10 rounded-xl overflow-hidden shadow-2xl shadow-black/50">
-                        <div class="glass-panel p-6 text-center hover:bg-white/5 transition-colors">
-                            <div class="text-2xl font-bold text-white mb-1">100%</div>
-                            <div class="text-xs text-secondary font-medium uppercase tracking-wider">Privacy</div>
-                        </div>
-                        <div class="glass-panel p-6 text-center hover:bg-white/5 transition-colors">
-                            <div class="text-2xl font-bold text-white mb-1">Auto</div>
-                            <div class="text-xs text-secondary font-medium uppercase tracking-wider">Updates</div>
-                        </div>
-                        <div class="glass-panel p-6 text-center hover:bg-white/5 transition-colors">
-                            <div class="text-2xl font-bold text-white mb-1">2+</div>
-                            <div class="text-xs text-secondary font-medium uppercase tracking-wider">Agents</div>
-                        </div>
-                        <div class="glass-panel p-6 text-center hover:bg-white/5 transition-colors">
-                            <div class="text-2xl font-bold text-white mb-1">0</div>
-                            <div class="text-xs text-secondary font-medium uppercase tracking-wider">Tracking</div>
-                        </div>
-                    </div>
-                </div>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style="animation-delay: 0.4s">
+                <a href="#install" class="btn-primary px-8 py-3 rounded-lg font-semibold transition-all flex items-center justify-center gap-2">
+                    <i data-feather="download" class="w-4 h-4"></i> Install Atmos
+                </a>
+                <a href="#features" class="px-8 py-3 rounded-lg border border-glass-border bg-glass-surface hover:bg-slate-800 transition-all font-medium text-slate-300">
+                    Learn More
+                </a>
             </div>
         </section>
 
-        <!-- Features Section -->
-        <section id="features" class="py-24 lg:py-32 border-t border-divider bg-black/20 backdrop-blur-sm">
-            <div class="container mx-auto px-6 lg:px-8">
-                <div class="text-center max-w-3xl mx-auto mb-16">
-                    <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4">
-                        Built for Professionals
-                    </h2>
-                    <p class="text-lg text-secondary">
-                        Essential features that enhance your workflow
+        <!-- Product Cards -->
+        <section id="features" class="container mx-auto px-6 py-20">
+            <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+
+                <!-- CallTools Card -->
+                <div class="glass-card rounded-2xl p-8 hover:-translate-y-1 transition-transform duration-300 group">
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-6 group-hover:bg-blue-500/20 transition-colors">
+                        <i data-feather="phone" class="w-6 h-6 text-blue-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">Atmos for CallTools</h3>
+                    <p class="text-slate-400 mb-6">
+                        Enhances your dialer with real-time compliance checks, timezone validation, and productivity shortcuts.
                     </p>
+                    <ul class="space-y-3 text-sm text-slate-300 mb-8">
+                        <li class="flex items-center gap-3"><i data-feather="check-circle" class="w-4 h-4 text-cyan-400"></i> Auto-reject restricted states</li>
+                        <li class="flex items-center gap-3"><i data-feather="check-circle" class="w-4 h-4 text-cyan-400"></i> Timezone safety indicators</li>
+                        <li class="flex items-center gap-3"><i data-feather="check-circle" class="w-4 h-4 text-cyan-400"></i> Dark mode interface</li>
+                    </ul>
                 </div>
 
-                <!-- Features Grid -->
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto" id="features-grid">
-                    <!-- Will be populated by JavaScript -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Easy Setup Guide -->
-        <section id="setup-guide" class="py-24 lg:py-32 border-t border-divider relative overflow-hidden">
-            <!-- Background Decoration -->
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-3xl pointer-events-none"></div>
-
-            <div class="container mx-auto px-6 lg:px-8 relative z-10">
-                <div class="text-center max-w-3xl mx-auto mb-20">
-                    <div class="inline-flex items-center px-3 py-1 border border-white/10 bg-white/5 rounded-full text-xs font-medium mb-6 text-white backdrop-blur-md">
-                        <span class="w-2 h-2 rounded-full bg-accent mr-2"></span>
-                        3-Minute Setup
+                <!-- Gmail Card -->
+                <div class="glass-card rounded-2xl p-8 hover:-translate-y-1 transition-transform duration-300 group">
+                    <div class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center mb-6 group-hover:bg-red-500/20 transition-colors">
+                        <i data-feather="mail" class="w-6 h-6 text-red-400"></i>
                     </div>
-                    <h2 class="text-3xl lg:text-5xl font-bold text-white mb-6">
-                        Install in 3 Easy Steps
-                    </h2>
-                    <p class="text-lg text-secondary max-w-xl mx-auto">
-                        Follow this guide to get up and running instantly. No technical knowledge required.
+                    <h3 class="text-2xl font-bold mb-3">Atmos for Gmail</h3>
+                    <p class="text-slate-400 mb-6">
+                        A powerful side-panel for sales outreach. Fill leads instantly and ensure location compliance before you send.
                     </p>
+                    <ul class="space-y-3 text-sm text-slate-300 mb-8">
+                        <li class="flex items-center gap-3"><i data-feather="check-circle" class="w-4 h-4 text-cyan-400"></i> Address-based rule detection</li>
+                        <li class="flex items-center gap-3"><i data-feather="check-circle" class="w-4 h-4 text-cyan-400"></i> One-click template filling</li>
+                        <li class="flex items-center gap-3"><i data-feather="check-circle" class="w-4 h-4 text-cyan-400"></i> Persistent side-panel UI</li>
+                    </ul>
                 </div>
 
-                <div class="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-
-                    <!-- Step 1: Install Manager -->
-                    <div class="glass-panel rounded-2xl p-8 border border-white/10 hover:border-accent/30 transition-all duration-300 group">
-                        <div class="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-white/5">
-                            <span class="text-xl font-bold text-accent">1</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Get the Manager</h3>
-                        <p class="text-secondary text-sm mb-6 leading-relaxed">
-                            Install <strong>Tampermonkey</strong>. This is the "engine" that runs the Atmos Agents.
-                        </p>
-                        <div class="space-y-3">
-                            <a href="https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo" target="_blank" class="flex items-center justify-center w-full px-4 py-3 bg-white/5 hover:bg-accent hover:text-white border border-white/10 rounded-lg text-sm text-white transition-all">
-                                <i data-feather="chrome" class="w-4 h-4 mr-2"></i> Chrome / Brave / Edge
-                            </a>
-                            <a href="https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/" target="_blank" class="flex items-center justify-center w-full px-4 py-3 bg-white/5 hover:bg-accent hover:text-white border border-white/10 rounded-lg text-sm text-white transition-all">
-                                <i data-feather="globe" class="w-4 h-4 mr-2"></i> Firefox
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Step 2: Enable Permissions -->
-                    <div class="glass-panel rounded-2xl p-8 border border-amber-500/20 bg-amber-500/5 relative overflow-hidden group">
-                        <div class="absolute top-0 right-0 p-4 opacity-10">
-                            <i data-feather="alert-triangle" class="w-24 h-24 text-amber-500"></i>
-                        </div>
-
-                        <div class="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-amber-500/20">
-                            <span class="text-xl font-bold text-amber-500">2</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Unlock Permissions</h3>
-                        <p class="text-secondary text-sm mb-6 leading-relaxed">
-                            <strong>Critical Step:</strong> You must allow Tampermonkey to run correctly.
-                        </p>
-
-                        <div class="bg-black/40 rounded-lg p-4 text-xs font-mono text-gray-300 space-y-2 border border-white/5">
-                            <div class="flex items-start">
-                                <span class="text-amber-500 mr-2">1.</span>
-                                <span>Go to <strong>Extensions</strong> (Puzzle Icon) > <strong>Manage Extensions</strong></span>
-                            </div>
-                            <div class="flex items-start">
-                                <span class="text-amber-500 mr-2">2.</span>
-                                <span>Find <strong>Tampermonkey</strong> & click <strong>Details</strong></span>
-                            </div>
-                            <div class="flex items-start">
-                                <span class="text-amber-500 mr-2">3.</span>
-                                <span>Toggle ON: <span class="text-white font-bold">"Allow access to file URLs"</span></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 3: Install Scripts -->
-                    <div class="glass-panel rounded-2xl p-8 border border-white/10 hover:border-green-500/30 transition-all duration-300 group">
-                        <div class="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-white/5">
-                            <span class="text-xl font-bold text-green-400">3</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Install Agents</h3>
-                        <p class="text-secondary text-sm mb-6 leading-relaxed">
-                            Choose the agents you need. Tampermonkey will prompt you to install.
-                        </p>
-
-                        <div class="space-y-3">
-                            <a id="install-calltools-btn" href="atmos-calltools.user.js" class="flex items-center justify-center w-full px-4 py-3 bg-white text-black font-bold rounded-lg hover:bg-gray-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-                                <i data-feather="phone-call" class="w-4 h-4 mr-2"></i>
-                                CallTools Agent
-                            </a>
-
-                            <a id="install-gmail-btn" href="atmos-gmail.user.js" class="flex items-center justify-center w-full px-4 py-3 bg-white/10 text-white font-bold rounded-lg hover:bg-white/20 transition-all border border-white/20">
-                                <i data-feather="mail" class="w-4 h-4 mr-2"></i>
-                                Gmail Agent
-                            </a>
-                        </div>
-                    </div>
-
-                </div>
             </div>
         </section>
 
         <!-- Updates -->
-        <section class="py-24 lg:py-32 border-t border-divider">
-            <div class="container mx-auto px-6 lg:px-8">
-                <div class="max-w-3xl mx-auto">
-                    <div class="border border-white/10 rounded-xl p-8 lg:p-12 glass-panel relative overflow-hidden">
-                        <!-- Decorative glow -->
-                        <div class="absolute top-0 right-0 -mt-20 -mr-20 w-64 h-64 bg-accent/10 blur-3xl rounded-full pointer-events-none"></div>
+        <section class="container mx-auto px-6 py-20 border-t border-glass-border">
+            <div class="max-w-3xl mx-auto glass-card rounded-2xl p-8 relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-8 opacity-5">
+                    <i data-feather="rss" class="w-32 h-32 text-white"></i>
+                </div>
 
-                        <div class="flex items-center mb-8 relative z-10">
-                            <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mr-4 border border-white/10">
-                                <i data-feather="star" class="w-6 h-6 text-white"></i>
-                            </div>
-                            <div>
-                                <div class="text-sm text-secondary mb-1">Latest Update</div>
-                                <h3 class="text-xl font-semibold text-white">
-                                    Version <span id="current-version">5.0.0</span>
-                                </h3>
-                            </div>
+                <div class="relative z-10">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                        What's New in v<span id="current-version">5.0.0</span>
+                    </h3>
+                    <div id="changelog-list" class="space-y-3 mb-6">
+                        <!-- Populated by JS -->
+                    </div>
+                    <div class="flex items-center text-xs text-slate-400 gap-2">
+                        <i data-feather="check" class="w-3 h-3 text-cyan-400"></i>
+                        Automatic updates enabled via Tampermonkey
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Installation -->
+        <section id="install" class="container mx-auto px-6 py-20 border-t border-glass-border">
+            <div class="max-w-3xl mx-auto text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">Install Your Agents</h2>
+                <p class="text-slate-400">Requires a Userscript Manager (Tampermonkey)</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <a href="atmos-calltools.user.js" class="glass-card p-6 rounded-xl flex items-center justify-between group cursor-pointer border-l-4 border-l-blue-500">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center">
+                            <i data-feather="phone-call" class="w-5 h-5 text-blue-400"></i>
                         </div>
-
-                        <p class="text-secondary mb-8 relative z-10">
-                            Major update: Rebranding to Atmos with new Gmail Agent integration.
-                        </p>
-
-                        <div class="space-y-3 mb-8 relative z-10" id="changelog-list">
-                            <!-- Will be populated by JavaScript -->
+                        <div class="text-left">
+                            <div class="font-bold text-white group-hover:text-blue-400 transition-colors">Install CallTools Agent</div>
+                            <div class="text-xs text-slate-500">v5.0.0 · Stable</div>
                         </div>
+                    </div>
+                    <i data-feather="download-cloud" class="w-5 h-5 text-slate-500 group-hover:text-white transition-colors"></i>
+                </a>
 
-                        <div class="flex items-center text-sm text-secondary relative z-10">
-                            <div class="flex items-center justify-center w-5 h-5 rounded-full bg-green-500/20 text-green-500 mr-2">
-                                <i data-feather="check" class="w-3 h-3"></i>
-                            </div>
-                            <span>Automatic updates enabled</span>
+                <a href="atmos-gmail.user.js" class="glass-card p-6 rounded-xl flex items-center justify-between group cursor-pointer border-l-4 border-l-red-500">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
+                            <i data-feather="mail" class="w-5 h-5 text-red-400"></i>
+                        </div>
+                        <div class="text-left">
+                            <div class="font-bold text-white group-hover:text-red-400 transition-colors">Install Gmail Agent</div>
+                            <div class="text-xs text-slate-500">v5.0.0 · Stable</div>
+                        </div>
+                    </div>
+                    <i data-feather="download-cloud" class="w-5 h-5 text-slate-500 group-hover:text-white transition-colors"></i>
+                </a>
+            </div>
+
+            <div class="mt-12 text-center">
+                <div class="inline-block glass-card rounded-lg px-6 py-4 text-left max-w-lg">
+                    <div class="flex items-start gap-3">
+                        <i data-feather="info" class="w-5 h-5 text-cyan-400 mt-1"></i>
+                        <div>
+                            <div class="text-sm font-semibold text-white mb-1">First time setup?</div>
+                            <p class="text-xs text-slate-400 leading-relaxed">
+                                You must allow <strong>"Access to file URLs"</strong> in Tampermonkey extension settings for the scripts to work correctly.
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Final CTA -->
-        <section id="install" class="py-24 lg:py-32 border-t border-divider">
-            <div class="container mx-auto px-6 lg:px-8">
-                <div class="max-w-3xl mx-auto text-center">
-                    <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4">
-                        Ready to Get Started?
-                    </h2>
-
-                    <p class="text-lg text-secondary mb-12">
-                        Install Atmos Agent and transform your workflow.
-                    </p>
-
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-                        <a href="#setup-guide" class="hidden lg:inline-flex items-center px-5 py-2 bg-white/10 hover:bg-white/20 text-white border border-white/10 text-sm font-medium rounded-lg transition-all hover:scale-105 backdrop-blur-md">
-                            Install Agents
-                        </a>
-                        <a href="#features" class="inline-flex items-center justify-center px-8 py-4 border border-white/10 bg-white/5 text-white font-medium rounded-lg hover:bg-white/10 transition-all backdrop-blur-sm">
-                            View Features
-                        </a>
-                    </div>
-
-                    <p class="text-xs text-secondary">
-                        Requires Tampermonkey or Greasemonkey browser extension
-                    </p>
+        <!-- Footer -->
+        <footer class="border-t border-glass-border bg-black/20 backdrop-blur-lg py-12">
+            <div class="container mx-auto px-6 text-center">
+                <div class="flex justify-center items-center gap-2 mb-8">
+                    <i data-feather="cloud" class="w-5 h-5 text-cyan-500"></i>
+                    <span class="font-bold text-lg">Atmos Agent</span>
                 </div>
+
+                <div class="flex justify-center gap-8 mb-8 text-sm text-slate-400">
+                    <a href="#" data-modal="terms" class="hover:text-cyan-400 transition-colors">Terms of Service</a>
+                    <a href="#" data-modal="privacy" class="hover:text-cyan-400 transition-colors">Privacy Policy</a>
+                    <a href="https://github.com/msmelok/calltools-pro" class="hover:text-cyan-400 transition-colors">GitHub</a>
+                </div>
+
+                <p class="text-xs text-slate-600">
+                    &copy; 2026 Atmos Agent. Not affiliated with CallTools.io or Google.
+                </p>
             </div>
-        </section>
+        </footer>
+
     </main>
 
-    <!-- Footer -->
-    <footer class="py-12 border-t border-divider bg-black/40 backdrop-blur-md">
-        <div class="container mx-auto px-6 lg:px-8">
-            <div class="flex flex-col lg:flex-row justify-between items-center mb-8">
-                <div class="mb-6 lg:mb-0">
-                    <div class="flex items-center mb-2">
-                        <div class="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center mr-3 border border-white/10">
-                            <i data-feather="hexagon" class="w-4 h-4 text-white"></i>
-                        </div>
-                        <div class="text-sm font-semibold text-white">Atmos Agent</div>
-                    </div>
-                    <p class="text-xs text-secondary max-w-md mt-4">
-                        Independent enhancement tool. Not affiliated with CallTools.io or Google.
-                    </p>
-                </div>
-
-                <div class="flex gap-6" id="footer-links">
-                    <!-- Will be populated by JavaScript -->
-                </div>
-            </div>
-
-            <div class="pt-8 border-t border-divider">
-                <div class="flex flex-col md:flex-row justify-between items-center">
-                    <p class="text-xs text-secondary mb-4 md:mb-0">
-                        2026 Atmos Agent. v<span id="footer-version">5.0.0</span>
-                    </p>
-                    <div class="flex gap-6">
-                        <a href="#" class="text-xs text-secondary hover:text-white transition-colors" data-modal="privacy">
-                            Privacy
-                        </a>
-                        <a href="#" class="text-xs text-secondary hover:text-white transition-colors" data-modal="terms">
-                            Terms
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
     <div id="modal-container"></div>
-
     <script src="assets/js/main.js"></script>
     <script src="assets/js/modal.js"></script>
-    <script src="assets/js/animations.js"></script>
+    <script>
+        feather.replace();
+    </script>
 </body>
 </html>

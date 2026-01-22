@@ -1,17 +1,29 @@
 document.addEventListener('DOMContentLoaded', function() {
     feather.replace();
 
+    // Check if config is already loaded, otherwise wait for event
+    if (window.APP_CONFIG) {
+        initApp();
+    } else {
+        document.addEventListener('AtmosConfigReady', initApp);
+    }
+});
+
+function initApp() {
+    console.log(`Atmos Agent v${APP_CONFIG.version} loaded`);
+
     updateVersionDisplay();
     renderFeatures();
-    renderInstallationSteps();
     renderChangelog();
     renderFooterLinks();
     setupInstallButtons();
 
-    console.log(`Atmos Agent v${APP_CONFIG.version} loaded`);
-});
+    // Re-run feather replace for dynamically added content
+    feather.replace();
+}
 
 function updateVersionDisplay() {
+    if (!APP_CONFIG) return;
     const version = APP_CONFIG.version;
 
     document.querySelectorAll('#version-display, #current-version, #footer-version').forEach(el => {
@@ -23,148 +35,77 @@ function renderFeatures() {
     const featuresGrid = document.getElementById('features-grid');
     if (!featuresGrid) return;
 
-    const features = [
-        {
-            icon: 'shield',
-            title: 'Smart Compliance',
-            description: 'Real-time state and city compliance alerts with automatic call blocking.'
-        },
-        {
-            icon: 'clock',
-            title: 'Timezone Intelligence',
-            description: 'Automatic local time detection with exception handling for all US states.'
-        },
-        {
-            icon: 'search',
-            title: 'Search Helper',
-            description: 'One-click address copying with configurable formats for quick research.'
-        },
-        {
-            icon: 'refresh-cw',
-            title: 'Silent Updates',
-            description: 'Background updates install automatically without interrupting your work.'
-        },
-        {
-            icon: 'eye-off',
-            title: 'Privacy First',
-            description: 'No analytics or tracking. All data stays local in your browser.'
-        },
-        {
-            icon: 'settings',
-            title: 'Customizable',
-            description: 'Adjust settings and preferences to match your specific workflow.'
-        }
-    ];
+    // Use features from config if available, otherwise fallback
+    // For now we hardcode the display logic but we could pull from config if we wanted dynamic features
+    // The current index.html layout might rely on specific HTML structure.
 
-    featuresGrid.innerHTML = features.map(feature => `
-        <div class="glass-panel p-8 rounded-xl hover:bg-white/5 transition-colors group">
-            <div class="w-12 h-12 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                <i data-feather="${feature.icon}" class="w-6 h-6 text-accent group-hover:text-white transition-colors"></i>
+    // Note: The new index.html already has some hardcoded cards.
+    // If 'features-grid' exists (it does in the new HTML?? No, the new HTML has 'features' section with hardcoded cards).
+    // Let's check the new index.html content I wrote.
+
+    /*
+       In the new index.html:
+       <section id="features" class="container mx-auto px-6 py-20">
+            <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <!-- Cards are Hardcoded -->
             </div>
-            <h3 class="text-lg font-semibold text-white mb-3 group-hover:text-accent transition-colors">${feature.title}</h3>
-            <p class="text-sm text-secondary leading-relaxed">${feature.description}</p>
-        </div>
-    `).join('');
+       </section>
 
-    feather.replace();
-}
+       There is NO element with id 'features-grid' in the NEW index.html I just wrote.
+       So this function might be redundant for the main features, OR I should add the ID back if I want them dynamic.
+       The new HTML has hardcoded content for "Atmos for CallTools" and "Atmos for Gmail".
 
-function renderInstallationSteps() {
-    const installationSteps = document.getElementById('installation-steps');
-    if (!installationSteps) return;
-
-    // Logic kept for compatibility, though index.html may have hardcoded steps now.
-    const steps = [
-        {
-            number: '1',
-            title: 'Install Browser Extension',
-            description: 'Add Tampermonkey (Chrome/Edge) or Greasemonkey (Firefox) from your browser extension store.'
-        },
-        {
-            number: '2',
-            title: 'Install the Script',
-            description: 'Click the install button. Tampermonkey will open with a confirmation prompt.'
-        },
-        {
-            number: '3',
-            title: 'Confirm Installation',
-            description: 'Click "Install" in the prompt. The script will be added to your user scripts.'
-        },
-        {
-            number: '4',
-            title: 'Start Using',
-            description: 'Navigate to CallTools. All features activate automatically with no configuration needed.'
-        }
-    ];
-
-    installationSteps.innerHTML = steps.map(step => `
-        <div class="glass-panel p-6 flex items-start hover:bg-white/5 transition-colors border-b border-white/5 last:border-0">
-            <div class="w-8 h-8 bg-accent/10 border border-accent/20 rounded-lg flex items-center justify-center text-accent text-sm font-bold mr-5 flex-shrink-0 shadow-[0_0_10px_rgba(59,130,246,0.1)]">
-                ${step.number}
-            </div>
-            <div class="flex-1">
-                <h3 class="text-base font-semibold text-white mb-1">${step.title}</h3>
-                <p class="text-sm text-secondary">${step.description}</p>
-            </div>
-        </div>
-    `).join('');
-
-    feather.replace();
+       However, the previous step's `main.js` tried to render generic features into `features-grid`.
+       The new design is specific to the two products.
+       I will leave this function empty or remove it if the HTML handles it.
+       The new HTML is better hardcoded for the specific marketing layout.
+    */
 }
 
 function renderChangelog() {
     const changelogList = document.getElementById('changelog-list');
-    if (!changelogList) return;
+    if (!changelogList || !APP_CONFIG.update.changelog) return;
 
     changelogList.innerHTML = APP_CONFIG.update.changelog.map(item => `
         <div class="flex items-start text-sm group">
-            <div class="w-1.5 h-1.5 bg-accent/50 group-hover:bg-accent rounded-full mt-2 mr-3 flex-shrink-0 transition-colors"></div>
-            <p class="text-secondary group-hover:text-gray-300 transition-colors">${item}</p>
+            <div class="w-1.5 h-1.5 bg-cyan-400/50 group-hover:bg-cyan-400 rounded-full mt-2 mr-3 flex-shrink-0 transition-colors"></div>
+            <p class="text-slate-400 group-hover:text-slate-200 transition-colors">${item}</p>
         </div>
     `).join('');
-
-    feather.replace();
 }
 
 function renderFooterLinks() {
-    const footerLinks = document.getElementById('footer-links');
-    if (!footerLinks) return;
-
-    const links = [
-        { href: APP_CONFIG.contact.github, text: 'GitHub' },
-        { href: APP_CONFIG.contact.support, text: 'Support' },
-        { href: '#features', text: 'Features' }
-    ];
-
-    footerLinks.innerHTML = links.map(link => `
-        <a href="${link.href}" class="text-xs text-secondary hover:text-white transition-colors">
-            ${link.text}
-        </a>
-    `).join('');
-
-    feather.replace();
+    // Footer in new HTML is hardcoded mostly, but let's see if we can enhance it
+    // The new HTML has:
+    /*
+        <div class="flex justify-center gap-8 mb-8 text-sm text-slate-400">
+            <a href="#" data-modal="terms" ...>Terms</a>
+            <a href="#" data-modal="privacy" ...>Privacy</a>
+            <a href="https://github.com..." ...>GitHub</a>
+        </div>
+    */
+   // So we might not need this unless we want to dynamically update URLs from config
 }
 
 function setupInstallButtons() {
-    const urls = getScriptURLs();
+    if (!APP_CONFIG || !APP_CONFIG.getScriptURLs) return;
 
-    const ctBtn = document.getElementById('install-calltools-btn');
-    if (ctBtn) {
-        ctBtn.href = urls.atmosCallTools;
-        ctBtn.addEventListener('click', () => console.log('Installing Atmos CallTools...'));
-    }
+    const urls = APP_CONFIG.getScriptURLs();
 
-    const gmBtn = document.getElementById('install-gmail-btn');
-    if (gmBtn) {
-        gmBtn.href = urls.atmosGmail;
-        gmBtn.addEventListener('click', () => console.log('Installing Atmos Gmail...'));
-    }
+    // The new index.html uses specific IDs or hrefs
+    // <a href="atmos-calltools.user.js" ...>
 
-    // Fallback
-    document.querySelectorAll('#install-button, #main-install-button').forEach(button => {
-        button.href = urls.atmosCallTools;
-        button.addEventListener('click', function(e) {
-            console.log('Installation initiated (legacy)');
-        });
+    // We can update them to ensure they point to the correct absolute URL if needed,
+    // or just rely on relative relative paths which work for GH pages.
+    // But let's update them just in case.
+
+    // CallTools
+    document.querySelectorAll('a[href$="atmos-calltools.user.js"]').forEach(btn => {
+        btn.href = urls.atmosCallTools;
+    });
+
+    // Gmail
+    document.querySelectorAll('a[href$="atmos-gmail.user.js"]').forEach(btn => {
+        btn.href = urls.atmosGmail;
     });
 }

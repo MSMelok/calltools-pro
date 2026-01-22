@@ -1,0 +1,34 @@
+{
+    "version": "5.0.0",
+    "releaseDate": "February 2026",
+    "releaseType": "major",
+    "githubUsername": "msmelok",
+    "repoName": "calltools-pro",
+    "features": {
+        "autoUpdate": true,
+        "privacyMode": true,
+        "complianceDetection": true,
+        "timezoneDetection": true
+    },
+    "update": {
+        "enabled": true,
+        "checkInterval": 24,
+        "changelog": [
+            "v5.0.0 - Welcome to Atmos",
+            "• Rebranding: CallTools Pro is now Atmos Agent.",
+            "• New Suite: Added Atmos for Gmail (Lead Filler).",
+            "• Unified Design: Enterprise Glass design across all tools.",
+            "• Shared Intelligence: Centralized compliance rules."
+        ]
+    },
+    "contact": {
+        "github": "https://github.com/msmelok/calltools-pro",
+        "support": "https://github.com/msmelok/calltools-pro/issues",
+        "email": "muhammadmeluk@gmail.com"
+    },
+    "legal": {
+        "lastUpdated": "February 2026",
+        "termsFile": "assets/legal/terms.html",
+        "privacyFile": "assets/legal/privacy.html"
+    }
+}

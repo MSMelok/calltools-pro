@@ -22,10 +22,10 @@
 'use strict';
 
     // ============================================
-    // LOAD RESOURCES
+    // LOAD RESOURCES (Technical Change)
     // ============================================
     let RULES = {};
-    let APP_CONFIG = { version: "5.0.0", update: { changelog: ["Failed to load changelog"] } };
+    let APP_CONFIG = { version: "5.0.0" };
 
     try {
         const rulesText = GM_getResourceText("rules");
@@ -34,20 +34,30 @@
         const configText = GM_getResourceText("config");
         if (configText) APP_CONFIG = JSON.parse(configText);
 
-        console.log(`Atmos: Resources loaded. Version ${APP_CONFIG.version}`);
+        console.log(`Atmos CallTools: Resources loaded. Version ${APP_CONFIG.version}`);
     } catch (e) {
         console.warn("Atmos: Failed to load external resources", e);
+        // Fallback Rules (Minimal set to prevent crash if fetch fails)
+        RULES = {
+            "AL": { type: "BLOCK", msg: "AUTO REJECT: Alabama" },
+            "NY": { type: "BLOCK", msg: "AUTO REJECT: New York" }
+        };
     }
 
-    // Configuration Indices
-    const CONFIG_INDICES = {
+    // Configuration
+    const CONFIG = {
+        // Input indices (zero-based)
         FIRST_NAME_INDEX: 2,
         LAST_NAME_INDEX: 3,
         ADDRESS_INPUT_INDEX: 4,
-        BUSINESS_INPUT_INDEX: 5
+        BUSINESS_INPUT_INDEX: 5,
+
+        // Update tracking
+        VERSION: APP_CONFIG.version, // Loaded from config.json
+        GITHUB_URL: "https://msmelok.github.io/calltools-pro/"
     };
 
-    // State timezones mapping
+    // State timezones mapping (unchanged)
     const STATE_TIMEZONES = {
         "AL": "America/Chicago", "AK": "America/Anchorage", "AZ": "America/Phoenix", "AR": "America/Chicago",
         "CA": "America/Los_Angeles", "CO": "America/Denver", "CT": "America/New_York", "DE": "America/New_York",
@@ -72,21 +82,24 @@
         "IN|GARY": "America/Chicago", "KY|BOWLING GREEN": "America/Chicago"
     };
 
+    // RULES are now loaded from @resource (Variable 'RULES' declared above)
 
     // ============================================
     // PREMIUM STYLES (Enhanced for Website)
     // ============================================
+
+    // Dynamic Variables based on Theme
     const STYLES = `
         :root {
-            /* Atmos Dark Theme */
-            --ct-primary: #06b6d4; /* Cyan 500 */
-            --ct-primary-light: #22d3ee;
-            --ct-secondary: #3b82f6; /* Blue 500 */
-            --ct-bg: #0f172a; /* Slate 900 */
+            /* Default Dark Mode (Matches Website) */
+            --ct-primary: #3b82f6;
+            --ct-primary-light: #60a5fa;
+            --ct-secondary: #8b5cf6;
+            --ct-bg: #02040a;
             --ct-bg-hover: rgba(255, 255, 255, 0.08);
-            --ct-glass: rgba(15, 23, 42, 0.75);
-            --ct-border: rgba(255, 255, 255, 0.1);
-            --ct-text: #f1f5f9;
+            --ct-glass: rgba(2, 4, 10, 0.5);
+            --ct-border: rgba(255, 255, 255, 0.08);
+            --ct-text: #ffffff;
             --ct-text-muted: #94a3b8;
             --ct-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 
@@ -100,43 +113,51 @@
             --ct-bg-safe: linear-gradient(135deg, rgba(16, 185, 129, 50%), rgba(5, 150, 105, 60%));
             --ct-bg-warn: linear-gradient(135deg, rgba(245, 158, 11, 50%), rgba(217, 119, 6, 60%));
             --ct-bg-block: linear-gradient(135deg, rgba(244, 63, 94, 50%), rgba(220, 38, 38, 60%));
-            --ct-bg-time: linear-gradient(135deg, rgba(6, 182, 212, 50%), rgba(8, 145, 178, 60%));
+            --ct-bg-time: linear-gradient(135deg, rgba(59, 130, 246, 50%), rgba(37, 99, 235, 60%));
 
             /* Badge Borders (Dark Mode) */
             --ct-border-safe: rgba(16, 185, 129, 0.4);
             --ct-border-warn: rgba(245, 158, 11, 0.4);
             --ct-border-block: rgba(244, 63, 94, 0.4);
-            --ct-border-time: rgba(6, 182, 212, 0.4);
+            --ct-border-time: rgba(59, 130, 246, 0.4);
         }
 
+        /* Light Mode Detection (Assuming CallTools uses a light class or no class)
+           Adjust selector based on actual site inspection. */
         html.light-mode, body.light-mode {
             --ct-bg: #ffffff;
             --ct-bg-hover: rgba(0, 0, 0, 0.05);
-            --ct-glass: rgba(255, 255, 255, 0.8);
+            --ct-glass: rgba(255, 255, 255, 0.7);
             --ct-border: rgba(0, 0, 0, 0.1);
-            --ct-text: #0f172a;
-            --ct-text-muted: #475569;
+            --ct-text: #1e293b;
+            --ct-text-muted: #64748b;
             --ct-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 
-            --ct-text-safe: #064e3b;
-            --ct-text-warn: #78350f;
-            --ct-text-block: #7f1d1d;
-            --ct-text-time: #0c4a6e;
+            /* Badge Text Colors (Light Mode - MAX CONTRAST) */
+            --ct-text-safe: #064e3b; /* Emerald 900 (Very Dark Green) */
+            --ct-text-warn: #78350f; /* Amber 900 (Very Dark Orange) */
+            --ct-text-block: #7f1d1d; /* Red 900 (Very Dark Red) */
+            --ct-text-time: #1e3a8a; /* Blue 900 (Very Dark Blue) */
 
-            --ct-bg-safe: #d1fae5;
-            --ct-bg-warn: #fef3c7;
-            --ct-bg-block: #fee2e2;
-            --ct-bg-time: #cffafe;
+            /* Badge Backgrounds (Light Mode - SOLID PASTEL - NO TRANSPARENCY) */
+            --ct-bg-safe: #d1fae5; /* Emerald 100 */
+            --ct-bg-warn: #fef3c7; /* Amber 100 */
+            --ct-bg-block: #fee2e2; /* Red 100 */
+            --ct-bg-time: #dbeafe; /* Blue 100 */
 
-            --ct-border-safe: #10b981;
-            --ct-border-warn: #f59e0b;
-            --ct-border-block: #ef4444;
-            --ct-border-time: #06b6d4;
+            /* Badge Borders (Light Mode - Solid) */
+            --ct-border-safe: #10b981; /* Emerald 500 */
+            --ct-border-warn: #f59e0b; /* Amber 500 */
+            --ct-border-block: #ef4444; /* Red 500 */
+            --ct-border-time: #3b82f6; /* Blue 500 */
         }
 
-        /* Force Bolder Text in Light Mode */
-        html.light-mode .ct-badge, body.light-mode .ct-badge { font-weight: 700 !important; }
+        /* Force Bolder Text in Light Mode for Badges */
+        html.light-mode .ct-badge, body.light-mode .ct-badge {
+            font-weight: 700 !important;
+        }
 
+        /* Reset & Base */
         .ct-hidden { display: none !important; }
         .ct-glass {
             background: var(--ct-glass) !important;
@@ -146,7 +167,7 @@
             box-shadow: var(--ct-shadow) !important;
         }
 
-        /* Top Controls Bar */
+        /* Top Controls Bar - Premium Design */
         #ct-top-controls {
             display: inline-flex !important;
             align-items: center !important;
@@ -155,7 +176,7 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif !important;
         }
 
-        /* Badge Design */
+        /* Premium Badge Design */
         .ct-badge {
             display: inline-flex !important;
             align-items: center !important;
@@ -172,6 +193,7 @@
             cursor: default !important;
             white-space: nowrap !important;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            letter-spacing: -0.01em !important;
             overflow: hidden !important;
             position: relative !important;
         }
@@ -186,370 +208,1239 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent) !important;
             transition: left 0.7s ease !important;
         }
-        .ct-badge:hover::before { left: 100% !important; }
-        .ct-badge:hover { transform: translateY(-1px) !important; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important; }
 
-        .ct-safe { background: var(--ct-bg-safe) !important; border-color: var(--ct-border-safe) !important; color: var(--ct-text-safe) !important; }
-        .ct-warn { background: var(--ct-bg-warn) !important; border-color: var(--ct-border-warn) !important; color: var(--ct-text-warn) !important; }
-        .ct-block { background: var(--ct-bg-block) !important; border-color: var(--ct-border-block) !important; color: var(--ct-text-block) !important; }
-        .ct-time { background: var(--ct-bg-time) !important; border-color: var(--ct-border-time) !important; color: var(--ct-text-time) !important; }
-        .ct-neutral { background: var(--ct-bg-hover) !important; border-color: var(--ct-border) !important; color: var(--ct-text-muted) !important; }
+        .ct-badge:hover::before {
+            left: 100% !important;
+        }
 
-        /* Search Button */
+        .ct-badge:hover {
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+        }
+
+        /* Badge Colors */
+        .ct-safe {
+            background: var(--ct-bg-safe) !important;
+            border-color: var(--ct-border-safe) !important;
+            color: var(--ct-text-safe) !important;
+        }
+
+        .ct-warn {
+            background: var(--ct-bg-warn) !important;
+            border-color: var(--ct-border-warn) !important;
+            color: var(--ct-text-warn) !important;
+        }
+
+        .ct-block {
+            background: var(--ct-bg-block) !important;
+            border-color: var(--ct-border-block) !important;
+            color: var(--ct-text-block) !important;
+        }
+
+        .ct-time {
+            background: var(--ct-bg-time) !important;
+            border-color: var(--ct-border-time) !important;
+            color: var(--ct-text-time) !important;
+        }
+
+        .ct-neutral {
+            background: var(--ct-bg-hover) !important;
+            border-color: var(--ct-border) !important;
+            color: var(--ct-text-muted) !important;
+        }
+
+        /* Premium Search Button */
         #ct-search-helper-btn {
-            position: fixed !important; bottom: 30px !important; left: 30px !important; z-index: 99999 !important;
+            position: fixed !important;
+            bottom: 30px !important;
+            left: 30px !important;
+            z-index: 99999 !important;
             padding: 12px 15px !important;
             background: linear-gradient(135deg, var(--ct-primary), var(--ct-secondary)) !important;
             color: white !important;
             border: 1px solid var(--ct-border) !important;
-            border-radius: 6px !important;
-            font-family: -apple-system, sans-serif !important;
-            font-size: 14px !important; font-weight: 500 !important;
-            display: flex !important; align-items: center !important; gap: 10px !important;
+            border-radius: 6px !important; /* MATCHING BADGES */
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
             cursor: pointer !important;
-            box-shadow: 0 4px 20px rgba(6, 182, 212, 0.3) !important;
+            letter-spacing: 0.01em !important;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3) !important;
         }
-        #ct-search-helper-btn:hover { transform: translateY(-2px) !important; box-shadow: 0 8px 25px rgba(6, 182, 212, 0.4) !important; }
 
-        /* Settings Modal */
+        #ct-search-helper-btn:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4) !important;
+        }
+
+
+        /* Dynamic Settings Button (Injected into Nav) */
+        #ct-nav-settings-btn {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 10px !important;
+            cursor: pointer !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: all 0.2s ease !important;
+            color: rgba(255,255,255,0.7) !important; /* Nav usually dark */
+            margin-right: 5px !important;
+        }
+
+        #ct-nav-settings-btn:hover {
+            color: white !important;
+            transform: rotate(45deg);
+        }
+
+
+        /* Premium Settings Modal */
         #ct-settings-modal {
-            position: fixed !important; top: 65px !important; right: 20px !important; width: 340px !important; z-index: 100002 !important;
+            position: fixed !important;
+            top: 65px !important;
+            right: 20px !important;
+            width: 320px !important;
+            z-index: 100002 !important;
             background: var(--ct-bg) !important;
             backdrop-filter: blur(20px) saturate(200%) !important;
             -webkit-backdrop-filter: blur(20px) saturate(200%) !important;
             border: 1px solid var(--ct-border) !important;
-            border-radius: 12px !important; padding: 24px !important;
-            display: none; flex-direction: column !important; gap: 16px !important;
-            box-shadow: var(--ct-shadow) !important; color: var(--ct-text) !important;
-            font-family: -apple-system, sans-serif !important; font-size: 14px !important;
+            border-radius: 12px !important;
+            padding: 24px !important;
+            display: none;
+            flex-direction: column !important;
+            gap: 16px !important;
+            box-shadow: var(--ct-shadow) !important;
+            color: var(--ct-text) !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif !important;
+            font-size: 14px !important;
             animation: ct-modal-appear 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }
-        #ct-settings-modal.show { display: flex !important; }
-        @keyframes ct-modal-appear { from { opacity: 0; transform: translateY(-10px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-        .ct-modal-header { font-weight: 600 !important; font-size: 16px !important; margin-bottom: 4px !important; border-bottom: 1px solid var(--ct-border) !important; padding-bottom: 16px !important; color: var(--ct-text) !important; display: flex !important; align-items: center !important; gap: 10px !important; }
-        .ct-setting-row { display: flex !important; align-items: center !important; justify-content: space-between !important; padding: 12px 0 !important; border-bottom: 1px solid var(--ct-border) !important; }
-        .ct-setting-row:last-child { border-bottom: none !important; }
+        #ct-settings-modal.show {
+            display: flex !important;
+        }
 
-        .ct-changelog-box { background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px; margin-top: 10px; max-height: 100px; overflow-y: auto; font-size: 12px; color: var(--ct-text-muted); }
-        .ct-changelog-item { margin-bottom: 4px; display: flex; gap: 6px; }
-        .ct-changelog-item:before { content: "•"; color: var(--ct-primary); }
+        @keyframes ct-modal-appear {
+            from {
+                opacity: 0;
+                transform: translateY(-10px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
 
-        .ct-switch { position: relative !important; display: inline-block !important; width: 44px !important; height: 24px !important; }
-        .ct-switch input { opacity: 0 !important; width: 0 !important; height: 0 !important; }
-        .ct-slider { position: absolute !important; cursor: pointer !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; background-color: var(--ct-border) !important; transition: .3s !important; border-radius: 34px !important; border: 1px solid var(--ct-border) !important; }
-        .ct-slider:before { position: absolute !important; content: "" !important; height: 18px !important; width: 18px !important; left: 2px !important; bottom: 2px !important; background: white !important; transition: .3s !important; border-radius: 50% !important; }
-        input:checked + .ct-slider { background: var(--ct-primary) !important; border-color: var(--ct-primary) !important; }
-        input:checked + .ct-slider:before { transform: translateX(20px) !important; }
+        .ct-modal-header {
+            font-weight: 600 !important;
+            font-size: 16px !important;
+            margin-bottom: 4px !important;
+            border-bottom: 1px solid var(--ct-border) !important;
+            padding-bottom: 16px !important;
+            color: var(--ct-text) !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+        }
 
-        /* Toast */
-        .ct-toast-container { position: fixed !important; top: 90px !important; left: 50% !important; transform: translateX(-50%) !important; z-index: 100003 !important; pointer-events: none !important; }
-        .ct-toast { display: flex !important; align-items: center !important; gap: 12px !important; background: var(--ct-bg) !important; backdrop-filter: blur(8px) !important; color: var(--ct-text) !important; padding: 12px 16px !important; border-radius: 99px !important; font-family: -apple-system, sans-serif !important; font-size: 14px !important; font-weight: 500 !important; box-shadow: var(--ct-shadow) !important; border: 1px solid var(--ct-border) !important; opacity: 0 !important; transform: translateY(-10px) scale(0.95) !important; transition: all 0.3s !important; }
-        .ct-toast.show { opacity: 1 !important; transform: translateY(0) scale(1) !important; pointer-events: auto !important; }
+        .ct-setting-row {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            padding: 12px 0 !important;
+            border-bottom: 1px solid var(--ct-border) !important;
+        }
+
+        .ct-setting-row:last-child {
+            border-bottom: none !important;
+        }
+
+        /* Premium Toggle Switch */
+        .ct-switch {
+            position: relative !important;
+            display: inline-block !important;
+            width: 44px !important;
+            height: 24px !important;
+        }
+
+        .ct-switch input {
+            opacity: 0 !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
+
+        .ct-slider {
+            position: absolute !important;
+            cursor: pointer !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            background-color: var(--ct-border) !important;
+            transition: .3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            border-radius: 34px !important;
+            border: 1px solid var(--ct-border) !important;
+        }
+
+        .ct-slider:before {
+            position: absolute !important;
+            content: "" !important;
+            height: 18px !important;
+            width: 18px !important;
+            left: 2px !important;
+            bottom: 2px !important;
+            background: white !important;
+            transition: .3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            border-radius: 50% !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+        }
+
+        input:checked + .ct-slider {
+            background: var(--ct-primary) !important;
+            border-color: var(--ct-primary) !important;
+        }
+
+        input:checked + .ct-slider:before {
+            transform: translateX(20px) !important;
+        }
+
+        /* Hiding Logic */
+        .ct-hidden-element {
+            display: none !important;
+        }
+
+       /* MINIMAL TOAST SYSTEM */
+        .ct-toast-container {
+            position: fixed !important;
+            top: 90px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            z-index: 100003 !important;
+            pointer-events: none !important;
+        }
+
+        .ct-toast {
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            background: var(--ct-bg) !important;
+            backdrop-filter: blur(8px) !important;
+            color: var(--ct-text) !important;
+            padding: 12px 16px !important;
+            border-radius: 99px !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            box-shadow: var(--ct-shadow) !important;
+            border: 1px solid var(--ct-border) !important;
+            opacity: 0 !important;
+            transform: translateY(-10px) scale(0.95) !important;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            min-width: auto !important;
+            max-width: 400px !important;
+        }
+
+        .ct-toast.show {
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) !important;
+            pointer-events: auto !important;
+        }
+
         .ct-toast.success { border-color: #10b981 !important; }
         .ct-toast.error { border-color: #f43f5e !important; }
+        .ct-toast.info { border-color: #3b82f6 !important; }
+        .ct-toast.warning { border-color: #f59e0b !important; }
+
+        .ct-toast-icon {
+            flex-shrink: 0 !important;
+            width: 18px !important;
+            height: 18px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .ct-toast-content {
+            flex: 1 !important;
+            white-space: nowrap !important;
+        }
     `;
+
+    // Inject styles
     GM_addStyle(STYLES);
 
     // ============================================
-    // UTILITIES
+    // UTILITY FUNCTIONS
     // ============================================
     function debounce(func, wait) {
         let timeout;
-        return function(...args) {
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
             clearTimeout(timeout);
-            timeout = setTimeout(() => func(...args), wait);
+            timeout = setTimeout(later, wait);
         };
     }
 
-    function showPremiumToast(message, type = 'info', duration = 900) {
-        const existingToast = document.querySelector('.ct-toast-container');
-        if (existingToast) existingToast.remove();
+function showPremiumToast(message, type = 'info', duration = 900) {
+    // Remove existing toast if any
+    const existingToast = document.querySelector('.ct-toast-container');
+    if (existingToast) existingToast.remove();
 
-        const toastContainer = document.createElement('div');
-        toastContainer.className = 'ct-toast-container';
-        const toast = document.createElement('div');
-        toast.className = `ct-toast ${type}`;
+    const toastContainer = document.createElement('div');
+    toastContainer.className = 'ct-toast-container';
 
-        const icons = { success: 'check-circle', error: 'alert-circle', warning: 'alert-triangle', info: 'info' };
-        const iconColor = { success: '#10b981', error: '#f43f5e', warning: '#f59e0b', info: '#06b6d4' };
+    const toast = document.createElement('div');
+    toast.className = `ct-toast ${type}`;
 
-        toast.innerHTML = `
-            <div class="ct-toast-icon"><i data-feather="${icons[type] || 'info'}" style="color:${iconColor[type] || '#06b6d4'}"></i></div>
-            <div class="ct-toast-content">${message}</div>
-        `;
+    const icons = {
+        success: 'check-circle',
+        error: 'alert-circle',
+        warning: 'alert-triangle',
+        info: 'info'
+    };
 
-        toastContainer.appendChild(toast);
-        document.body.appendChild(toastContainer);
+    const iconColor = {
+        success: '#10b981',
+        error: '#f43f5e',
+        warning: '#f59e0b',
+        info: '#3b82f6'
+    };
 
-        requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add('show')));
-        feather.replace();
+    // SIMPLIFIED HTML WITHOUT CLOSE BUTTON:
+    toast.innerHTML = `
+        <div class="ct-toast-icon">
+            <i data-feather="${icons[type] || 'info'}" style="color:${iconColor[type] || '#3b82f6'}"></i>
+        </div>
+        <div class="ct-toast-content">${message}</div>
+    `;
 
-        setTimeout(() => {
-            if (toastContainer.parentNode) {
-                toast.classList.remove('show');
-                setTimeout(() => toastContainer.parentNode?.remove(), 300);
-            }
-        }, duration);
-    }
+    toastContainer.appendChild(toast);
+    document.body.appendChild(toastContainer);
+
+    // Trigger animation
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            toast.classList.add('show');
+        });
+    });
+
+    feather.replace();
+
+    // Auto-remove after duration
+    setTimeout(() => {
+        if (toastContainer.parentNode) {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                if (toastContainer.parentNode) {
+                    toastContainer.remove();
+                }
+            }, 300);
+        }
+    }, duration);
+
+    return toastContainer;
+}
 
     function isBusinessHours(timezone) {
         try {
             const now = new Date();
-            const hour = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: timezone, hour: 'numeric', hour12: false }).format(now));
-            return hour >= 9 && hour < 17;
-        } catch (e) { return true; }
+            const formatter = new Intl.DateTimeFormat('en-US', {
+                timeZone: timezone,
+                hour: 'numeric',
+                hour12: false
+            });
+            const hour = parseInt(formatter.format(now));
+            return hour >= 9 && hour < 17; // 9 AM to 5 PM
+        } catch (e) {
+            return true; // Default to true if timezone detection fails
+        }
     }
 
     function parseAddressForInfo(address) {
-        const info = { state: null, city: null, zip: null, timezone: null, isBusinessHours: null, isValidState: false };
+        const info = {
+            state: null,
+            city: null,
+            zip: null,
+            timezone: null,
+            isBusinessHours: null,
+            isValidState: false
+        };
+
         if (!address) return info;
 
+        // Extract state (2-letter code)
         const stateMatch = address.match(/\b([A-Z]{2})\b\s+\d{5}/);
         if (stateMatch) {
             info.state = stateMatch[1];
+            // Check if state is valid (exists in STATE_TIMEZONES)
             info.isValidState = !!STATE_TIMEZONES[info.state];
         }
 
+        // Extract city (before state, after numbers if any)
         if (info.state) {
             const cityMatch = address.match(/([A-Z\s]+)\s+[A-Z]{2}\s+\d{5}/);
             if (cityMatch) info.city = cityMatch[1].trim();
         }
 
-        if (info.isValidState) {
+        // Extract ZIP
+        const zipMatch = address.match(/\b\d{5}\b/);
+        if (zipMatch) info.zip = zipMatch[0];
+
+        // Determine timezone only if state is valid
+        if (info.isValidState && STATE_TIMEZONES[info.state]) {
             info.timezone = STATE_TIMEZONES[info.state];
+
+            // Check for exceptions
             for (const [key, exceptionTZ] of Object.entries(TZ_EXCEPTIONS)) {
-                const [exState, exCity] = key.split('|');
-                if (info.state === exState && address.includes(exCity)) {
+                const [exceptionState, exceptionCity] = key.split('|');
+                if (info.state === exceptionState && address.includes(exceptionCity)) {
                     info.timezone = exceptionTZ;
                     break;
                 }
             }
+
+            // Check business hours
             info.isBusinessHours = isBusinessHours(info.timezone);
         }
+
         return info;
     }
 
+    function formatPhoneNumber(phone) {
+        // Clean phone number
+        const cleaned = phone.replace(/\D/g, '');
+
+        // Format based on length
+        if (cleaned.length === 10) {
+            return `(${cleaned.slice(0,3)}) ${cleaned.slice(3,6)}-${cleaned.slice(6)}`;
+        } else if (cleaned.length === 11 && cleaned[0] === '1') {
+            return `+1 (${cleaned.slice(1,4)}) ${cleaned.slice(4,7)}-${cleaned.slice(7)}`;
+        }
+
+        return phone; // Return original if format doesn't match
+    }
+
     function copyToClipboard(text) {
-        if (typeof GM_setClipboard === 'function') { GM_setClipboard(text); return true; }
-        if (navigator.clipboard) { navigator.clipboard.writeText(text); return true; }
+        if (typeof GM_setClipboard === 'function') {
+            GM_setClipboard(text);
+            return true;
+        }
+
+        // Fallback to navigator.clipboard
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(() => {
+                return true;
+            }).catch(() => {
+                // Last resort: old school method
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                return true;
+            });
+        }
+
         return false;
     }
 
+    function getStorage(key, defaultValue = null) {
+        try {
+            return GM_getValue(key, defaultValue);
+        } catch (e) {
+            console.warn('GM_getValue failed, falling back to defaultValue', e);
+            return defaultValue;
+        }
+    }
+
+    function setStorage(key, value) {
+        try {
+            GM_setValue(key, value);
+        } catch (e) {
+            console.error('Failed to save to GM storage:', e);
+        }
+    }
+
     // ============================================
-    // CLASSES
+    // COMPLIANCE ENGINE
     // ============================================
     class ComplianceEngine {
         constructor() {
             this.lastProcessedAddress = '';
+            this.currentState = null;
+            this.currentCity = null;
             this.currentRule = null;
+            this.callButton = null;
         }
 
         processAddress(address) {
-            if (!address || address === this.lastProcessedAddress) return this.getStatus();
-            this.lastProcessedAddress = address;
-            this.addressInfo = parseAddressForInfo(address);
-            this.currentRule = null;
-
-            if (this.addressInfo.state && !this.addressInfo.isValidState) {
-                return { type: 'ERROR', message: `Invalid State: ${this.addressInfo.state}`, canCall: false };
+            if (!address || address === this.lastProcessedAddress) {
+                return this.getComplianceStatus();
             }
 
-            // Check Rules (City Priority)
-            if (this.addressInfo.city) {
+            this.lastProcessedAddress = address;
+            const addressInfo = parseAddressForInfo(address);
+
+            // Reset previous state
+            this.currentState = null;
+            this.currentCity = null;
+            this.currentRule = null;
+            this.addressInfo = addressInfo; // Store address info for later use
+
+            // If state exists but is invalid (like "MQ", "FI")
+            if (addressInfo.state && !addressInfo.isValidState) {
+                // Special rule for invalid state
+                this.currentRule = {
+                    type: "ERROR",
+                    msg: `Invalid state code: ${addressInfo.state}`
+                };
+                return this.getComplianceStatus();
+            }
+
+            // Check for state-level rules
+            if (addressInfo.state && RULES[addressInfo.state]) {
+                this.currentState = addressInfo.state;
+                this.currentRule = RULES[addressInfo.state];
+            }
+
+            // Check for city-level rules (overrides state if more specific)
+            if (addressInfo.city) {
                 for (const [key, rule] of Object.entries(RULES)) {
                     if (key.length > 2 && address.includes(key)) {
+                        this.currentCity = key;
                         this.currentRule = rule;
                         break;
                     }
                 }
             }
-            // Check Rules (State)
-            if (!this.currentRule && this.addressInfo.state && RULES[this.addressInfo.state]) {
-                this.currentRule = RULES[this.addressInfo.state];
-            }
 
-            return this.getStatus();
+            return this.getComplianceStatus();
         }
 
-        getStatus() {
+        getComplianceStatus() {
             if (!this.currentRule) {
-                if (this.addressInfo?.state && !this.addressInfo.isValidState) return { type: 'ERROR', message: `Invalid State`, canCall: false };
-                return { type: 'SAFE', message: 'No restrictions', canCall: true };
+                // If we have address info but no rule, check if state is valid
+                if (this.addressInfo && this.addressInfo.state) {
+                    if (!this.addressInfo.isValidState) {
+                        return {
+                            type: 'ERROR',
+                            message: `Invalid state code: ${this.addressInfo.state}`,
+                            canCall: false,
+                            severity: 'high'
+                        };
+                    }
+                }
+
+                return {
+                    type: 'SAFE',
+                    message: 'No restrictions',
+                    canCall: true,
+                    severity: 'none'
+                };
             }
+
             return {
                 type: this.currentRule.type,
                 message: this.currentRule.msg,
-                canCall: this.currentRule.type !== 'BLOCK'
+                canCall: this.currentRule.type !== 'BLOCK' && this.currentRule.type !== 'ERROR',
+                severity: this.currentRule.type === 'BLOCK' || this.currentRule.type === 'ERROR' ? 'high' :
+                         this.currentRule.type === 'WARN' ? 'medium' : 'low'
             };
         }
 
-        updateUI(status, timeInfo) {
-            if (!status) return;
-            updateTopBar(status.type, status.message, timeInfo);
-            const callBtn = document.querySelector(".call-button, button.dial-btn, .start-call")?.closest('button');
+        updateUI(complianceStatus, timeInfo = null) {
+            // Handle undefined/null status
+            if (!complianceStatus) {
+                updateTopBar('NEUTRAL', 'No compliance data', null);
+                return;
+            }
+
+            // Update top bar - pass timeInfo regardless of settings
+            updateTopBar(complianceStatus.type, complianceStatus.message, timeInfo);
+
+            // Handle call button
+            const callBtn = document.querySelector(".call-button, button.dial-btn, .start-call, .fa-phone")?.closest('button');
             if (callBtn) {
-                callBtn.style.opacity = status.canCall ? "1" : "0.3";
-                callBtn.style.pointerEvents = status.canCall ? "auto" : "none";
+                if (!complianceStatus.canCall) {
+                    callBtn.style.opacity = "0.3";
+                    callBtn.style.pointerEvents = "none";
+                    callBtn.title = "Call blocked due to compliance restrictions";
+                } else {
+                    callBtn.style.opacity = "1";
+                    callBtn.style.pointerEvents = "auto";
+                    callBtn.title = "";
+                }
+            }
+        }
+
+        getTimeString() {
+            const inputs = document.querySelectorAll('input[type="text"]');
+            const inputAddr = inputs[CONFIG.ADDRESS_INPUT_INDEX] ? inputs[CONFIG.ADDRESS_INPUT_INDEX].value.trim().toUpperCase() : "";
+
+            // Early return if no address at all
+            if (!inputAddr || inputAddr.length < 5) { // At least need something like "NY 12345"
+                return null;
+            }
+
+            const addressInfo = parseAddressForInfo(inputAddr);
+
+            // Return null if no address, no state, or invalid state
+            if (!addressInfo.state || !addressInfo.isValidState || !addressInfo.timezone) {
+                return null;
+            }
+
+            try {
+                const now = new Date();
+                const formatter = new Intl.DateTimeFormat('en-US', {
+                    timeZone: addressInfo.timezone,
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    second: '2-digit',
+                    hour12: true
+                });
+
+                const timeIcon = addressInfo.isBusinessHours ? 'sun' : 'moon';
+                const formattedTime = formatter.format(now);
+
+                // Validate that we actually got a time string
+                if (!formattedTime || formattedTime === 'Invalid Date') {
+                    return null;
+                }
+
+                const timeText = `${formattedTime} (${addressInfo.state})`;
+
+                return {
+                    time: timeText,
+                    icon: timeIcon,
+                    isBusinessHours: addressInfo.isBusinessHours,
+                    isValid: true
+                };
+            } catch (e) {
+                console.warn('Failed to format time for timezone:', addressInfo.timezone, e);
+                return null;
             }
         }
     }
 
-    class SettingsManager {
+    // ============================================
+    // SEARCH HELPER
+    // ============================================
+    class SearchHelper {
         constructor() {
-            this.modal = null;
+            this.button = null;
+            this.isInitialized = false;
         }
 
         init() {
-            this.createModal();
-            this.injectButton();
+            if (this.isInitialized) return;
+
+            this.createButton();
+            this.setupEventListeners();
+            this.isInitialized = true;
         }
 
-        injectButton() {
-            const userIcon = document.querySelector('.user-icon');
-            if (!userIcon || document.getElementById('ct-nav-settings-btn')) return;
+        createButton() {
+            if (document.getElementById('ct-search-helper-btn')) return;
 
-            const parent = userIcon.parentElement;
-            parent.style.display = 'flex';
-            parent.style.alignItems = 'center';
+            this.button = document.createElement('button');
+            this.button.id = 'ct-search-helper-btn';
+            this.button.innerHTML = `<i data-feather="copy" style="width:20px;height:20px;"></i>`;
+            this.button.style.cssText = `
+                position: fixed;
+                bottom: 24px;
+                left: 24px;
+                z-index: 99999;
+                padding: 14px 20px;
+                background: linear-gradient(135deg, var(--ct-primary), var(--ct-secondary));
+                color: white;
+                border: 1px solid var(--ct-border);
+                border-radius: 6px;
+                font-family: -apple-system, sans-serif;
+                font-size: 14px;
+                font-weight: 600;
+                box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                transition: all 0.2s ease;
+                cursor: pointer;
+            `;
 
-            const btn = document.createElement('button');
-            btn.id = 'ct-nav-settings-btn';
-            btn.innerHTML = `<i data-feather="settings" style="width:18px;height:18px;"></i>`;
-            btn.onclick = (e) => {
-                e.stopPropagation();
-                this.modal.classList.toggle('show');
-            };
-            parent.insertBefore(btn, userIcon);
+            document.body.appendChild(this.button);
             feather.replace();
         }
 
-        createModal() {
-            this.modal = document.createElement('div');
-            this.modal.id = 'ct-settings-modal';
+        setupEventListeners() {
+            if (!this.button) return;
 
-            // Build Changelog HTML
-            const changelogHtml = APP_CONFIG.update.changelog.map(item =>
-                `<div class="ct-changelog-item">${item}</div>`
-            ).join('');
+            this.button.addEventListener('click', () => this.handleSearch());
 
-            this.modal.innerHTML = `
-                <div class="ct-modal-header"><i data-feather="settings"></i> Atmos Agent Settings</div>
-                <div class="ct-setting-row">
-                    <span>Use Split Name</span>
-                    <label class="ct-switch"><input type="checkbox" id="ct-opt-split"><span class="ct-slider"></span></label>
-                </div>
-
-                <div style="margin-top:20px;padding-top:10px;border-top:1px solid var(--ct-border);">
-                    <div style="font-size:12px;font-weight:600;margin-bottom:6px;">What's New in v${APP_CONFIG.version}</div>
-                    <div class="ct-changelog-box">${changelogHtml}</div>
-                </div>
-            `;
-            document.body.appendChild(this.modal);
-
-            document.getElementById('ct-opt-split').checked = GM_getValue('ct_use_split', false);
-            document.getElementById('ct-opt-split').onchange = (e) => {
-                GM_setValue('ct_use_split', e.target.checked);
-                showPremiumToast('Saved', 'success');
-            };
-
-            document.addEventListener('click', (e) => {
-                if (!this.modal.contains(e.target) && e.target.id !== 'ct-nav-settings-btn') this.modal.classList.remove('show');
+            // Add hover effects
+            this.button.addEventListener('mouseenter', () => {
+                this.button.style.transform = 'translateY(-2px)';
+                this.button.style.boxShadow = '0 6px 20px rgba(99, 102, 241, 0.5)';
             });
+
+            this.button.addEventListener('mouseleave', () => {
+                this.button.style.transform = 'translateY(0)';
+                this.button.style.boxShadow = '0 4px 15px rgba(99, 102, 241, 0.4)';
+            });
+        }
+
+        handleSearch() {
+            const inputs = document.querySelectorAll('input[type="text"]');
+            const useSplitName = getStorage('ct_use_split_name', false);
+            const addrInput = inputs[CONFIG.ADDRESS_INPUT_INDEX];
+
+            if (!addrInput) {
+                showPremiumToast("Address input not found", "error");
+                return;
+            }
+
+            const addr = addrInput.value.trim();
+
+            if (!addr) {
+                showPremiumToast("No address entered", "error");
+                return;
+            }
+
+            let namePart = "";
+
+            if (useSplitName) {
+                const fName = inputs[CONFIG.FIRST_NAME_INDEX] ? inputs[CONFIG.FIRST_NAME_INDEX].value.trim() : "";
+                const lName = inputs[CONFIG.LAST_NAME_INDEX] ? inputs[CONFIG.LAST_NAME_INDEX].value.trim() : "";
+                namePart = `${fName} ${lName}`.trim();
+            } else {
+                namePart = inputs[CONFIG.BUSINESS_INPUT_INDEX] ? inputs[CONFIG.BUSINESS_INPUT_INDEX].value.trim() : "";
+            }
+
+            const text = namePart ? `${namePart} - ${addr}` : addr;
+
+            if (copyToClipboard(text)) {
+                showPremiumToast("Address copied to clipboard!", "success");
+            } else {
+                showPremiumToast("Failed to copy address", "error");
+            }
         }
     }
 
-    function updateTopBar(type, msg, timeInfo) {
-        let container = document.getElementById('ct-top-controls');
-        if (!container) {
-            const nav = document.getElementById('dashboard-nav-tabs');
-            if (!nav) return;
-            container = document.createElement('div');
-            container.id = 'ct-top-controls';
-            nav.appendChild(container);
+    // ============================================
+    // SETTINGS MANAGER (IN NAV)
+    // ============================================
+    class SettingsManager {
+        constructor() {
+            this.settings = {
+                useSplitName: getStorage('ct_use_split_name', false),
+                hideActions: getStorage('ct_hide_actions', false),
+                hideConnections: getStorage('ct_hide_connections', false)
+            };
+            this.modal = null;
+            this.settingsBtn = null;
+            this.navObserver = null;
+            this.bodyObserver = null;
         }
 
-        container.innerHTML = `
-            <div class="ct-badge ct-${type.toLowerCase()}">
-                <i data-feather="${type === 'SAFE' ? 'check-circle' : 'alert-circle'}" style="width:14px;margin-right:6px;"></i> ${msg}
-            </div>
-        `;
+        init() {
+            console.log('SettingsManager: Initializing...');
+            this.createSettingsModal();
+            this.applyVisibilityRules();
 
-        if (timeInfo && timeInfo.time) {
-            container.innerHTML += `
-                <div class="ct-badge ct-time" style="margin-left:10px;">
-                    <i data-feather="${timeInfo.isBusinessHours ? 'sun' : 'moon'}" style="width:14px;margin-right:6px;"></i> ${timeInfo.time}
+            // Watch for nav bar to inject settings button
+            this.observeNavBar();
+        }
+
+        observeNavBar() {
+            const findAndInject = () => {
+                const navBar = document.querySelector('.agent-top-nav, .top-nav');
+                const userIcon = document.querySelector('.user-icon');
+
+                if (navBar && userIcon && !document.getElementById('ct-nav-settings-btn')) {
+                    this.injectSettingsButton(userIcon);
+                }
+            };
+
+            // Try immediately
+            findAndInject();
+
+            // Set up observer for dynamic changes
+            this.navObserver = new MutationObserver((mutations) => {
+                findAndInject();
+            });
+
+            this.navObserver.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        }
+
+        injectSettingsButton(userIconElement) {
+            if (document.getElementById('ct-nav-settings-btn')) return;
+
+            // Find parent div to append to
+            const parent = userIconElement.parentElement;
+            if (!parent) return;
+
+            // Ensure the parent is flex to align items horizontally
+            // This fixes the issue where the cog sits above the user dropdown
+            parent.style.display = 'flex';
+            parent.style.alignItems = 'center';
+
+            this.settingsBtn = document.createElement('button');
+            this.settingsBtn.id = 'ct-nav-settings-btn';
+            this.settingsBtn.title = 'CT Pro Settings';
+            this.settingsBtn.innerHTML = `<i data-feather="settings" style="width:18px;height:18px;"></i>`;
+
+            // Insert before the user icon dropdown to sit "next to it"
+            parent.insertBefore(this.settingsBtn, userIconElement);
+
+            feather.replace();
+            this.setupEventListeners();
+
+            console.log('Settings button injected into nav');
+        }
+
+        createSettingsModal() {
+            if (this.modal || document.getElementById('ct-settings-modal')) return;
+
+            this.modal = document.createElement('div');
+            this.modal.id = 'ct-settings-modal';
+            this.modal.innerHTML = `
+                <div class="ct-modal-header">
+                    <i data-feather="settings" style="width:18px;height:18px;"></i>
+                    Atmos CallTools Settings
+                </div>
+
+                <div class="ct-setting-row">
+                    <span style="display:flex; align-items:center; gap:8px;">
+                        <i data-feather="user" style="width:16px;height:16px;color:var(--ct-text-muted)"></i>
+                        Use First/Last Name
+                    </span>
+                    <label class="ct-switch">
+                        <input type="checkbox" id="ct-opt-split-name" ${this.settings.useSplitName ? 'checked' : ''}>
+                        <span class="ct-slider"></span>
+                    </label>
+                </div>
+
+                <div class="ct-setting-row">
+                    <span style="display:flex; align-items:center; gap:8px;">
+                        <i data-feather="layout" style="width:16px;height:16px;color:var(--ct-text-muted)"></i>
+                        Hide Action Buttons (SMS/Email)
+                    </span>
+                    <label class="ct-switch">
+                        <input type="checkbox" id="ct-opt-hide-actions" ${this.settings.hideActions ? 'checked' : ''}>
+                        <span class="ct-slider"></span>
+                    </label>
+                </div>
+
+                <div class="ct-setting-row">
+                    <span style="display:flex; align-items:center; gap:8px;">
+                        <i data-feather="grid" style="width:16px;height:16px;color:var(--ct-text-muted)"></i>
+                        Hide Connections Card
+                    </span>
+                    <label class="ct-switch">
+                        <input type="checkbox" id="ct-opt-hide-connections" ${this.settings.hideConnections ? 'checked' : ''}>
+                        <span class="ct-slider"></span>
+                    </label>
+                </div>
+
+                <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--ct-border);">
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 8px;">
+                        <span style="font-size:12px; color:var(--ct-text-muted);">About</span>
+                        <span style="font-size:12px; color:var(--ct-primary-light);">v${CONFIG.VERSION}</span>
+                    </div>
                 </div>
             `;
+
+            document.body.appendChild(this.modal);
+            feather.replace();
         }
+
+        applyVisibilityRules() {
+            // Apply class to body based on settings
+            if (this.settings.hideActions) {
+                document.body.classList.add('ct-hide-actions');
+            } else {
+                document.body.classList.remove('ct-hide-actions');
+            }
+
+            if (this.settings.hideConnections) {
+                document.body.classList.add('ct-hide-connections');
+            } else {
+                document.body.classList.remove('ct-hide-connections');
+            }
+
+            // Apply manual hiding logic (handles both hiding and showing)
+            this.hideActionButtonsManual();
+            this.hideConnectionsCardManual();
+        }
+
+        // JS Fallback for hiding elements that are hard to target with CSS
+        hideActionButtonsManual() {
+            const buttons = document.querySelectorAll('button.mat-primary');
+            buttons.forEach(btn => {
+                const text = btn.textContent.trim();
+                if (text === 'SMS' || text === 'Email' || text === 'Agent Script') {
+                    if (this.settings.hideActions) {
+                        btn.classList.add('ct-hidden-element');
+                    } else {
+                        btn.classList.remove('ct-hidden-element');
+                    }
+                }
+            });
+        }
+
+        hideConnectionsCardManual() {
+            // Find card containing "Zillow" or "Google Maps"
+            const cards = document.querySelectorAll('.dyn-card');
+            cards.forEach(card => {
+                if (card.textContent.includes('Zillow') || card.textContent.includes('Google Maps')) {
+                    if (this.settings.hideConnections) {
+                        card.classList.add('ct-hidden-element');
+                    } else {
+                        card.classList.remove('ct-hidden-element');
+                    }
+                }
+            });
+        }
+
+        setupEventListeners() {
+            if (!this.settingsBtn || !this.modal) return;
+
+            // Remove old listeners to avoid duplicates if re-injected
+            const newBtn = this.settingsBtn.cloneNode(true);
+            this.settingsBtn.parentNode.replaceChild(newBtn, this.settingsBtn);
+            this.settingsBtn = newBtn;
+
+            // Button click to toggle modal
+            this.settingsBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+
+                // Toggle modal visibility
+                const isShowing = this.modal.classList.contains('show');
+                this.modal.classList.toggle('show');
+
+                if (!isShowing) {
+                    // Position modal below the button
+                    const rect = this.settingsBtn.getBoundingClientRect();
+                    this.modal.style.top = `${rect.bottom + 8}px`;
+                    this.modal.style.right = `${window.innerWidth - rect.right}px`;
+                }
+            });
+
+            // Close modal when clicking outside
+            document.addEventListener('click', (e) => {
+                if (this.modal.classList.contains('show') &&
+                    !this.modal.contains(e.target) &&
+                    !this.settingsBtn.contains(e.target)) {
+                    this.modal.classList.remove('show');
+                }
+            });
+
+            // Re-apply JS hiding on DOM changes (for dynamic content)
+            if (this.bodyObserver) {
+                this.bodyObserver.disconnect();
+            }
+            this.bodyObserver = new MutationObserver(() => {
+                this.hideActionButtonsManual();
+                this.hideConnectionsCardManual();
+            });
+            this.bodyObserver.observe(document.body, { childList: true, subtree: true });
+
+            // Handle Settings Changes
+            const handleSettingChange = (e) => {
+                if (!this.modal.contains(e.target)) return;
+                const target = e.target;
+
+                if (target.id === 'ct-opt-split-name') {
+                    this.settings.useSplitName = target.checked;
+                    setStorage('ct_use_split_name', target.checked);
+                    showPremiumToast(`First/Last Name: ${target.checked ? 'ON' : 'OFF'}`, 'success');
+                }
+
+                if (target.id === 'ct-opt-hide-actions') {
+                    this.settings.hideActions = target.checked;
+                    setStorage('ct_hide_actions', target.checked);
+                    this.applyVisibilityRules();
+                    showPremiumToast(`Action Buttons: ${target.checked ? 'HIDDEN' : 'VISIBLE'}`, 'success');
+                }
+
+                if (target.id === 'ct-opt-hide-connections') {
+                    this.settings.hideConnections = target.checked;
+                    setStorage('ct_hide_connections', target.checked);
+                    this.applyVisibilityRules();
+                    showPremiumToast(`Connections Card: ${target.checked ? 'HIDDEN' : 'VISIBLE'}`, 'success');
+                }
+            };
+
+            document.addEventListener('change', handleSettingChange);
+        }
+    }
+
+    // ============================================
+    // TOP BAR CONTROLLER
+    // ============================================
+    function updateTopBar(complianceStatus, complianceText, timeInfo) {
+        const navBar = document.getElementById('dashboard-nav-tabs');
+        if (!navBar) return;
+
+        let container = document.getElementById('ct-top-controls');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'ct-top-controls';
+            container.style.cssText = `
+                display: inline-flex;
+                align-items: center;
+                margin-left: 15px;
+                gap: 12px;
+                font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+            `;
+            navBar.appendChild(container);
+        }
+
+        let compBadge = document.getElementById('ct-comp-badge');
+        if (!compBadge) {
+            compBadge = document.createElement('div');
+            compBadge.id = 'ct-comp-badge';
+            compBadge.className = 'ct-badge';
+            container.appendChild(compBadge);
+        }
+
+        let timeBadge = document.getElementById('ct-time-badge');
+        if (!timeBadge) {
+            timeBadge = document.createElement('div');
+            timeBadge.id = 'ct-time-badge';
+            timeBadge.className = 'ct-badge ct-time';
+            container.appendChild(timeBadge);
+        }
+
+        // Update compliance badge
+        const compClass = complianceStatus === 'SAFE' ? 'ct-safe' :
+                         complianceStatus === 'WARN' ? 'ct-warn' :
+                         complianceStatus === 'BLOCK' ? 'ct-block' :
+                         complianceStatus === 'ERROR' ? 'ct-block' : 'ct-neutral';
+
+        const compIcon = complianceStatus === 'SAFE' ? 'check-circle' :
+                        complianceStatus === 'WARN' ? 'alert-triangle' :
+                        complianceStatus === 'BLOCK' ? 'alert-octagon' :
+                        complianceStatus === 'ERROR' ? 'alert-circle' : 'loader';
+
+        compBadge.className = `ct-badge ${compClass}`;
+        compBadge.innerHTML = `<i data-feather="${compIcon}" style="width:14px;height:14px;margin-right:6px;"></i> ${complianceText}`;
+
+        // Update time badge
+        if (timeInfo && timeInfo.time) {
+            timeBadge.style.display = 'inline-flex';
+            timeBadge.style.visibility = 'visible';
+            timeBadge.style.opacity = '1';
+            const timeIcon = timeInfo.isBusinessHours ? 'sun' : 'moon';
+            timeBadge.innerHTML = `<i data-feather="${timeIcon}" style="width:14px;height:14px;margin-right:6px;"></i> ${timeInfo.time}`;
+        } else {
+            timeBadge.style.display = 'none';
+            timeBadge.style.visibility = 'hidden';
+            timeBadge.style.opacity = '0';
+            timeBadge.innerHTML = '';
+        }
+
         feather.replace();
     }
 
     // ============================================
-    // MAIN
+    // MAIN APPLICATION
     // ============================================
-    class AtmosAgent {
+    class CallToolsPro {
         constructor() {
-            this.compliance = new ComplianceEngine();
-            this.settings = new SettingsManager();
-            this.initialized = false;
+            this.complianceEngine = new ComplianceEngine();
+            this.searchHelper = new SearchHelper();
+            this.settingsManager = new SettingsManager();
+            this.isInitialized = false;
+            this.checkInterval = null;
         }
 
         init() {
-            if (this.initialized) return;
-            this.settings.init();
+            if (this.isInitialized) return;
 
-            // Check Loop
-            setInterval(() => this.check(), 1000);
+            try {
+                // Initialize components
+                this.searchHelper.init();
+                this.settingsManager.init();
 
-            // Search Helper
-            this.addSearchButton();
+                // Start compliance checking
+                this.startComplianceCheck();
 
-            this.initialized = true;
+
+            } catch (error) {
+                console.error('Failed to initialize CallTools Pro:', error);
+                showPremiumToast('Failed to initialize: ' + error.message, 'error');
+            }
         }
 
-        check() {
-            const inputs = document.querySelectorAll('input[type="text"]');
-            const addrInput = inputs[CONFIG_INDICES.ADDRESS_INPUT_INDEX];
-            if (!addrInput) return;
 
-            const addr = addrInput.value.trim().toUpperCase();
-            if (!addr) {
-                updateTopBar('NEUTRAL', 'Enter address');
+        startComplianceCheck() {
+            // Initial check
+            this.checkCompliance();
+
+            // Set up interval for continuous checking
+            this.checkInterval = setInterval(() => this.checkCompliance(), 1000);
+
+            // Also check on input changes
+            const addressInput = document.querySelectorAll('input[type="text"]')[CONFIG.ADDRESS_INPUT_INDEX];
+            if (addressInput) {
+                addressInput.addEventListener('input', debounce(() => this.checkCompliance(), 500));
+            }
+        }
+
+        checkCompliance() {
+            const inputs = document.querySelectorAll('input[type="text"]');
+            const addressInput = inputs[CONFIG.ADDRESS_INPUT_INDEX];
+
+            if (!addressInput) {
+                updateTopBar('NEUTRAL', 'Waiting for address...', null);
                 return;
             }
 
-            const status = this.compliance.processAddress(addr);
-            const timeInfo = this.compliance.addressInfo?.isValidState ?
-                { time: new Date().toLocaleTimeString('en-US', { timeZone: this.compliance.addressInfo.timezone }), isBusinessHours: this.compliance.addressInfo.isBusinessHours } : null;
+            const address = addressInput.value.trim();
+            if (!address) {
+                updateTopBar('NEUTRAL', 'Enter address to check compliance', null);
+                return;
+            }
 
-            this.compliance.updateUI(status, timeInfo);
+            // Parse address to check if it's valid
+            const addressInfo = parseAddressForInfo(address.toUpperCase());
+
+            // Check for invalid state first
+            if (addressInfo.state && !addressInfo.isValidState) {
+                updateTopBar('ERROR', `Invalid state code: ${addressInfo.state}`, null);
+                return;
+            }
+
+            // Check if we have a state at all
+            if (!addressInfo.state) {
+                updateTopBar('NEUTRAL', 'No state found in address', null);
+                return;
+            }
+
+            // Process address through compliance engine
+            const complianceStatus = this.complianceEngine.processAddress(address.toUpperCase());
+
+            if (!complianceStatus) {
+                updateTopBar('ERROR', 'Failed to process address', null);
+                return;
+            }
+
+            // Get time info - only if address is valid
+            let timeInfo = null;
+            if (addressInfo.isValidState) {
+                timeInfo = this.complianceEngine.getTimeString();
+            }
+
+            // Update UI with compliance and time info
+            this.complianceEngine.updateUI(complianceStatus, timeInfo);
         }
 
-        addSearchButton() {
-            const btn = document.createElement('button');
-            btn.id = 'ct-search-helper-btn';
-            btn.innerHTML = `<i data-feather="copy"></i>`;
-            btn.onclick = () => {
-                const inputs = document.querySelectorAll('input[type="text"]');
-                const addr = inputs[CONFIG_INDICES.ADDRESS_INPUT_INDEX]?.value;
-                if (addr) {
-                    copyToClipboard(addr);
-                    showPremiumToast('Address Copied', 'success');
-                }
-            };
-            document.body.appendChild(btn);
+        destroy() {
+            if (this.checkInterval) {
+                clearInterval(this.checkInterval);
+            }
+
+            // Remove all injected elements
+            document.getElementById('ct-search-helper-btn')?.remove();
+            document.getElementById('ct-nav-settings-btn')?.remove();
+            document.getElementById('ct-settings-modal')?.remove();
+            document.getElementById('ct-top-controls')?.remove();
+            this.isInitialized = false;
         }
     }
 
-    // Init Logic
-    const observer = new MutationObserver(() => {
-        if (document.querySelector('.user-icon')) {
-            new AtmosAgent().init();
-            observer.disconnect();
+    // ============================================
+    // INITIALIZATION
+    // ============================================
+    function initialize() {
+        // Check if we're on CallTools
+        if (!window.location.hostname.includes('calltools')) {
+            console.log('CallTools Pro: Not on CallTools domain, skipping initialization');
+            return;
         }
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
 
+        let app = null;
+        let observer = null;
+        let timeoutId = null;
+
+        function initApp() {
+            if (app && app.isInitialized) return;
+
+            if (!app) {
+                app = new CallToolsPro();
+            }
+
+            app.init();
+
+            // Clean up observer and timeout
+            if (observer) {
+                observer.disconnect();
+                observer = null;
+            }
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+                timeoutId = null;
+            }
+        }
+
+        // Use MutationObserver to wait for dynamic content
+        observer = new MutationObserver((mutations) => {
+            const hasNavBar = document.getElementById('dashboard-nav-tabs');
+            const hasUserIcon = document.querySelector('.user-icon');
+
+            if (hasNavBar && hasUserIcon) {
+                initApp();
+            }
+        });
+
+        // Start observing
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+
+        // Also try immediate initialization after 5 seconds
+        timeoutId = setTimeout(() => {
+            const hasNavBar = document.getElementById('dashboard-nav-tabs');
+            const hasUserIcon = document.querySelector('.user-icon');
+
+            if (hasNavBar && hasUserIcon) {
+                initApp();
+            } else {
+                console.log('CallTools Pro: Elements not found after 5 seconds, still observing...');
+            }
+        }, 5000);
+
+        // Clean up on page unload
+        window.addEventListener('unload', () => {
+            if (app) {
+                app.destroy();
+            }
+            if (observer) {
+                observer.disconnect();
+            }
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+        });
+    }
+
+    // Start initialization
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initialize);
+    } else {
+        initialize();
+    }
 })();

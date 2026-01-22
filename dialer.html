@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dialer · CT Pro</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+    <meta name="theme-color" content="#02040a">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'rich-black': '#02040a',
+                        'accent': '#3b82f6',
+                        'accent-secondary': '#8b5cf6',
+                        'glass-border': 'rgba(255, 255, 255, 0.1)',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        :root { color-scheme: dark; }
+        body { background-color: #02040a; color: #ffffff; overflow-x: hidden; }
+        .ambient-light { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; overflow: hidden; z-index: -1; pointer-events: none; }
+        .light-orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.15; }
+        .orb-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: #3b82f6; animation: float 10s ease-in-out infinite; }
+        .orb-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: #8b5cf6; animation: float 12s ease-in-out infinite reverse; }
+        @keyframes float { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(30px, 30px); } }
+        .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .dial-btn { transition: all 0.2s; }
+        .dial-btn:active { transform: scale(0.95); }
+    </style>
+
+    <script src="assets/js/config.js"></script>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col selection:bg-accent selection:text-white">
+
+    <div class="ambient-light">
+        <div class="light-orb orb-1"></div>
+        <div class="light-orb orb-2"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-rich-black/50 backdrop-blur-xl border-b border-white/10">
+        <div class="container mx-auto px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-8">
+                    <a href="index.html" class="flex items-center space-x-3 group">
+                        <div class="w-8 h-8 bg-gradient-to-br from-accent to-accent-secondary rounded-lg flex items-center justify-center shadow-lg shadow-accent/20 group-hover:shadow-accent/40 transition-shadow">
+                            <i data-feather="phone-call" class="w-4 h-4 text-white"></i>
+                        </div>
+                        <h1 class="text-sm font-semibold text-white tracking-wide">CT Pro</h1>
+                    </a>
+
+                    <!-- Navigation -->
+                    <nav class="hidden md:flex space-x-1">
+                        <a href="index.html" class="px-3 py-2 text-sm text-secondary hover:text-white rounded-md hover:bg-white/5 transition-all">Home</a>
+                        <a href="dialer.html" class="px-3 py-2 text-sm text-white bg-white/10 rounded-md font-medium shadow-inner shadow-white/5">Dialer</a>
+                        <a href="mail.html" class="px-3 py-2 text-sm text-secondary hover:text-white rounded-md hover:bg-white/5 transition-all">Mail</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center py-12 relative">
+        <div class="container mx-auto px-4 flex flex-col items-center">
+
+            <div class="mb-8 text-center">
+                <h2 class="text-2xl font-bold text-white mb-2">Power Dialer</h2>
+                <p class="text-secondary text-sm">Professional outbound calling interface</p>
+            </div>
+
+            <!-- Dialer Pad -->
+            <div class="glass-panel w-full max-w-sm rounded-3xl p-6 shadow-2xl shadow-black/50 border border-white/10">
+
+                <!-- Display -->
+                <div class="mb-8 relative">
+                    <div class="h-16 flex items-center justify-center text-3xl font-mono text-white tracking-wider border-b border-white/10">
+                        <span id="display-number" class="empty:after:content-['Ready'] empty:after:text-white/20"></span>
+                        <span class="animate-pulse ml-0.5 w-0.5 h-8 bg-accent/50"></span>
+                    </div>
+                    <div class="text-center mt-2 text-xs text-secondary font-medium uppercase tracking-widest" id="display-status">Disconnected</div>
+                </div>
+
+                <!-- Keypad -->
+                <div class="grid grid-cols-3 gap-4 mb-8">
+                    <button class="dial-btn w-16 h-16 rounded-full bg-white/5 hover:bg-white/10 flex flex-col items-center justify-center mx-auto transition-colors" onclick="dial('1')">
+                        <span class="text-xl font-medium text-white">1</span>
+                        <span class="text-[8px] text-secondary tracking-widest opacity-0">_</span>
+                    </button>
+                    <button class="dial-btn w-16 h-16 rounded-full bg-white/5 hover:bg-white/10 flex flex-col items-center justify-center mx-auto transition-colors" onclick="dial('2')">
+                        <span class="text-xl font-medium text-white">2</span>
+                        <span class="text-[8px] text-secondary tracking-widest">ABC</span>
+                    </button>
+                    <button class="dial-btn w-16 h-16 rounded-full bg-white/5 hover:bg-white/10 flex flex-col items-center justify-center mx-auto transition-colors" onclick="dial('3')">
+                        <span class="text-xl font-medium text-white">3</span>
+                        <span class="text-[8px] text-secondary tracking-widest">DEF</span>
+                    </button>
+                    <button class="dial-btn w-16 h-16 rounded-full bg-white/5 hover:bg-white/10 flex flex-col items-center justify-center mx-auto transition-colors" onclick="dial('4')">
+                        <span class="text-xl font-medium text-white">4</span>
+                        <span class="text-[8px] text-secondary tracking-widest">GHI</span>
+                    </button>
+                    <button class="dial-btn w-16 h-16 rounded-full bg-white/5 hover:bg-white/10 flex flex-col items-center justify-center mx-auto transition-colors" onclick="dial('5')">
+                        <span class="text-xl font-medium text-white">5</span>
+                        <span class="text-[8px] text-secondary tracking-widest">JKL</span>
+                    </button>
+                    <button class="dial-btn w-16 h-16 rounded-full bg-white/5 hover:bg-white/10 flex flex-col items-center justify-center mx-auto transition-colors" onclick="dial('6')">
+                        <span class="text-xl font-medium text-white">6</span>
+                        <span class="text-[8px] text-secondary tracking-widest">MNO</span>
+                    </button>
+                    <button class="dial-btn w-16 h-16 rounded-full bg-white/5 hover:bg-white/10 flex flex-col items-center justify-center mx-auto transition-colors" onclick="dial('7')">
+                        <span class="text-xl font-medium text-white">7</span>
+                        <span class="text-[8px] text-secondary tracking-widest">PQRS</span>
+                    </button>
+                    <button class="dial-btn w-16 h-16 rounded-full bg-white/5 hover:bg-white/10 flex flex-col items-center justify-center mx-auto transition-colors" onclick="dial('8')">
+                        <span class="text-xl font-medium text-white">8</span>
+                        <span class="text-[8px] text-secondary tracking-widest">TUV</span>
+                    </button>
+                    <button class="dial-btn w-16 h-16 rounded-full bg-white/5 hover:bg-white/10 flex flex-col items-center justify-center mx-auto transition-colors" onclick="dial('9')">
+                        <span class="text-xl font-medium text-white">9</span>
+                        <span class="text-[8px] text-secondary tracking-widest">WXYZ</span>
+                    </button>
+                    <button class="dial-btn w-16 h-16 rounded-full bg-white/5 hover:bg-white/10 flex flex-col items-center justify-center mx-auto transition-colors" onclick="dial('*')">
+                        <span class="text-2xl font-medium text-secondary hover:text-white pt-2">*</span>
+                    </button>
+                    <button class="dial-btn w-16 h-16 rounded-full bg-white/5 hover:bg-white/10 flex flex-col items-center justify-center mx-auto transition-colors" onclick="dial('0')">
+                        <span class="text-xl font-medium text-white">0</span>
+                        <span class="text-[8px] text-secondary tracking-widest">+</span>
+                    </button>
+                    <button class="dial-btn w-16 h-16 rounded-full bg-white/5 hover:bg-white/10 flex flex-col items-center justify-center mx-auto transition-colors" onclick="dial('#')">
+                        <span class="text-xl font-medium text-secondary hover:text-white">#</span>
+                    </button>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center justify-center gap-6">
+                    <button class="dial-btn w-16 h-16 rounded-full bg-green-500 hover:bg-green-400 flex items-center justify-center text-black shadow-lg shadow-green-500/20" onclick="simulateCall()">
+                        <i data-feather="phone" class="w-6 h-6 fill-current"></i>
+                    </button>
+
+                    <button class="dial-btn w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white" onclick="backspace()">
+                        <i data-feather="delete" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-12 border-t border-white/10 bg-black/40 backdrop-blur-md">
+        <div class="container mx-auto px-6 lg:px-8 text-center">
+            <p class="text-xs text-secondary">
+                2026 CT Pro. v<span id="footer-version">4.6.2</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Simple Script for UI -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            feather.replace();
+            document.getElementById('footer-version').textContent = APP_CONFIG.version;
+        });
+
+        function dial(digit) {
+            const display = document.getElementById('display-number');
+            if (display.textContent.length < 15) {
+                display.textContent += digit;
+            }
+        }
+
+        function backspace() {
+            const display = document.getElementById('display-number');
+            display.textContent = display.textContent.slice(0, -1);
+        }
+
+        function simulateCall() {
+            const display = document.getElementById('display-number');
+            const status = document.getElementById('display-status');
+
+            if (display.textContent.length > 0) {
+                status.textContent = "Calling...";
+                status.className = "text-center mt-2 text-xs text-green-400 font-bold uppercase tracking-widest animate-pulse";
+
+                setTimeout(() => {
+                    status.textContent = "Disconnected";
+                    status.className = "text-center mt-2 text-xs text-secondary font-medium uppercase tracking-widest";
+                }, 2000);
+            }
+        }
+    </script>
+</body>
+</html>

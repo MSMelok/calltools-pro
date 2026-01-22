@@ -1,7 +1,12 @@
 class ModalManager {
     constructor() {
         this.isOpen = false;
-        this.init();
+        // Wait for config before initializing
+        if (window.APP_CONFIG) {
+            this.init();
+        } else {
+            document.addEventListener('AtmosConfigReady', () => this.init());
+        }
     }
     
     async init() {
@@ -29,8 +34,8 @@ class ModalManager {
         } catch (error) {
             console.error('Error loading modal templates:', error);
             this.modals = {
-                privacy: this.getFallbackContent('privacy'),
-                terms: this.getFallbackContent('terms')
+                privacy: this.wrapModalContent('Privacy Policy', this.getFallbackContent('privacy')),
+                terms: this.wrapModalContent('Terms of Service', this.getFallbackContent('terms'))
             };
         }
     }
@@ -38,17 +43,17 @@ class ModalManager {
     wrapModalContent(title, content) {
         return `
             <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm transition-opacity duration-300" id="modal-overlay">
-                <div class="relative w-full max-w-4xl max-h-[90vh] bg-black border border-divider rounded-lg overflow-hidden transform transition-all duration-300" id="modal-content">
-                    <div class="flex items-center justify-between p-6 border-b border-divider">
+                <div class="relative w-full max-w-4xl max-h-[90vh] bg-black border border-glass-border rounded-lg overflow-hidden transform transition-all duration-300 shadow-2xl" id="modal-content">
+                    <div class="flex items-center justify-between p-6 border-b border-glass-border">
                         <h2 class="text-xl font-semibold text-white">${title}</h2>
-                        <button class="p-2 hover:bg-[#0a0a0a] rounded transition-colors" id="modal-close">
-                            <i data-feather="x" class="w-5 h-5 text-secondary"></i>
+                        <button class="p-2 hover:bg-[#1a1a1a] rounded transition-colors" id="modal-close">
+                            <i data-feather="x" class="w-5 h-5 text-slate-400"></i>
                         </button>
                     </div>
-                    <div class="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
+                    <div class="p-6 overflow-y-auto max-h-[calc(90vh-140px)] text-slate-300">
                         ${content}
                     </div>
-                    <div class="p-6 border-t border-divider">
+                    <div class="p-6 border-t border-glass-border">
                         <button class="w-full py-3 bg-white text-black text-sm font-medium rounded-lg hover:bg-gray-200 transition-colors" id="modal-close-btn">
                             Close
                         </button>
@@ -62,8 +67,7 @@ class ModalManager {
         const title = type === 'privacy' ? 'Privacy Policy' : 'Terms of Service';
         return `
             <div class="p-6">
-                <h3 class="text-lg font-semibold text-white mb-3">${title}</h3>
-                <p class="text-sm text-secondary">Content could not be loaded. Please try again later.</p>
+                <p class="text-sm text-secondary">Content could not be loaded. Please check your internet connection.</p>
             </div>
         `;
     }

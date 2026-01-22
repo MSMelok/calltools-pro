@@ -12,6 +12,7 @@
 // @grant        GM_getValue
 // @grant        GM_getResourceText
 // @resource     rules https://msmelok.github.io/calltools-pro/assets/data/rules.json
+// @resource     config https://msmelok.github.io/calltools-pro/assets/data/config.json
 // @require      https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js
 // @updateURL    https://msmelok.github.io/calltools-pro/atmos-calltools.meta.js
 // @downloadURL  https://msmelok.github.io/calltools-pro/atmos-calltools.user.js

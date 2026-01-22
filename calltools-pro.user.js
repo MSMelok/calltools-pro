@@ -111,8 +111,8 @@
         "TN": { type: "SAFE", msg: "Tennessee: Flat and % Deals (Flat Up to $150/mo - Both Tiers)" },
         "TX": { type: "SAFE", msg: "Texas: Flat and % Deals (Flat Up to $150/mo - Both Tiers)" },
         "UT": { type: "SAFE", msg: "Utah: Flat and % Deals (Flat Up to $150/mo - Both Tiers)" },
-        "VA": { type: "WARN", msg: "Virginia: Flat and % Deals (Flat Up to $150/mo - Both Tiers)" },
-        "WA": { type: "WARN", msg: "Washington: Flat and % Deals (Flat Up to $150/mo - Both Tiers)" },
+        "VA": { type: "SAFE", msg: "Virginia: Flat and % Deals (Flat Up to $150/mo - Both Tiers)" },
+        "WA": { type: "SAFE", msg: "Washington: Flat and % Deals (Flat Up to $150/mo - Both Tiers)" },
         "WY": { type: "SAFE", msg: "Wyoming: Flat and % Deals (Flat Up to $150/mo - Both Tiers)" },
         "WV": { type: "SAFE", msg: "West Virginia: Flat and % Deals (Flat Up to $150/mo - Both Tiers)" },
         

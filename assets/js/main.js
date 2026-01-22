@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     renderFooterLinks();
     setupInstallButtons();
 
-    console.log(`CallTools Pro v${APP_CONFIG.version} loaded`);
+    console.log(`Atmos Agent v${APP_CONFIG.version} loaded`);
 });
 
 function updateVersionDisplay() {
@@ -73,6 +73,7 @@ function renderInstallationSteps() {
     const installationSteps = document.getElementById('installation-steps');
     if (!installationSteps) return;
 
+    // Logic kept for compatibility, though index.html may have hardcoded steps now.
     const steps = [
         {
             number: '1',
@@ -147,11 +148,23 @@ function renderFooterLinks() {
 function setupInstallButtons() {
     const urls = getScriptURLs();
 
-    document.querySelectorAll('#install-button, #main-install-button').forEach(button => {
-        button.href = urls.userScript;
+    const ctBtn = document.getElementById('install-calltools-btn');
+    if (ctBtn) {
+        ctBtn.href = urls.atmosCallTools;
+        ctBtn.addEventListener('click', () => console.log('Installing Atmos CallTools...'));
+    }
 
+    const gmBtn = document.getElementById('install-gmail-btn');
+    if (gmBtn) {
+        gmBtn.href = urls.atmosGmail;
+        gmBtn.addEventListener('click', () => console.log('Installing Atmos Gmail...'));
+    }
+
+    // Fallback
+    document.querySelectorAll('#install-button, #main-install-button').forEach(button => {
+        button.href = urls.atmosCallTools;
         button.addEventListener('click', function(e) {
-            console.log('Installation initiated');
+            console.log('Installation initiated (legacy)');
         });
     });
 }

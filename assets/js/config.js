@@ -15,7 +15,7 @@ const ConfigLoader = {
             return {
                 version: "5.0.0",
                 githubUsername: "msmelok",
-                repoName: "calltools-pro",
+                repoName: "atmos-agent",
                 update: { changelog: ["Error loading changelog"] },
                 contact: { github: "#" }
             };

@@ -50,7 +50,7 @@ A professional enhancement suite for **CallTools.io** and **Gmail**, designed to
 ## 🚀 Installation
 
 ### Quick Install
-1. **[Visit the Atmos Dashboard](https://msmelok.github.io/calltools-pro/)**
+1. **[Visit the Atmos Dashboard](https://msmelok.github.io/atmos-agent/)**
 2. Click **Install Agents** and choose the agent you need.
 3. Click **Install** in the Tampermonkey prompt.
 4. Refresh your page (CallTools or Gmail) to activate.
@@ -59,8 +59,8 @@ A professional enhancement suite for **CallTools.io** and **Gmail**, designed to
 1. Install [Tampermonkey](https://www.tampermonkey.net/) (Chrome / Edge)  
    or [Greasemonkey](https://www.greasespot.net/) (Firefox)
 2. Open Script:
-   - **CallTools:** [`atmos-calltools.user.js`](https://msmelok.github.io/calltools-pro/atmos-calltools.user.js)
-   - **Gmail:** [`atmos-gmail.user.js`](https://msmelok.github.io/calltools-pro/atmos-gmail.user.js)
+   - **CallTools:** [`atmos-calltools.user.js`](https://msmelok.github.io/atmos-agent/atmos-calltools.user.js)
+   - **Gmail:** [`atmos-gmail.user.js`](https://msmelok.github.io/atmos-agent/atmos-gmail.user.js)
 3. Tampermonkey → **Install**
 
 ---

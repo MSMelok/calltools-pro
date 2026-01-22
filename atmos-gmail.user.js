@@ -9,18 +9,17 @@
 // @grant        GM_getResourceText
 // @grant        GM_setValue
 // @grant        GM_getValue
-// @resource     rules https://msmelok.github.io/calltools-pro/assets/data/rules.json
-// @resource     config https://msmelok.github.io/calltools-pro/assets/data/config.json
-// @require      https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js
-// @updateURL    https://msmelok.github.io/calltools-pro/atmos-gmail.meta.js
-// @downloadURL  https://msmelok.github.io/calltools-pro/atmos-gmail.user.js
+// @resource     rules https://msmelok.github.io/atmos-agent/assets/data/rules.json
+// @resource     config https://msmelok.github.io/atmos-agent/assets/data/config.json
+// @updateURL    https://msmelok.github.io/atmos-agent/atmos-gmail.meta.js
+// @downloadURL  https://msmelok.github.io/atmos-agent/atmos-gmail.user.js
 // ==/UserScript==
 
 (function() {
-'use strict';
+    'use strict';
 
     // ============================================
-    // LOAD RESOURCES
+    // 1. LOAD RESOURCES (External)
     // ============================================
     let RULES = {};
     let APP_CONFIG = { version: "5.0.0" };
@@ -34,29 +33,12 @@
 
         console.log(`Atmos Gmail: Resources loaded. Version ${APP_CONFIG.version}`);
     } catch (e) {
-        console.warn("Atmos: Failed to load external resources", e);
+        console.warn("Atmos: Failed to load external resources. Using empty rules.", e);
     }
 
-    // Trusted Types
-    let policy = null;
-    if (window.trustedTypes && window.trustedTypes.createPolicy) {
-        try {
-            policy = window.trustedTypes.createPolicy('atmosPolicy', { createHTML: (s) => s });
-        } catch (e) { if (window.trustedTypes.defaultPolicy) policy = window.trustedTypes.defaultPolicy; }
-    }
-    const safeHTML = (html) => policy ? policy.createHTML(html) : html;
-
-    // Smart Poller: Waits for Gmail to be ready
-    function waitForGmail(callback) {
-        const check = setInterval(() => {
-            if (document.body && document.querySelector('div[role="main"]')) {
-                clearInterval(check);
-                callback();
-            }
-        }, 500);
-    }
-
-    // Styles
+    // ============================================
+    // 2. STYLES
+    // ============================================
     const STYLES = `
         :root {
             --ct-primary: #06b6d4;
@@ -66,152 +48,293 @@
             --ct-text: #f1f5f9;
         }
         #atmos-panel {
-            position: fixed; bottom: 80px; right: 20px; width: 360px;
+            position: fixed; bottom: 80px; right: 20px; width: 420px;
             background: var(--ct-bg); backdrop-filter: blur(16px);
             border: 1px solid var(--ct-border); border-radius: 16px;
             z-index: 9999; font-family: -apple-system, sans-serif;
             display: none; flex-direction: column; color: var(--ct-text);
             box-shadow: 0 8px 32px rgba(0,0,0,0.4);
         }
-        .at-header { padding: 16px; border-bottom: 1px solid var(--ct-border); display: flex; justify-content: space-between; }
+        .at-header { padding: 16px; border-bottom: 1px solid var(--ct-border); display: flex; justify-content: space-between; align-items: center; }
         .at-body { padding: 20px; display: flex; flex-direction: column; gap: 12px; }
-        .at-input { width: 100%; padding: 10px; background: rgba(255,255,255,0.05); border: 1px solid var(--ct-border); color: white; border-radius: 8px; margin-top: 4px; }
-        .at-status { padding: 10px; background: rgba(255,255,255,0.1); border-radius: 6px; text-align: center; font-size: 13px; }
-        .at-status.block { background: rgba(244, 63, 94, 0.2); color: #f43f5e; }
+        .at-input { width: 100%; padding: 10px; background: rgba(255,255,255,0.05); border: 1px solid var(--ct-border); color: white; border-radius: 8px; margin-top: 4px; box-sizing: border-box; }
+
+        /* Status Indicators with Colors */
+        .at-status { padding: 10px; background: rgba(255,255,255,0.1); border-radius: 6px; text-align: center; font-size: 13px; font-weight: 500; transition: background 0.3s; }
+        .at-status.safe { background: rgba(34, 197, 94, 0.25); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+        .at-status.warn { background: rgba(250, 204, 21, 0.25); color: #facc15; border: 1px solid rgba(250, 204, 21, 0.3); }
+        .at-status.block { background: rgba(244, 63, 94, 0.25); color: #f43f5e; border: 1px solid rgba(244, 63, 94, 0.3); }
+
         .at-btn { padding: 10px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; margin-top: 8px; }
         .at-btn-primary { background: var(--ct-primary); color: white; }
-        #atmos-toggle {
-            position: fixed; bottom: 20px; right: 20px; width: 56px; height: 56px;
-            background: var(--ct-primary); color: white; border-radius: 16px;
-            display: flex; justify-content: center; align-items: center;
-            cursor: pointer; z-index: 9998; box-shadow: 0 4px 8px 3px rgba(0,0,0,0.15);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        #atmos-toggle:hover { box-shadow: 0 6px 10px 4px rgba(0,0,0,0.2); transform: scale(1.02); }
+        #atmos-toggle { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; background: var(--ct-primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 9998; font-size: 24px; }
     `;
     GM_addStyle(STYLES);
 
+    // ============================================
+    // 3. UTILITIES
+    // ============================================
     function detectRule(address) {
         if (!address) return { type: "NEUTRAL", msg: "Enter address" };
+
         const cleanAddr = address.replace(/\s+/g, ' ').trim();
-        // Case insensitive for cities
         const upperAddr = cleanAddr.toUpperCase();
 
+        // 1. City Block (Case Insensitive)
         for (const key in RULES) {
             if (key.length > 2 && upperAddr.includes(key)) return RULES[key];
         }
-        // Strict Case-Sensitive for State Codes (e.g. match " MT " but not " Mt ")
+
+        // 2. State Rules (Strict Case Sensitive for Code)
         for (const key in RULES) {
             if (key.length === 2) {
-                if (new RegExp(`[\\s,]${key}([\\s,]|$|\\.)`).test(cleanAddr)) return RULES[key];
+                // Regex: Match " TX " or ", TX" or " TX."
+                const regex = new RegExp(`[\\s,]${key}([\\s,]|$|\\.)`);
+                if (regex.test(cleanAddr)) return RULES[key];
             }
         }
         return { type: "NEUTRAL", msg: "State not recognized" };
     }
 
-    function generateEmailBody(dm, biz, addr, type) {
-        const isPercentageOnly = (type === "WARN");
-        const cleanAddress = addr.trim();
-
-        // Template Fragments
-        const option1 = `- <u>A flat monthly fee of $150.00 + a $1.50 bonus for every transaction over the 100-transaction mark.</u>`;
-        const option2 = `- <u>A revenue share of 15% of total kiosk earnings, with a $900.00 guarantee over the first three months (split into three monthly payments of $300.00).</u>`;
-
-        let offerSection = "";
-        if (isPercentageOnly) {
-            offerSection = `We offer a straightforward payment structure:<br>${option2}<br><br>`;
-        } else {
-            offerSection = `We offer two straightforward payment structures:<br>${option1}<br>${option2}<br><br>`;
-        }
-
-        return `Hello ${dm},<br><br>
-I’m Adam from Bitcoin Depot. I’ve been looking at your location on ${cleanAddress}, and I think it’s a perfect fit for a partnership that could bring an easy stream of revenue to your business.
-
-We’re looking for a small 3x3-foot space in your store to host one of our Bitcoin machines. Here is the part most owners like: It is 100% hands-off for you. We handle the installation, maintenance, and customer support. You simply provide the space and a power outlet.
-
-${offerSection} Beyond the rent, we are a NASDAQ-listed company (Ticker Symbol: BTM) with over 8,000 locations.
-
-We use our app (100k+ users) to drive new foot traffic directly to your business. Furthermore, we strictly abide by all relevant laws and regulations, including anti-money laundering (AML) and know-your-customer (KYC) requirements, so you can host with total peace of mind.
-
-Do you have five minutes this week for a quick chat? I’d love to see if we can get this set up for you.
-
-
-Location Master Agreement: https://get.bitcoindepot.com/lma/
-NASDAQ Listing: https://www.nasdaq.com/market-activity/stocks/btm
-
-`;
+    // Helper: Create DOM Element (Solves TrustedHTML issues)
+    function mkEl(tag, className, text) {
+        const el = document.createElement(tag);
+        if (className) el.className = className;
+        if (text) el.textContent = text;
+        return el;
     }
 
+    // ============================================
+    // 4. UI CREATION (DOM-BASED)
+    // ============================================
     function createUI() {
         if (document.getElementById('atmos-panel')) return;
 
-        const div = document.createElement('div');
-        div.id = 'atmos-panel';
-        div.innerHTML = safeHTML(`
-            <div class="at-header"><span>Atmos Lead Filler</span><span id="at-close" style="cursor:pointer">✕</span></div>
-            <div class="at-body">
-                <input id="at-dm" class="at-input" placeholder="Decision Maker">
-                <input id="at-biz" class="at-input" placeholder="Business Name">
-                <textarea id="at-addr" class="at-input" rows="2" placeholder="Address"></textarea>
-                <div id="at-status" class="at-status">Check Address</div>
-                <button id="at-fill" class="at-btn at-btn-primary">Fill Email</button>
-            </div>
-            <div style="padding:10px;font-size:10px;opacity:0.5;text-align:center">v${APP_CONFIG.version}</div>
-        `);
-        document.body.appendChild(div);
+        // --- Build Panel using DOM Nodes (No innerHTML = No Error) ---
+        const panel = mkEl('div', '');
+        panel.id = 'atmos-panel';
 
-        const toggle = document.createElement('div');
+        // Header
+        const header = mkEl('div', 'at-header');
+        header.appendChild(mkEl('span', '', 'Atmos Lead Filler'));
+        const closeBtn = mkEl('span', '', '✕');
+        closeBtn.style.cursor = 'pointer';
+        closeBtn.id = 'at-close';
+        header.appendChild(closeBtn);
+        panel.appendChild(header);
+
+        // Body
+        const body = mkEl('div', 'at-body');
+
+        const dmInput = mkEl('input', 'at-input');
+        dmInput.id = 'at-dm'; dmInput.placeholder = 'Decision Maker';
+        dmInput.setAttribute('autocomplete', 'off'); // Disable history
+        body.appendChild(dmInput);
+
+        const bizInput = mkEl('input', 'at-input');
+        bizInput.id = 'at-biz'; bizInput.placeholder = 'Business Name';
+        bizInput.setAttribute('autocomplete', 'off'); // Disable history
+        body.appendChild(bizInput);
+
+        const addrInput = mkEl('textarea', 'at-input');
+        addrInput.id = 'at-addr'; addrInput.rows = 2; addrInput.placeholder = 'Address';
+        addrInput.setAttribute('autocomplete', 'off'); // Disable history
+        body.appendChild(addrInput);
+
+        const statusDiv = mkEl('div', 'at-status', 'Check Address');
+        statusDiv.id = 'at-status';
+        body.appendChild(statusDiv);
+
+        const fillBtn = mkEl('button', 'at-btn at-btn-primary', 'Fill Email');
+        fillBtn.id = 'at-fill';
+        body.appendChild(fillBtn);
+
+        const versionLabel = mkEl('div', '', `v${APP_CONFIG.version}`);
+        versionLabel.style.cssText = "padding:10px;font-size:10px;opacity:0.5;text-align:center";
+        panel.appendChild(body);
+        panel.appendChild(versionLabel);
+
+        document.body.appendChild(panel);
+
+        // Toggle Button
+        const toggle = mkEl('div', '', '⚡');
         toggle.id = 'atmos-toggle';
-        toggle.innerHTML = safeHTML('<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#FFFFFF"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z"/></svg>');
         document.body.appendChild(toggle);
 
-        // Logic
-        const close = div.querySelector('#at-close');
-        const addrInput = div.querySelector('#at-addr');
-        const status = div.querySelector('#at-status');
-
-        toggle.onclick = () => { div.style.display = 'flex'; toggle.style.display = 'none'; };
-        close.onclick = () => { div.style.display = 'none'; toggle.style.display = 'flex'; };
+        // --- Logic ---
+        toggle.onclick = () => { panel.style.display = 'flex'; toggle.style.display = 'none'; };
+        closeBtn.onclick = () => { panel.style.display = 'none'; toggle.style.display = 'flex'; };
 
         addrInput.oninput = () => {
             const rule = detectRule(addrInput.value);
-            status.textContent = rule.msg;
-            status.className = `at-status ${rule.type === 'BLOCK' ? 'block' : ''}`;
+            statusDiv.textContent = rule.msg;
+
+            // Apply Colors
+            statusDiv.className = 'at-status'; // Reset
+            if (rule.type === 'SAFE') statusDiv.classList.add('safe');
+            else if (rule.type === 'WARN') statusDiv.classList.add('warn');
+            else if (rule.type === 'BLOCK') statusDiv.classList.add('block');
         };
 
-        div.querySelector('#at-fill').onclick = () => {
+        fillBtn.onclick = () => {
             const rule = detectRule(addrInput.value);
-            if (rule.type === 'BLOCK' && !confirm(`WARNING: ${rule.msg}\n\nDo you really want to send an email to this blocked location?`)) return;
+            if (rule.type === 'BLOCK' && !confirm('Blocked location. Send anyway?')) return;
 
-            const dm = div.querySelector('#at-dm').value.trim() || "[Name]";
-            const biz = div.querySelector('#at-biz').value.trim() || "[Business]";
-            const addr = addrInput.value;
+            const dm = dmInput.value.trim() || 'Owner';
+            const biz = bizInput.value.trim() || 'Business';
+            const addr = addrInput.value.trim();
 
-            const subject = `Turning 3 square feet of ${biz} into guaranteed revenue`;
-            const bodyHtml = generateEmailBody(dm, biz, addr, rule.type);
+            const success = insertEmailSafely(dm, biz, addr, rule.type);
 
-            fillGmail(subject, bodyHtml);
+            // Auto-Reset on Success
+            if (success) {
+                dmInput.value = '';
+                bizInput.value = '';
+                addrInput.value = '';
+                statusDiv.textContent = 'Check Address';
+                statusDiv.className = 'at-status';
+            }
         };
     }
 
-    function fillGmail(subj, body) {
-        // Selector strategy: Try standard name, then aria-label (fallbacks)
+    // ============================================
+    // 5. EMAIL INJECTION (SAFE DOM METHOD)
+    // ============================================
+    function insertEmailSafely(dm, biz, addr, type) {
+        // 1. Locate Elements
+        const composeBox = document.querySelector('div[role="textbox"][contenteditable="true"]');
         const subjectBox = document.querySelector('input[name="subjectbox"]') ||
                            document.querySelector('input[placeholder="Subject"]');
 
-        const messageBody = document.querySelector('div[role="textbox"][aria-label*="Body"]') ||
-                            document.querySelector('div[contenteditable="true"][aria-label*="Message Body"]');
-
-        if (subjectBox && messageBody) {
-            subjectBox.value = subj;
-            subjectBox.dispatchEvent(new Event('input', { bubbles: true }));
-
-            messageBody.focus();
-            document.execCommand('insertHTML', false, safeHTML(body));
-        } else {
-            alert("Could not find an open Compose window. Please click 'Compose' first!");
+        if (!composeBox) {
+            alert('Please open a Compose window first!');
+            return false;
         }
+
+        // 2. Set Subject Line
+        if (subjectBox) {
+            subjectBox.value = `Turning 3 square feet of ${biz} into guaranteed revenue`;
+            subjectBox.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+
+        // 3. Build email structure (DOM fragments)
+        const frag = document.createDocumentFragment();
+        const br = () => document.createElement('br');
+
+        // Greeting
+        const div1 = document.createElement('div');
+        div1.textContent = `Hello ${dm},`;
+        frag.appendChild(div1);
+        frag.appendChild(br());
+
+        // Intro
+        const div2 = document.createElement('div');
+        div2.textContent = "I’m Adam from Bitcoin Depot. I’ve been looking at your location on ";
+        const uAddr = document.createElement('u');
+        uAddr.textContent = addr || "[Address]";
+        div2.appendChild(uAddr);
+        div2.appendChild(document.createTextNode(", and I think it’s a perfect fit for a partnership that could bring an easy stream of revenue to your business."));
+        frag.appendChild(div2);
+        frag.appendChild(br());
+
+        // Hands-off pitch
+        const div3 = document.createElement('div');
+        div3.textContent = "We’re looking for a small 3x3-foot space in your store to host one of our Bitcoin machines. Here is the part most owners like: It is 100% hands-off for you. We handle the installation, maintenance, and customer support. You simply provide the space and a power outlet.";
+        frag.appendChild(div3);
+        frag.appendChild(br());
+
+        // Payment Options Header
+        const div4 = document.createElement('div');
+        if (type === "WARN") {
+            div4.textContent = "We offer a straightforward payment structure:";
+        } else {
+            div4.textContent = "We offer two straightforward payment structures:";
+        }
+        frag.appendChild(div4);
+
+        // Offers
+        const divOffers = document.createElement('div');
+
+        // Option 1 (Skip if WARN)
+        if (type !== "WARN") {
+            const row1 = document.createElement('div');
+            row1.textContent = "- ";
+            const u1 = document.createElement('u');
+            u1.textContent = "A flat monthly fee of $150.00 + a $1.50 bonus for every transaction over the 100-transaction mark.";
+            row1.appendChild(u1);
+            divOffers.appendChild(row1);
+        }
+
+        // Option 2
+        const row2 = document.createElement('div');
+        row2.textContent = "- ";
+        const u2 = document.createElement('u');
+        u2.textContent = "A revenue share of 15% of total kiosk earnings, with a $900.00 guarantee over the first three months (split into three monthly payments of $300.00).";
+        row2.appendChild(u2);
+        divOffers.appendChild(row2);
+
+        frag.appendChild(divOffers);
+        frag.appendChild(br());
+
+        // NASDAQ & App Info
+        const div5 = document.createElement('div');
+        div5.textContent = "Beyond the rent, we are a NASDAQ-listed company (Ticker Symbol: BTM) with over 8,000 locations.";
+        frag.appendChild(div5);
+        frag.appendChild(br());
+
+        const div6 = document.createElement('div');
+        div6.textContent = "We use our app (100k+ users) to drive new foot traffic directly to your business. Furthermore, we strictly abide by all relevant laws and regulations, including anti-money laundering (AML) and know-your-customer (KYC) requirements, so you can host with total peace of mind.";
+        frag.appendChild(div6);
+        frag.appendChild(br());
+
+        // Closing
+        const div7 = document.createElement('div');
+        div7.textContent = "Do you have five minutes this week for a quick chat? I’d love to see if we can get this set up for you.";
+        frag.appendChild(div7);
+        frag.appendChild(br());
+
+        // Documents Links (Safe DOM creation)
+        const divLinks = document.createElement('div');
+        const b = document.createElement('b');
+        b.textContent = "Documents:";
+        divLinks.appendChild(b);
+        frag.appendChild(divLinks);
+
+        // Link 1
+        const divL1 = document.createElement('div');
+        divL1.textContent = "Location Master Agreement: ";
+        const a1 = document.createElement('a');
+        a1.href = "https://get.bitcoindepot.com/lma/";
+        a1.textContent = "https://get.bitcoindepot.com/lma/";
+        divL1.appendChild(a1);
+        frag.appendChild(divL1);
+
+        // Link 2
+        const divL2 = document.createElement('div');
+        divL2.textContent = "NASDAQ Listing: ";
+        const a2 = document.createElement('a');
+        a2.href = "https://www.nasdaq.com/market-activity/stocks/btm";
+        a2.textContent = "https://www.nasdaq.com/market-activity/stocks/btm";
+        divL2.appendChild(a2);
+        frag.appendChild(divL2);
+
+        frag.appendChild(br());
+
+        // 4. Insert Body
+        composeBox.focus();
+        const sel = window.getSelection();
+        if (sel.rangeCount > 0) {
+            sel.getRangeAt(0).insertNode(frag);
+        } else {
+            composeBox.appendChild(frag);
+        }
+
+        return true; // Success
     }
 
-    waitForGmail(createUI);
+    // ============================================
+    // 6. INIT
+    // ============================================
+    setTimeout(createUI, 2000);
+
 })();

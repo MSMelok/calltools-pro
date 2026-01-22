@@ -3,7 +3,7 @@
     "releaseDate": "February 2026",
     "releaseType": "major",
     "githubUsername": "msmelok",
-    "repoName": "calltools-pro",
+    "repoName": "atmos-agent",
     "features": {
         "autoUpdate": true,
         "privacyMode": true,
@@ -22,8 +22,8 @@
         ]
     },
     "contact": {
-        "github": "https://github.com/msmelok/calltools-pro",
-        "support": "https://github.com/msmelok/calltools-pro/issues",
+        "github": "https://github.com/msmelok/atmos-agent",
+        "support": "https://github.com/msmelok/atmos-agent/issues",
         "email": "muhammadmeluk@gmail.com"
     },
     "legal": {

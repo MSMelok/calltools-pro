@@ -4,10 +4,10 @@
 
 const APP_CONFIG = {
     // Version Management (Update this only)
-    version: "4.6.2",
+    version: "5.0.0",
     
     // Release Information
-    releaseDate: "January 2026",
+    releaseDate: "February 2026",
     releaseType: "major", // major | minor | patch
     
     // URLs (Update these for your GitHub)
@@ -27,12 +27,11 @@ const APP_CONFIG = {
         enabled: true,
         checkInterval: 24, // hours
         changelog: [
-            "v4.6.2 - Enterprise Experience",
-            "• New Look: A modern, cleaner design for better focus.",
-            "• Improved Settings: Your preferences now stay saved securely, even if you clear your browser cache.",
-            "• Customization: You can now hide distracting buttons (like SMS or Email) and cards (like Zillow).",
-            "• Better Visibility: Critical badges are now easier to read in Light Mode.",
-            "• Fixes: The settings menu is now easier to access and works reliably."
+            "v5.0.0 - Welcome to Atmos",
+            "• Rebranding: CallTools Pro is now Atmos Agent.",
+            "• New Suite: Added Atmos for Gmail (Lead Filler).",
+            "• Unified Design: Enterprise Glass design across all tools.",
+            "• Shared Intelligence: Centralized compliance rules."
         ]
     },
     
@@ -45,7 +44,7 @@ const APP_CONFIG = {
     
     // Legal
     legal: {
-        lastUpdated: "January 2026",
+        lastUpdated: "February 2026",
         termsFile: "assets/legal/terms.html",
         privacyFile: "assets/legal/privacy.html"
     }
@@ -64,8 +63,11 @@ function getGitHubPagesURL() {
 function getScriptURLs() {
     const base = getGitHubPagesURL();
     return {
-        userScript: `${base}calltools-pro.user.js`,
-        metaFile: `${base}calltools-pro.meta.js`,
+        atmosCallTools: `${base}atmos-calltools.user.js`,
+        atmosGmail: `${base}atmos-gmail.user.js`,
+        metaCallTools: `${base}atmos-calltools.meta.js`,
+        metaGmail: `${base}atmos-gmail.meta.js`,
+        rules: `${base}assets/data/rules.json`,
         installPage: base
     };
 }

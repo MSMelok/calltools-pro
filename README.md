@@ -1,69 +1,67 @@
-# CallTools Pro 🚀
+# Atmos Agent 🚀
 
-![Version](https://img.shields.io/badge/version-4.4.0-blue)
+![Version](https://img.shields.io/badge/version-5.0.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Tampermonkey](https://img.shields.io/badge/tampermonkey-compatible-orange)
 ![Privacy](https://img.shields.io/badge/privacy-100%25_private-brightgreen)
 
-A professional enhancement suite for **CallTools.io**, designed to streamline compliance and boost productivity.
+A professional enhancement suite for **CallTools.io** and **Gmail**, designed to streamline compliance, fill leads, and boost productivity.
 
 ---
 
 ## ✨ Features
 
-### 🛡️ Smart Compliance
+### 🛡️ Smart Compliance (CallTools & Gmail)
 - **Real-time state & city compliance alerts**
 - Automatic call blocking for restricted areas
 - 50+ built-in compliance rules
 - Visual alerts with severity indicators
+- **Shared Rule Intelligence** across both agents
 
-### 🕐 Timezone Intelligence
+### 📧 Atmos Gmail Lead Filler
+- **Robust side-panel for sales leads** inside Gmail
+- Auto-fill templates with one click
+- Decision maker & Business name management
+- Real-time address compliance checking
+
+### 🕐 Timezone Intelligence (CallTools)
 - **Automatic local time detection** based on prospect location
 - Timezone exception handling
 - Real-time clock display
 - Supports all US states and territories
 
-### 🔍 Search Helper
+### 🔍 Search Helper (CallTools)
 - **One-click address copying** with configurable formats
 - Smart name combination (First + Last or Business name)
 - Streamlined research workflow
-- Clipboard integration
 
-### 🔄 Auto Updates
-- **Silent background updates**
-- No manual intervention required
-- Version checking every 24 hours
-- Seamless feature delivery
-
-### 🎨 Premium UI
-- **Apple-inspired design** with glassmorphism effects
+### 🎨 Enterprise Glass UI
+- **Unified design** across both tools
 - Dark theme optimized for eye comfort
-- Professional typography (SF Pro)
-- Smooth animations and transitions
+- Professional typography and glassmorphism effects
 
 ### 🔒 Privacy First
 - **No data collection or tracking**
 - All processing happens locally in your browser
 - No external analytics
-- Complete user privacy
 
 ---
 
 ## 🚀 Installation
 
 ### Quick Install
-1. **[Click here to install](https://msmelok.github.io/calltools-pro/)**  
-   (Tampermonkey will open automatically)
-2. Click **Install** in the Tampermonkey prompt
-3. Navigate to [CallTools.io](https://calltools.io) and start using
+1. **[Visit the Atmos Dashboard](https://msmelok.github.io/calltools-pro/)**
+2. Click **Install Agents** and choose the agent you need.
+3. Click **Install** in the Tampermonkey prompt.
+4. Refresh your page (CallTools or Gmail) to activate.
 
 ### Manual Installation
 1. Install [Tampermonkey](https://www.tampermonkey.net/) (Chrome / Edge)  
    or [Greasemonkey](https://www.greasespot.net/) (Firefox)
-2. Open:  
-   `https://msmelok.github.io/calltools-pro/calltools-pro.user.js`
+2. Open Script:
+   - **CallTools:** [`atmos-calltools.user.js`](https://msmelok.github.io/calltools-pro/atmos-calltools.user.js)
+   - **Gmail:** [`atmos-gmail.user.js`](https://msmelok.github.io/calltools-pro/atmos-gmail.user.js)
 3. Tampermonkey → **Install**
-4. Refresh CallTools to activate
 
 ---
 
@@ -71,15 +69,4 @@ A professional enhancement suite for **CallTools.io**, designed to streamline co
 
 - **Browser:** Chrome 80+, Firefox 78+, Edge 80+, Safari 14+
 - **Extension:** Tampermonkey 4.18+ or Greasemonkey 4.11+
-- **Platform:** CallTools.io agent dashboard
-
----
-
-## 🎮 Usage Guide
-
-### Basic Usage
-1. **Compliance Detection:** Enter any US address → instant compliance status
-2. **Timezone Display:** Local time shown automatically
-3. **Search Helper:** Click the floating **Search** button
-4. **Settings:** Gear icon (top-right)
-
+- **Platform:** CallTools.io agent dashboard / Gmail

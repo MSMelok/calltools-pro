@@ -18,9 +18,7 @@
 (function() {
     'use strict';
 
-    // ============================================
-    // 1. LOAD RESOURCES (External)
-    // ============================================
+    // LOAD RESOURCES
     let RULES = {};
     let APP_CONFIG = { version: "5.0.0" };
 
@@ -36,9 +34,7 @@
         console.warn("Atmos: Failed to load external resources. Using empty rules.", e);
     }
 
-    // ============================================
-    // 2. STYLES
-    // ============================================
+    // STYLES
     const STYLES = `
         :root {
             --ct-primary: #06b6d4;
@@ -71,24 +67,19 @@
     `;
     GM_addStyle(STYLES);
 
-    // ============================================
-    // 3. UTILITIES
-    // ============================================
+    // UTILITIES
     function detectRule(address) {
         if (!address) return { type: "NEUTRAL", msg: "Enter address" };
 
         const cleanAddr = address.replace(/\s+/g, ' ').trim();
         const upperAddr = cleanAddr.toUpperCase();
 
-        // 1. City Block (Case Insensitive)
         for (const key in RULES) {
             if (key.length > 2 && upperAddr.includes(key)) return RULES[key];
         }
 
-        // 2. State Rules (Strict Case Sensitive for Code)
         for (const key in RULES) {
             if (key.length === 2) {
-                // Regex: Match " TX " or ", TX" or " TX."
                 const regex = new RegExp(`[\\s,]${key}([\\s,]|$|\\.)`);
                 if (regex.test(cleanAddr)) return RULES[key];
             }
@@ -96,7 +87,6 @@
         return { type: "NEUTRAL", msg: "State not recognized" };
     }
 
-    // Helper: Create DOM Element (Solves TrustedHTML issues)
     function mkEl(tag, className, text) {
         const el = document.createElement(tag);
         if (className) el.className = className;
@@ -104,17 +94,13 @@
         return el;
     }
 
-    // ============================================
-    // 4. UI CREATION (DOM-BASED)
-    // ============================================
+    // UI CREATION
     function createUI() {
         if (document.getElementById('atmos-panel')) return;
 
-        // --- Build Panel using DOM Nodes (No innerHTML = No Error) ---
         const panel = mkEl('div', '');
         panel.id = 'atmos-panel';
 
-        // Header
         const header = mkEl('div', 'at-header');
         header.appendChild(mkEl('span', '', 'Atmos Lead Filler'));
         const closeBtn = mkEl('span', '', '✕');
@@ -123,22 +109,21 @@
         header.appendChild(closeBtn);
         panel.appendChild(header);
 
-        // Body
         const body = mkEl('div', 'at-body');
 
         const dmInput = mkEl('input', 'at-input');
         dmInput.id = 'at-dm'; dmInput.placeholder = 'Decision Maker';
-        dmInput.setAttribute('autocomplete', 'off'); // Disable history
+        dmInput.setAttribute('autocomplete', 'off');
         body.appendChild(dmInput);
 
         const bizInput = mkEl('input', 'at-input');
         bizInput.id = 'at-biz'; bizInput.placeholder = 'Business Name';
-        bizInput.setAttribute('autocomplete', 'off'); // Disable history
+        bizInput.setAttribute('autocomplete', 'off');
         body.appendChild(bizInput);
 
         const addrInput = mkEl('textarea', 'at-input');
         addrInput.id = 'at-addr'; addrInput.rows = 2; addrInput.placeholder = 'Address';
-        addrInput.setAttribute('autocomplete', 'off'); // Disable history
+        addrInput.setAttribute('autocomplete', 'off');
         body.appendChild(addrInput);
 
         const statusDiv = mkEl('div', 'at-status', 'Check Address');
@@ -156,12 +141,10 @@
 
         document.body.appendChild(panel);
 
-        // Toggle Button
         const toggle = mkEl('div', '', '⚡');
         toggle.id = 'atmos-toggle';
         document.body.appendChild(toggle);
 
-        // --- Logic ---
         toggle.onclick = () => { panel.style.display = 'flex'; toggle.style.display = 'none'; };
         closeBtn.onclick = () => { panel.style.display = 'none'; toggle.style.display = 'flex'; };
 
@@ -169,8 +152,7 @@
             const rule = detectRule(addrInput.value);
             statusDiv.textContent = rule.msg;
 
-            // Apply Colors
-            statusDiv.className = 'at-status'; // Reset
+            statusDiv.className = 'at-status';
             if (rule.type === 'SAFE') statusDiv.classList.add('safe');
             else if (rule.type === 'WARN') statusDiv.classList.add('warn');
             else if (rule.type === 'BLOCK') statusDiv.classList.add('block');
@@ -186,7 +168,6 @@
 
             const success = insertEmailSafely(dm, biz, addr, rule.type);
 
-            // Auto-Reset on Success
             if (success) {
                 dmInput.value = '';
                 bizInput.value = '';
@@ -197,11 +178,8 @@
         };
     }
 
-    // ============================================
-    // 5. EMAIL INJECTION (SAFE DOM METHOD)
-    // ============================================
+    // EMAIL INJECTION
     function insertEmailSafely(dm, biz, addr, type) {
-        // 1. Locate Elements
         const composeBox = document.querySelector('div[role="textbox"][contenteditable="true"]');
         const subjectBox = document.querySelector('input[name="subjectbox"]') ||
                            document.querySelector('input[placeholder="Subject"]');
@@ -211,23 +189,19 @@
             return false;
         }
 
-        // 2. Set Subject Line
         if (subjectBox) {
             subjectBox.value = `Turning 3 square feet of ${biz} into guaranteed revenue`;
             subjectBox.dispatchEvent(new Event('input', { bubbles: true }));
         }
 
-        // 3. Build email structure (DOM fragments)
         const frag = document.createDocumentFragment();
         const br = () => document.createElement('br');
 
-        // Greeting
         const div1 = document.createElement('div');
         div1.textContent = `Hello ${dm},`;
         frag.appendChild(div1);
         frag.appendChild(br());
 
-        // Intro
         const div2 = document.createElement('div');
         div2.textContent = "I’m Adam from Bitcoin Depot. I’ve been looking at your location on ";
         const uAddr = document.createElement('u');
@@ -237,13 +211,11 @@
         frag.appendChild(div2);
         frag.appendChild(br());
 
-        // Hands-off pitch
         const div3 = document.createElement('div');
         div3.textContent = "We’re looking for a small 3x3-foot space in your store to host one of our Bitcoin machines. Here is the part most owners like: It is 100% hands-off for you. We handle the installation, maintenance, and customer support. You simply provide the space and a power outlet.";
         frag.appendChild(div3);
         frag.appendChild(br());
 
-        // Payment Options Header
         const div4 = document.createElement('div');
         if (type === "WARN") {
             div4.textContent = "We offer a straightforward payment structure:";
@@ -252,10 +224,8 @@
         }
         frag.appendChild(div4);
 
-        // Offers
         const divOffers = document.createElement('div');
 
-        // Option 1 (Skip if WARN)
         if (type !== "WARN") {
             const row1 = document.createElement('div');
             row1.textContent = "- ";
@@ -265,7 +235,6 @@
             divOffers.appendChild(row1);
         }
 
-        // Option 2
         const row2 = document.createElement('div');
         row2.textContent = "- ";
         const u2 = document.createElement('u');
@@ -276,7 +245,6 @@
         frag.appendChild(divOffers);
         frag.appendChild(br());
 
-        // NASDAQ & App Info
         const div5 = document.createElement('div');
         div5.textContent = "Beyond the rent, we are a NASDAQ-listed company (Ticker Symbol: BTM) with over 8,000 locations.";
         frag.appendChild(div5);
@@ -287,20 +255,17 @@
         frag.appendChild(div6);
         frag.appendChild(br());
 
-        // Closing
         const div7 = document.createElement('div');
         div7.textContent = "Do you have five minutes this week for a quick chat? I’d love to see if we can get this set up for you.";
         frag.appendChild(div7);
         frag.appendChild(br());
 
-        // Documents Links (Safe DOM creation)
         const divLinks = document.createElement('div');
         const b = document.createElement('b');
         b.textContent = "Documents:";
         divLinks.appendChild(b);
         frag.appendChild(divLinks);
 
-        // Link 1
         const divL1 = document.createElement('div');
         divL1.textContent = "Location Master Agreement: ";
         const a1 = document.createElement('a');
@@ -309,7 +274,6 @@
         divL1.appendChild(a1);
         frag.appendChild(divL1);
 
-        // Link 2
         const divL2 = document.createElement('div');
         divL2.textContent = "NASDAQ Listing: ";
         const a2 = document.createElement('a');
@@ -320,7 +284,6 @@
 
         frag.appendChild(br());
 
-        // 4. Insert Body
         composeBox.focus();
         const sel = window.getSelection();
         if (sel.rangeCount > 0) {
@@ -329,12 +292,10 @@
             composeBox.appendChild(frag);
         }
 
-        return true; // Success
+        return true;
     }
 
-    // ============================================
-    // 6. INIT
-    // ============================================
+    // INIT
     setTimeout(createUI, 2000);
 
 })();

@@ -1,72 +1,113 @@
-# Atmos Agent 🚀
+# Atmos Agent
 
 ![Version](https://img.shields.io/badge/version-5.0.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Tampermonkey](https://img.shields.io/badge/tampermonkey-compatible-orange)
 ![Privacy](https://img.shields.io/badge/privacy-100%25_private-brightgreen)
 
-A professional enhancement suite for **CallTools.io** and **Gmail**, designed to streamline compliance, fill leads, and boost productivity.
+Atmos Agent is a professional enhancement suite for **CallTools.io** and **Gmail**. It automates compliance checks, streamlines lead filling, and boosts sales productivity directly within your browser.
 
 ---
 
 ## ✨ Features
 
 ### 🛡️ Smart Compliance (CallTools & Gmail)
-- **Real-time state & city compliance alerts**
-- Automatic call blocking for restricted areas
-- 50+ built-in compliance rules
-- Visual alerts with severity indicators
-- **Shared Rule Intelligence** across both agents
+- **Real-time Protection**: Automatically detects state and city-level compliance restrictions based on phone numbers or addresses.
+- **Visual Alerts**: Clear badges indicating Safe, Warning, or Blocked status.
+- **Call Blocking**: Prevents accidental dials to restricted areas in CallTools.
+- **Shared Intelligence**: Uses a centralized rule set across both agents.
 
-### 📧 Atmos Gmail Lead Filler
-- **Robust side-panel for sales leads** inside Gmail
-- Auto-fill templates with one click
-- Decision maker & Business name management
-- Real-time address compliance checking
+### 📞 Atmos for CallTools
+- **Timezone Intelligence**: Displays local time for prospects with business hour indicators (Sun/Moon icons).
+- **Search Helper**: One-click address copying with smart formatting for research.
+- **Dark Mode UI**: Integrated "Glass" theme that matches the Atmos design system.
+- **Customizable**: Toggle specific features via the settings menu.
 
-### 🕐 Timezone Intelligence (CallTools)
-- **Automatic local time detection** based on prospect location
-- Timezone exception handling
-- Real-time clock display
-- Supports all US states and territories
-
-### 🔍 Search Helper (CallTools)
-- **One-click address copying** with configurable formats
-- Smart name combination (First + Last or Business name)
-- Streamlined research workflow
-
-### 🎨 Enterprise Glass UI
-- **Unified design** across both tools
-- Dark theme optimized for eye comfort
-- Professional typography and glassmorphism effects
-
-### 🔒 Privacy First
-- **No data collection or tracking**
-- All processing happens locally in your browser
-- No external analytics
+### 📧 Atmos for Gmail
+- **Lead Filler Panel**: A dedicated side-panel for managing sales leads.
+- **Smart Templates**: Auto-fill emails with "Decision Maker", "Business Name", and "Address" placeholders.
+- **Compliance Integration**: Checks address compliance before you send emails.
+- **Safe Injection**: Uses DOM-based injection to ensure email formatting is preserved.
 
 ---
 
 ## 🚀 Installation
 
-### Quick Install
-1. **[Visit the Atmos Dashboard](https://msmelok.github.io/atmos-agent/)**
-2. Click **Install Agents** and choose the agent you need.
-3. Click **Install** in the Tampermonkey prompt.
-4. Refresh your page (CallTools or Gmail) to activate.
+### Prerequisites
+- **Browser**: Chrome, Edge, Firefox, or Safari.
+- **Extension**: [Tampermonkey](https://www.tampermonkey.net/) is required to run the agents.
 
-### Manual Installation
-1. Install [Tampermonkey](https://www.tampermonkey.net/) (Chrome / Edge)  
-   or [Greasemonkey](https://www.greasespot.net/) (Firefox)
-2. Open Script:
-   - **CallTools:** [`atmos-calltools.user.js`](https://msmelok.github.io/atmos-agent/atmos-calltools.user.js)
-   - **Gmail:** [`atmos-gmail.user.js`](https://msmelok.github.io/atmos-agent/atmos-gmail.user.js)
-3. Tampermonkey → **Install**
+### Step 1: Install Tampermonkey
+Download and install Tampermonkey for your specific browser.
+
+### Step 2: Configure Permissions (Crucial!)
+For the agents to load local resources or communicate correctly, you **must** enable file access.
+1. Open your browser's **Extension Management** page (e.g., `chrome://extensions`).
+2. Find **Tampermonkey** and click **Details**.
+3. Toggle **"Allow access to file URLs"** to **ON**.
+
+### Step 3: Install Agents
+Click the links below to install the scripts directly into Tampermonkey:
+
+- **[Install Atmos CallTools Agent](https://msmelok.github.io/atmos-agent/atmos-calltools.user.js)**
+- **[Install Atmos Gmail Agent](https://msmelok.github.io/atmos-agent/atmos-gmail.user.js)**
+
+Click **Install** when prompted by Tampermonkey.
 
 ---
 
-## 📋 System Requirements
+## ⚙️ Usage
 
-- **Browser:** Chrome 80+, Firefox 78+, Edge 80+, Safari 14+
-- **Extension:** Tampermonkey 4.18+ or Greasemonkey 4.11+
-- **Platform:** CallTools.io agent dashboard / Gmail
+### CallTools
+1. Log in to your CallTools agent dashboard.
+2. The Atmos controls will appear in the top navigation bar.
+3. **Compliance**: Enter a phone number or address to see real-time status.
+4. **Settings**: Click the gear icon next to your user profile to toggle features like "Split Name" or "Hide Action Buttons".
+
+### Gmail
+1. Open Gmail.
+2. A lightning bolt icon (⚡) will appear in the bottom-right corner.
+3. Click it to open the **Lead Filler Panel**.
+4. Enter lead details and click **Fill Email** to populate the compose window with a compliant template.
+
+---
+
+## 🛠️ Development
+
+### File Structure
+```
+atmos-agent/
+├── assets/
+│   ├── data/
+│   │   ├── config.json    # Shared configuration (version, changelog)
+│   │   └── rules.json     # Compliance rules definition
+│   ├── js/                # Website scripts
+│   └── css/               # Website styles
+├── atmos-calltools.user.js  # Main CallTools script
+├── atmos-gmail.user.js      # Main Gmail script
+├── index.html               # Landing page / Dashboard
+└── README.md                # Documentation
+```
+
+### Local Testing
+To test changes locally:
+1. Edit the `.user.js` files.
+2. Update the `@require` or `@resource` paths in the UserScript header to point to your local file system (e.g., `file:///path/to/repo/...`) if testing completely offline, or push to a fork.
+3. Ensure `config.json` version matches the script version.
+
+---
+
+## ❓ Troubleshooting
+
+**Q: The script isn't loading.**
+A: Ensure Tampermonkey is installed and enabled. Check if "Allow access to file URLs" is enabled in extension settings.
+
+**Q: Compliance rules aren't updating.**
+A: The scripts cache rules. Try refreshing the page or checking for script updates in Tampermonkey.
+
+**Q: I see "Error loading resources".**
+A: This usually happens if the script cannot fetch `config.json` or `rules.json`. Ensure you have an active internet connection or that the GitHub Pages URL is accessible.
+
+---
+
+**Privacy Note**: Atmos Agent runs locally in your browser. No personal data or lead information is sent to external servers.

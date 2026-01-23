@@ -21,9 +21,7 @@
 (function() {
 'use strict';
 
-    // ============================================
-    // LOAD RESOURCES (Technical Change)
-    // ============================================
+    // LOAD RESOURCES
     let RULES = {};
     let APP_CONFIG = { version: "5.0.0" };
 
@@ -37,27 +35,21 @@
         console.log(`Atmos CallTools: Resources loaded. Version ${APP_CONFIG.version}`);
     } catch (e) {
         console.warn("Atmos: Failed to load external resources", e);
-        // Fallback Rules (Minimal set to prevent crash if fetch fails)
         RULES = {
             "AL": { type: "BLOCK", msg: "AUTO REJECT: Alabama" },
             "NY": { type: "BLOCK", msg: "AUTO REJECT: New York" }
         };
     }
 
-    // Configuration
     const CONFIG = {
-        // Input indices (zero-based)
         FIRST_NAME_INDEX: 2,
         LAST_NAME_INDEX: 3,
         ADDRESS_INPUT_INDEX: 4,
         BUSINESS_INPUT_INDEX: 5,
-
-        // Update tracking
-        VERSION: APP_CONFIG.version, // Loaded from config.json
+        VERSION: APP_CONFIG.version,
         GITHUB_URL: "https://msmelok.github.io/atmos-agent/"
     };
 
-    // State timezones mapping (unchanged)
     const STATE_TIMEZONES = {
         "AL": "America/Chicago", "AK": "America/Anchorage", "AZ": "America/Phoenix", "AR": "America/Chicago",
         "CA": "America/Los_Angeles", "CO": "America/Denver", "CT": "America/New_York", "DE": "America/New_York",
@@ -74,7 +66,6 @@
         "WI": "America/Chicago", "WY": "America/Denver", "PR": "America/Puerto_Rico", "DC": "America/New_York"
     };
 
-    // Timezone exceptions
     const TZ_EXCEPTIONS = {
         "TX|EL PASO": "America/Denver", "TX|HUDSPETH": "America/Denver",
         "FL|PENSACOLA": "America/Chicago", "FL|PANAMA CITY": "America/Chicago",
@@ -82,16 +73,10 @@
         "IN|GARY": "America/Chicago", "KY|BOWLING GREEN": "America/Chicago"
     };
 
-    // RULES are now loaded from @resource (Variable 'RULES' declared above)
-
-    // ============================================
-    // PREMIUM STYLES (Enhanced for Website)
-    // ============================================
-
-    // Dynamic Variables based on Theme
+    // STYLES
     const STYLES = `
         :root {
-            /* Default Dark Mode (Matches Website) */
+            /* Default Dark Mode */
             --ct-primary: #3b82f6;
             --ct-primary-light: #60a5fa;
             --ct-secondary: #8b5cf6;
@@ -109,7 +94,7 @@
             --ct-text-block: #000000;
             --ct-text-time: #000000;
 
-            /* Badge Backgrounds (Dark Mode - Subtle) */
+            /* Badge Backgrounds (Dark Mode) */
             --ct-bg-safe: linear-gradient(135deg, rgba(16, 185, 129, 50%), rgba(5, 150, 105, 60%));
             --ct-bg-warn: linear-gradient(135deg, rgba(245, 158, 11, 50%), rgba(217, 119, 6, 60%));
             --ct-bg-block: linear-gradient(135deg, rgba(244, 63, 94, 50%), rgba(220, 38, 38, 60%));
@@ -122,8 +107,6 @@
             --ct-border-time: rgba(59, 130, 246, 0.4);
         }
 
-        /* Light Mode Detection (Assuming CallTools uses a light class or no class)
-           Adjust selector based on actual site inspection. */
         html.light-mode, body.light-mode {
             --ct-bg: #ffffff;
             --ct-bg-hover: rgba(0, 0, 0, 0.05);
@@ -133,31 +116,29 @@
             --ct-text-muted: #64748b;
             --ct-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 
-            /* Badge Text Colors (Light Mode - MAX CONTRAST) */
-            --ct-text-safe: #064e3b; /* Emerald 900 (Very Dark Green) */
-            --ct-text-warn: #78350f; /* Amber 900 (Very Dark Orange) */
-            --ct-text-block: #7f1d1d; /* Red 900 (Very Dark Red) */
-            --ct-text-time: #1e3a8a; /* Blue 900 (Very Dark Blue) */
+            /* Badge Text Colors (Light Mode) */
+            --ct-text-safe: #064e3b;
+            --ct-text-warn: #78350f;
+            --ct-text-block: #7f1d1d;
+            --ct-text-time: #1e3a8a;
 
-            /* Badge Backgrounds (Light Mode - SOLID PASTEL - NO TRANSPARENCY) */
-            --ct-bg-safe: #d1fae5; /* Emerald 100 */
-            --ct-bg-warn: #fef3c7; /* Amber 100 */
-            --ct-bg-block: #fee2e2; /* Red 100 */
-            --ct-bg-time: #dbeafe; /* Blue 100 */
+            /* Badge Backgrounds (Light Mode) */
+            --ct-bg-safe: #d1fae5;
+            --ct-bg-warn: #fef3c7;
+            --ct-bg-block: #fee2e2;
+            --ct-bg-time: #dbeafe;
 
-            /* Badge Borders (Light Mode - Solid) */
-            --ct-border-safe: #10b981; /* Emerald 500 */
-            --ct-border-warn: #f59e0b; /* Amber 500 */
-            --ct-border-block: #ef4444; /* Red 500 */
-            --ct-border-time: #3b82f6; /* Blue 500 */
+            /* Badge Borders (Light Mode) */
+            --ct-border-safe: #10b981;
+            --ct-border-warn: #f59e0b;
+            --ct-border-block: #ef4444;
+            --ct-border-time: #3b82f6;
         }
 
-        /* Force Bolder Text in Light Mode for Badges */
         html.light-mode .ct-badge, body.light-mode .ct-badge {
             font-weight: 700 !important;
         }
 
-        /* Reset & Base */
         .ct-hidden { display: none !important; }
         .ct-glass {
             background: var(--ct-glass) !important;
@@ -167,7 +148,6 @@
             box-shadow: var(--ct-shadow) !important;
         }
 
-        /* Top Controls Bar - Premium Design */
         #ct-top-controls {
             display: inline-flex !important;
             align-items: center !important;
@@ -176,7 +156,6 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif !important;
         }
 
-        /* Premium Badge Design */
         .ct-badge {
             display: inline-flex !important;
             align-items: center !important;
@@ -218,7 +197,6 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
         }
 
-        /* Badge Colors */
         .ct-safe {
             background: var(--ct-bg-safe) !important;
             border-color: var(--ct-border-safe) !important;
@@ -249,7 +227,6 @@
             color: var(--ct-text-muted) !important;
         }
 
-        /* Premium Search Button */
         #ct-search-helper-btn {
             position: fixed !important;
             bottom: 30px !important;
@@ -259,7 +236,7 @@
             background: linear-gradient(135deg, var(--ct-primary), var(--ct-secondary)) !important;
             color: white !important;
             border: 1px solid var(--ct-border) !important;
-            border-radius: 6px !important; /* MATCHING BADGES */
+            border-radius: 6px !important;
             font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif !important;
             font-size: 14px !important;
             font-weight: 500 !important;
@@ -277,8 +254,6 @@
             box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4) !important;
         }
 
-
-        /* Dynamic Settings Button (Injected into Nav) */
         #ct-nav-settings-btn {
             background: transparent !important;
             border: none !important;
@@ -288,7 +263,7 @@
             align-items: center !important;
             justify-content: center !important;
             transition: all 0.2s ease !important;
-            color: rgba(255,255,255,0.7) !important; /* Nav usually dark */
+            color: rgba(255,255,255,0.7) !important;
             margin-right: 5px !important;
         }
 
@@ -297,8 +272,6 @@
             transform: rotate(45deg);
         }
 
-
-        /* Premium Settings Modal */
         #ct-settings-modal {
             position: fixed !important;
             top: 65px !important;
@@ -360,7 +333,6 @@
             border-bottom: none !important;
         }
 
-        /* Premium Toggle Switch */
         .ct-switch {
             position: relative !important;
             display: inline-block !important;
@@ -409,12 +381,10 @@
             transform: translateX(20px) !important;
         }
 
-        /* Hiding Logic */
         .ct-hidden-element {
             display: none !important;
         }
 
-       /* MINIMAL TOAST SYSTEM */
         .ct-toast-container {
             position: fixed !important;
             top: 90px !important;
@@ -471,12 +441,9 @@
         }
     `;
 
-    // Inject styles
     GM_addStyle(STYLES);
 
-    // ============================================
     // UTILITY FUNCTIONS
-    // ============================================
     function debounce(func, wait) {
         let timeout;
         return function executedFunction(...args) {
@@ -489,65 +456,61 @@
         };
     }
 
-function showPremiumToast(message, type = 'info', duration = 900) {
-    // Remove existing toast if any
-    const existingToast = document.querySelector('.ct-toast-container');
-    if (existingToast) existingToast.remove();
+    function showPremiumToast(message, type = 'info', duration = 900) {
+        const existingToast = document.querySelector('.ct-toast-container');
+        if (existingToast) existingToast.remove();
 
-    const toastContainer = document.createElement('div');
-    toastContainer.className = 'ct-toast-container';
+        const toastContainer = document.createElement('div');
+        toastContainer.className = 'ct-toast-container';
 
-    const toast = document.createElement('div');
-    toast.className = `ct-toast ${type}`;
+        const toast = document.createElement('div');
+        toast.className = `ct-toast ${type}`;
 
-    const icons = {
-        success: 'check-circle',
-        error: 'alert-circle',
-        warning: 'alert-triangle',
-        info: 'info'
-    };
+        const icons = {
+            success: 'check-circle',
+            error: 'alert-circle',
+            warning: 'alert-triangle',
+            info: 'info'
+        };
 
-    const iconColor = {
-        success: '#10b981',
-        error: '#f43f5e',
-        warning: '#f59e0b',
-        info: '#3b82f6'
-    };
+        const iconColor = {
+            success: '#10b981',
+            error: '#f43f5e',
+            warning: '#f59e0b',
+            info: '#3b82f6'
+        };
 
-    // SIMPLIFIED HTML WITHOUT CLOSE BUTTON:
-    toast.innerHTML = `
-        <div class="ct-toast-icon">
-            <i data-feather="${icons[type] || 'info'}" style="color:${iconColor[type] || '#3b82f6'}"></i>
-        </div>
-        <div class="ct-toast-content">${message}</div>
-    `;
+        toast.innerHTML = `
+            <div class="ct-toast-icon">
+                <i data-feather="${icons[type] || 'info'}" style="color:${iconColor[type] || '#3b82f6'}"></i>
+            </div>
+            <div class="ct-toast-content">${message}</div>
+        `;
 
-    toastContainer.appendChild(toast);
-    document.body.appendChild(toastContainer);
+        toastContainer.appendChild(toast);
+        document.body.appendChild(toastContainer);
 
-    // Trigger animation
-    requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-            toast.classList.add('show');
+            requestAnimationFrame(() => {
+                toast.classList.add('show');
+            });
         });
-    });
 
-    feather.replace();
+        feather.replace();
 
-    // Auto-remove after duration
-    setTimeout(() => {
-        if (toastContainer.parentNode) {
-            toast.classList.remove('show');
-            setTimeout(() => {
-                if (toastContainer.parentNode) {
-                    toastContainer.remove();
-                }
-            }, 300);
-        }
-    }, duration);
+        setTimeout(() => {
+            if (toastContainer.parentNode) {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    if (toastContainer.parentNode) {
+                        toastContainer.remove();
+                    }
+                }, 300);
+            }
+        }, duration);
 
-    return toastContainer;
-}
+        return toastContainer;
+    }
 
     function isBusinessHours(timezone) {
         try {
@@ -558,9 +521,9 @@ function showPremiumToast(message, type = 'info', duration = 900) {
                 hour12: false
             });
             const hour = parseInt(formatter.format(now));
-            return hour >= 9 && hour < 17; // 9 AM to 5 PM
+            return hour >= 9 && hour < 17;
         } catch (e) {
-            return true; // Default to true if timezone detection fails
+            return true;
         }
     }
 
@@ -576,29 +539,23 @@ function showPremiumToast(message, type = 'info', duration = 900) {
 
         if (!address) return info;
 
-        // Extract state (2-letter code)
         const stateMatch = address.match(/\b([A-Z]{2})\b\s+\d{5}/);
         if (stateMatch) {
             info.state = stateMatch[1];
-            // Check if state is valid (exists in STATE_TIMEZONES)
             info.isValidState = !!STATE_TIMEZONES[info.state];
         }
 
-        // Extract city (before state, after numbers if any)
         if (info.state) {
             const cityMatch = address.match(/([A-Z\s]+)\s+[A-Z]{2}\s+\d{5}/);
             if (cityMatch) info.city = cityMatch[1].trim();
         }
 
-        // Extract ZIP
         const zipMatch = address.match(/\b\d{5}\b/);
         if (zipMatch) info.zip = zipMatch[0];
 
-        // Determine timezone only if state is valid
         if (info.isValidState && STATE_TIMEZONES[info.state]) {
             info.timezone = STATE_TIMEZONES[info.state];
 
-            // Check for exceptions
             for (const [key, exceptionTZ] of Object.entries(TZ_EXCEPTIONS)) {
                 const [exceptionState, exceptionCity] = key.split('|');
                 if (info.state === exceptionState && address.includes(exceptionCity)) {
@@ -607,7 +564,6 @@ function showPremiumToast(message, type = 'info', duration = 900) {
                 }
             }
 
-            // Check business hours
             info.isBusinessHours = isBusinessHours(info.timezone);
         }
 
@@ -615,17 +571,15 @@ function showPremiumToast(message, type = 'info', duration = 900) {
     }
 
     function formatPhoneNumber(phone) {
-        // Clean phone number
         const cleaned = phone.replace(/\D/g, '');
 
-        // Format based on length
         if (cleaned.length === 10) {
             return `(${cleaned.slice(0,3)}) ${cleaned.slice(3,6)}-${cleaned.slice(6)}`;
         } else if (cleaned.length === 11 && cleaned[0] === '1') {
             return `+1 (${cleaned.slice(1,4)}) ${cleaned.slice(4,7)}-${cleaned.slice(7)}`;
         }
 
-        return phone; // Return original if format doesn't match
+        return phone;
     }
 
     function copyToClipboard(text) {
@@ -634,12 +588,10 @@ function showPremiumToast(message, type = 'info', duration = 900) {
             return true;
         }
 
-        // Fallback to navigator.clipboard
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(text).then(() => {
                 return true;
             }).catch(() => {
-                // Last resort: old school method
                 const textArea = document.createElement('textarea');
                 textArea.value = text;
                 document.body.appendChild(textArea);
@@ -670,9 +622,7 @@ function showPremiumToast(message, type = 'info', duration = 900) {
         }
     }
 
-    // ============================================
     // COMPLIANCE ENGINE
-    // ============================================
     class ComplianceEngine {
         constructor() {
             this.lastProcessedAddress = '';
@@ -690,15 +640,12 @@ function showPremiumToast(message, type = 'info', duration = 900) {
             this.lastProcessedAddress = address;
             const addressInfo = parseAddressForInfo(address);
 
-            // Reset previous state
             this.currentState = null;
             this.currentCity = null;
             this.currentRule = null;
-            this.addressInfo = addressInfo; // Store address info for later use
+            this.addressInfo = addressInfo;
 
-            // If state exists but is invalid (like "MQ", "FI")
             if (addressInfo.state && !addressInfo.isValidState) {
-                // Special rule for invalid state
                 this.currentRule = {
                     type: "ERROR",
                     msg: `Invalid state code: ${addressInfo.state}`
@@ -706,13 +653,11 @@ function showPremiumToast(message, type = 'info', duration = 900) {
                 return this.getComplianceStatus();
             }
 
-            // Check for state-level rules
             if (addressInfo.state && RULES[addressInfo.state]) {
                 this.currentState = addressInfo.state;
                 this.currentRule = RULES[addressInfo.state];
             }
 
-            // Check for city-level rules (overrides state if more specific)
             if (addressInfo.city) {
                 for (const [key, rule] of Object.entries(RULES)) {
                     if (key.length > 2 && address.includes(key)) {
@@ -728,7 +673,6 @@ function showPremiumToast(message, type = 'info', duration = 900) {
 
         getComplianceStatus() {
             if (!this.currentRule) {
-                // If we have address info but no rule, check if state is valid
                 if (this.addressInfo && this.addressInfo.state) {
                     if (!this.addressInfo.isValidState) {
                         return {
@@ -758,16 +702,13 @@ function showPremiumToast(message, type = 'info', duration = 900) {
         }
 
         updateUI(complianceStatus, timeInfo = null) {
-            // Handle undefined/null status
             if (!complianceStatus) {
                 updateTopBar('NEUTRAL', 'No compliance data', null);
                 return;
             }
 
-            // Update top bar - pass timeInfo regardless of settings
             updateTopBar(complianceStatus.type, complianceStatus.message, timeInfo);
 
-            // Handle call button
             const callBtn = document.querySelector(".call-button, button.dial-btn, .start-call, .fa-phone")?.closest('button');
             if (callBtn) {
                 if (!complianceStatus.canCall) {
@@ -786,14 +727,12 @@ function showPremiumToast(message, type = 'info', duration = 900) {
             const inputs = document.querySelectorAll('input[type="text"]');
             const inputAddr = inputs[CONFIG.ADDRESS_INPUT_INDEX] ? inputs[CONFIG.ADDRESS_INPUT_INDEX].value.trim().toUpperCase() : "";
 
-            // Early return if no address at all
-            if (!inputAddr || inputAddr.length < 5) { // At least need something like "NY 12345"
+            if (!inputAddr || inputAddr.length < 5) {
                 return null;
             }
 
             const addressInfo = parseAddressForInfo(inputAddr);
 
-            // Return null if no address, no state, or invalid state
             if (!addressInfo.state || !addressInfo.isValidState || !addressInfo.timezone) {
                 return null;
             }
@@ -811,7 +750,6 @@ function showPremiumToast(message, type = 'info', duration = 900) {
                 const timeIcon = addressInfo.isBusinessHours ? 'sun' : 'moon';
                 const formattedTime = formatter.format(now);
 
-                // Validate that we actually got a time string
                 if (!formattedTime || formattedTime === 'Invalid Date') {
                     return null;
                 }
@@ -831,9 +769,7 @@ function showPremiumToast(message, type = 'info', duration = 900) {
         }
     }
 
-    // ============================================
     // SEARCH HELPER
-    // ============================================
     class SearchHelper {
         constructor() {
             this.button = null;
@@ -864,7 +800,7 @@ function showPremiumToast(message, type = 'info', duration = 900) {
                 color: white;
                 border: 1px solid var(--ct-border);
                 border-radius: 6px;
-                font-family: -apple-system, sans-serif;
+                font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
                 font-size: 14px;
                 font-weight: 600;
                 box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
@@ -884,7 +820,6 @@ function showPremiumToast(message, type = 'info', duration = 900) {
 
             this.button.addEventListener('click', () => this.handleSearch());
 
-            // Add hover effects
             this.button.addEventListener('mouseenter', () => {
                 this.button.style.transform = 'translateY(-2px)';
                 this.button.style.boxShadow = '0 6px 20px rgba(99, 102, 241, 0.5)';
@@ -933,9 +868,7 @@ function showPremiumToast(message, type = 'info', duration = 900) {
         }
     }
 
-    // ============================================
-    // SETTINGS MANAGER (IN NAV)
-    // ============================================
+    // SETTINGS MANAGER
     class SettingsManager {
         constructor() {
             this.settings = {
@@ -954,7 +887,6 @@ function showPremiumToast(message, type = 'info', duration = 900) {
             this.createSettingsModal();
             this.applyVisibilityRules();
 
-            // Watch for nav bar to inject settings button
             this.observeNavBar();
         }
 
@@ -968,10 +900,8 @@ function showPremiumToast(message, type = 'info', duration = 900) {
                 }
             };
 
-            // Try immediately
             findAndInject();
 
-            // Set up observer for dynamic changes
             this.navObserver = new MutationObserver((mutations) => {
                 findAndInject();
             });
@@ -985,12 +915,9 @@ function showPremiumToast(message, type = 'info', duration = 900) {
         injectSettingsButton(userIconElement) {
             if (document.getElementById('ct-nav-settings-btn')) return;
 
-            // Find parent div to append to
             const parent = userIconElement.parentElement;
             if (!parent) return;
 
-            // Ensure the parent is flex to align items horizontally
-            // This fixes the issue where the cog sits above the user dropdown
             parent.style.display = 'flex';
             parent.style.alignItems = 'center';
 
@@ -999,7 +926,6 @@ function showPremiumToast(message, type = 'info', duration = 900) {
             this.settingsBtn.title = 'CT Pro Settings';
             this.settingsBtn.innerHTML = `<i data-feather="settings" style="width:18px;height:18px;"></i>`;
 
-            // Insert before the user icon dropdown to sit "next to it"
             parent.insertBefore(this.settingsBtn, userIconElement);
 
             feather.replace();
@@ -1065,7 +991,6 @@ function showPremiumToast(message, type = 'info', duration = 900) {
         }
 
         applyVisibilityRules() {
-            // Apply class to body based on settings
             if (this.settings.hideActions) {
                 document.body.classList.add('ct-hide-actions');
             } else {
@@ -1078,12 +1003,10 @@ function showPremiumToast(message, type = 'info', duration = 900) {
                 document.body.classList.remove('ct-hide-connections');
             }
 
-            // Apply manual hiding logic (handles both hiding and showing)
             this.hideActionButtonsManual();
             this.hideConnectionsCardManual();
         }
 
-        // JS Fallback for hiding elements that are hard to target with CSS
         hideActionButtonsManual() {
             const buttons = document.querySelectorAll('button.mat-primary');
             buttons.forEach(btn => {
@@ -1099,7 +1022,6 @@ function showPremiumToast(message, type = 'info', duration = 900) {
         }
 
         hideConnectionsCardManual() {
-            // Find card containing "Zillow" or "Google Maps"
             const cards = document.querySelectorAll('.dyn-card');
             cards.forEach(card => {
                 if (card.textContent.includes('Zillow') || card.textContent.includes('Google Maps')) {
@@ -1115,29 +1037,24 @@ function showPremiumToast(message, type = 'info', duration = 900) {
         setupEventListeners() {
             if (!this.settingsBtn || !this.modal) return;
 
-            // Remove old listeners to avoid duplicates if re-injected
             const newBtn = this.settingsBtn.cloneNode(true);
             this.settingsBtn.parentNode.replaceChild(newBtn, this.settingsBtn);
             this.settingsBtn = newBtn;
 
-            // Button click to toggle modal
             this.settingsBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 e.preventDefault();
 
-                // Toggle modal visibility
                 const isShowing = this.modal.classList.contains('show');
                 this.modal.classList.toggle('show');
 
                 if (!isShowing) {
-                    // Position modal below the button
                     const rect = this.settingsBtn.getBoundingClientRect();
                     this.modal.style.top = `${rect.bottom + 8}px`;
                     this.modal.style.right = `${window.innerWidth - rect.right}px`;
                 }
             });
 
-            // Close modal when clicking outside
             document.addEventListener('click', (e) => {
                 if (this.modal.classList.contains('show') &&
                     !this.modal.contains(e.target) &&
@@ -1146,7 +1063,6 @@ function showPremiumToast(message, type = 'info', duration = 900) {
                 }
             });
 
-            // Re-apply JS hiding on DOM changes (for dynamic content)
             if (this.bodyObserver) {
                 this.bodyObserver.disconnect();
             }
@@ -1156,7 +1072,6 @@ function showPremiumToast(message, type = 'info', duration = 900) {
             });
             this.bodyObserver.observe(document.body, { childList: true, subtree: true });
 
-            // Handle Settings Changes
             const handleSettingChange = (e) => {
                 if (!this.modal.contains(e.target)) return;
                 const target = e.target;
@@ -1186,9 +1101,7 @@ function showPremiumToast(message, type = 'info', duration = 900) {
         }
     }
 
-    // ============================================
     // TOP BAR CONTROLLER
-    // ============================================
     function updateTopBar(complianceStatus, complianceText, timeInfo) {
         const navBar = document.getElementById('dashboard-nav-tabs');
         if (!navBar) return;
@@ -1223,7 +1136,6 @@ function showPremiumToast(message, type = 'info', duration = 900) {
             container.appendChild(timeBadge);
         }
 
-        // Update compliance badge
         const compClass = complianceStatus === 'SAFE' ? 'ct-safe' :
                          complianceStatus === 'WARN' ? 'ct-warn' :
                          complianceStatus === 'BLOCK' ? 'ct-block' :
@@ -1237,7 +1149,6 @@ function showPremiumToast(message, type = 'info', duration = 900) {
         compBadge.className = `ct-badge ${compClass}`;
         compBadge.innerHTML = `<i data-feather="${compIcon}" style="width:14px;height:14px;margin-right:6px;"></i> ${complianceText}`;
 
-        // Update time badge
         if (timeInfo && timeInfo.time) {
             timeBadge.style.display = 'inline-flex';
             timeBadge.style.visibility = 'visible';
@@ -1254,9 +1165,7 @@ function showPremiumToast(message, type = 'info', duration = 900) {
         feather.replace();
     }
 
-    // ============================================
     // MAIN APPLICATION
-    // ============================================
     class CallToolsPro {
         constructor() {
             this.complianceEngine = new ComplianceEngine();
@@ -1270,13 +1179,9 @@ function showPremiumToast(message, type = 'info', duration = 900) {
             if (this.isInitialized) return;
 
             try {
-                // Initialize components
                 this.searchHelper.init();
                 this.settingsManager.init();
-
-                // Start compliance checking
                 this.startComplianceCheck();
-
 
             } catch (error) {
                 console.error('Failed to initialize CallTools Pro:', error);
@@ -1284,15 +1189,9 @@ function showPremiumToast(message, type = 'info', duration = 900) {
             }
         }
 
-
         startComplianceCheck() {
-            // Initial check
             this.checkCompliance();
-
-            // Set up interval for continuous checking
             this.checkInterval = setInterval(() => this.checkCompliance(), 1000);
-
-            // Also check on input changes
             const addressInput = document.querySelectorAll('input[type="text"]')[CONFIG.ADDRESS_INPUT_INDEX];
             if (addressInput) {
                 addressInput.addEventListener('input', debounce(() => this.checkCompliance(), 500));
@@ -1314,22 +1213,18 @@ function showPremiumToast(message, type = 'info', duration = 900) {
                 return;
             }
 
-            // Parse address to check if it's valid
             const addressInfo = parseAddressForInfo(address.toUpperCase());
 
-            // Check for invalid state first
             if (addressInfo.state && !addressInfo.isValidState) {
                 updateTopBar('ERROR', `Invalid state code: ${addressInfo.state}`, null);
                 return;
             }
 
-            // Check if we have a state at all
             if (!addressInfo.state) {
                 updateTopBar('NEUTRAL', 'No state found in address', null);
                 return;
             }
 
-            // Process address through compliance engine
             const complianceStatus = this.complianceEngine.processAddress(address.toUpperCase());
 
             if (!complianceStatus) {
@@ -1337,13 +1232,11 @@ function showPremiumToast(message, type = 'info', duration = 900) {
                 return;
             }
 
-            // Get time info - only if address is valid
             let timeInfo = null;
             if (addressInfo.isValidState) {
                 timeInfo = this.complianceEngine.getTimeString();
             }
 
-            // Update UI with compliance and time info
             this.complianceEngine.updateUI(complianceStatus, timeInfo);
         }
 
@@ -1352,7 +1245,6 @@ function showPremiumToast(message, type = 'info', duration = 900) {
                 clearInterval(this.checkInterval);
             }
 
-            // Remove all injected elements
             document.getElementById('ct-search-helper-btn')?.remove();
             document.getElementById('ct-nav-settings-btn')?.remove();
             document.getElementById('ct-settings-modal')?.remove();
@@ -1361,11 +1253,8 @@ function showPremiumToast(message, type = 'info', duration = 900) {
         }
     }
 
-    // ============================================
     // INITIALIZATION
-    // ============================================
     function initialize() {
-        // Check if we're on CallTools
         if (!window.location.hostname.includes('calltools')) {
             console.log('CallTools Pro: Not on CallTools domain, skipping initialization');
             return;
@@ -1384,7 +1273,6 @@ function showPremiumToast(message, type = 'info', duration = 900) {
 
             app.init();
 
-            // Clean up observer and timeout
             if (observer) {
                 observer.disconnect();
                 observer = null;
@@ -1395,7 +1283,6 @@ function showPremiumToast(message, type = 'info', duration = 900) {
             }
         }
 
-        // Use MutationObserver to wait for dynamic content
         observer = new MutationObserver((mutations) => {
             const hasNavBar = document.getElementById('dashboard-nav-tabs');
             const hasUserIcon = document.querySelector('.user-icon');
@@ -1405,13 +1292,11 @@ function showPremiumToast(message, type = 'info', duration = 900) {
             }
         });
 
-        // Start observing
         observer.observe(document.body, {
             childList: true,
             subtree: true
         });
 
-        // Also try immediate initialization after 5 seconds
         timeoutId = setTimeout(() => {
             const hasNavBar = document.getElementById('dashboard-nav-tabs');
             const hasUserIcon = document.querySelector('.user-icon');
@@ -1423,7 +1308,6 @@ function showPremiumToast(message, type = 'info', duration = 900) {
             }
         }, 5000);
 
-        // Clean up on page unload
         window.addEventListener('unload', () => {
             if (app) {
                 app.destroy();
@@ -1437,7 +1321,6 @@ function showPremiumToast(message, type = 'info', duration = 900) {
         });
     }
 
-    // Start initialization
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initialize);
     } else {
